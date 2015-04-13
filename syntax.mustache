@@ -1,0 +1,29 @@
+<div class="cts" data-title="{{ title }}" data-type="{{ type }}" data-x-title="{{ x_title }}" data-y-title="{{ y_title }}", data-options="{{ options.join('|') }}">
+	<ul>
+		<li class="cts__labels"> {{ labels.join("|") }} </li>
+		{{ #series }}
+			<li class="cts__series" data-name="{{ name }}">{{ data.join("|") }}</li>
+		{{ /series }}
+	</ul>
+</div>
+
+<script>
+	var chartData = {
+		title: "An Informative Chart",
+		x_title: "x-var",
+		y_title: "y-var",
+		type: "Bar",
+		options: [ "stacked", "vertical" ],
+		labels: [ "January", "February" ],
+		series: [
+			{
+				name: "number of days",
+				data: [ 31, 28 ]
+			},
+			{
+				name: "number of good days",
+				data: [ 21, 17 ]
+			}
+		]
+	};
+</script>
