@@ -1,6 +1,6 @@
 # chartist-html
 
-HTML store and no-JavaScript input syntax for Chartist.js charts. Includes JavaScript code that brings static HTML snippets back to life once they are rendered.
+html store and no-JavaScript input syntax for Chartist.js charts. Includes JavaScript code that brings static html snippets back to life once they are rendered.
 
 ## Installation
 
@@ -34,12 +34,12 @@ The unordered list tag is now hidden (in case you didn't readily styled it so), 
 
 ## Why?
 
-This library gives you the option to store all chart data in your HTML without having to add any JavaScript dependencies. This will come in handy if:
-* want to keep things simple when you are managing several charts on a single webpage.
-* you store static HTML snippets in a database (such as your technical blog post).
+This library gives you the option to store all chart data in your html without having to add any JavaScript dependencies. This will come in handy if:
+* you want to keep things simple when you are managing several charts on a single webpage.
+* you store static html snippets in a database (such as your technical blog post).
 
 Features:
-* HTML snippets store data and core layout storage only, keeping the styling settings DRY.
+* html snippets store data and core layout storage only.
 * styling settings stay DRY.
 * non-developer friendly.
 * intuitive syntax.
