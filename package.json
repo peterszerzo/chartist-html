@@ -1,0 +1,30 @@
+{
+  "name": "chartist-html",
+  "version": "1.0.0",
+  "description": "html store and no-JavaScript input syntax for Chartist.js charts. Includes JavaScript code that brings static html snippets back to life once they are rendered.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pickled-plugins/chartist-html.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pickled-plugins/chartist-html/issues"
+  },
+  "homepage": "https://github.com/pickled-plugins/chartist-html",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-jasmine": "^2.0.1",
+    "gulp-jshint": "^1.10.0",
+    "gulp-mocha-phantomjs": "^0.6.1",
+    "mocha": "^2.2.4",
+    "should": "^6.0.1"
+  }
+}
