@@ -3,7 +3,7 @@ ChartistHtml.config = {
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
-	seriesSeperator: ['|', ',']
+	seriesSeparators: ['|', ',']
 };
 ChartistHtml.getBaseClass = function() {
 	return this.config.baseClass;
@@ -24,16 +24,20 @@ ChartistHtml.getSeriesClass = function() {
  * @returns {array} array - Split array. 
  */
 ChartistHtml.splitString = function(string) {
-	var $anyString = $(this),
-		splitArray = [],
+	var separators = this.config.seriesSeparators,
+		separator,
+		splitArray,
 		i, max;
 
-	for(i=0, max = anyString.length; i < max; i += 1) {
-		if (i === this.config.stringSeperator) {
-			$anyString.split(this.config.stringSeperator);
+	for(i=0, max = separators.length; i < max; i += 1) {
+		separator = separators[i];
+		if (string.indexOf(separator) > -1) { 
+			return string.split(separator);
 		}
 	}
-	return splitArray;
+
+	return [ string ];
+
 };
 	// loop over separator characters
 	// when you find one that is present in the string

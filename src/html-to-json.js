@@ -17,22 +17,21 @@ ChartistHtml.getSeriesClass = function() {
  * @returns {array} array - Split array. 
  */
 ChartistHtml.splitString = function(string) {
-	var $anyString = $(this),
-		splitArray = [],
+	var separators = this.config.seriesSeparators,
+		separator,
+		splitArray,
 		i, max;
 
-	for(i=0, max = anyString.length; i < max; i += 1) {
-		if (i === this.config.stringSeperator) {
-			$anyString.split(this.config.stringSeperator);
+	for(i=0, max = separators.length; i < max; i += 1) {
+		separator = separators[i];
+		if (string.indexOf(separator) > -1) { 
+			return string.split(separator);
 		}
 	}
-	return splitArray;
+
+	return [ string ];
 };
-	// loop over separator characters
-	// when you find one that is present in the string
-	//   interrupt the loop
-	//   do splitting by that character
-	// return
+
 
 ChartistHtml.htmlToJson = function(html) {
 
@@ -46,7 +45,7 @@ ChartistHtml.htmlToJson = function(html) {
 	
 	if (json.type !== 'pie') {
 		json.options = $el.attr('data-options').split('|');
-		json.labels = $labelsEl.html().split('|');
+		json.labels = $labelsEl.html().split('|');s
 	} else {
 		json.labels = [];
 	}
@@ -75,4 +74,16 @@ ChartistHtml.htmlToJson = function(html) {
 	});
 
 	return json;
+};
+
+ChartistHtml.toSentenceCase = function(string) {
+
+};
+
+ChartistHtml.renderChart = function($el) {
+	// extract the data
+	// create a new chartist chart
+	var data = this.htmlToJson($el.html()),
+		type = data.type.toSentenceCase(),
+		chart = new Chartist[type](data, options);
 };

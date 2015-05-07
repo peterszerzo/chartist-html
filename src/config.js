@@ -2,5 +2,5 @@ ChartistHtml.config = {
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
-	seriesSeperator: ['|', ',']
+	seriesSeparators: ['|', ',']
 };
