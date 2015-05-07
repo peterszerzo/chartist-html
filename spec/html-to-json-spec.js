@@ -17,7 +17,7 @@ describe('ChartistHtml', function() {
 			(ChartistHtml.htmlToJson(html).labels[0]).should.equal('May');
 		});
 		it('detects and separates chart series', function() {
-			(ChartistHtml.htmlToJson(html).series[0][0]).should.equal(1);
+			(ChartistHtml.htmlToJson(html).series[0]).should.equal(1);
 		});
 		describe('integration', function() {
 			

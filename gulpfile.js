@@ -21,6 +21,8 @@ gulp.task('build', function() {
 // concatenate specs
 gulp.task('concat-spec', function() {
 	return gulp.src(spec)
+		.pipe(jshint())
+		.pipe(jshint.reporter('default'))
 		.pipe(concat('chartist-html-spec.js'))
 		.pipe(gulp.dest('./spec/runner'));
 });
