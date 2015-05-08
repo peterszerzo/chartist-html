@@ -32,9 +32,13 @@ ChartistHtml.splitString = function(string) {
 	return [ string ];
 };
 
-
+/*
+ * Reads and parses an html string into a json object.
+ * Json object contains elements in the format that the Chartist library expects. 
+ * @param {string} string - string of html to be parsed.
+ * @returns {object} object - json data object. 
+ */
 ChartistHtml.htmlToJson = function(html) {
-
 	var $el = $(html),
 		$labelsEl = $($el.find('.' + this.getLabelsClass())),
 		$seriesEl = $($el.find('.' + this.getSeriesClass())),
@@ -69,15 +73,21 @@ ChartistHtml.htmlToJson = function(html) {
 			json.series.push(numberSeries[0]);
 			json.labels.push($seriEl.attr('data-name'));
 		} else {
-
 		}
 	});
 
 	return json;
 };
 
-ChartistHtml.toSentenceCase = function(string) {
-
+/*
+ * Takes a string and capitalizes the first character to meet Chartist's expected format for chart type. 
+ * @param {string} string - json.type string
+ * @returns {string} string - json.type string with first character capitalized. 
+ */
+ChartistHtml.toSentenceCase = function(str) {
+      return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
 };
 
 ChartistHtml.renderChart = function($el) {

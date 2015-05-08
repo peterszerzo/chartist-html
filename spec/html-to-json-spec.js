@@ -14,7 +14,7 @@ describe('ChartistHtml', function() {
 	describe('getLabelsClass', function() {
 		it('detects labels class - for bars', function() {
 			ChartistHtml.config.baseClass = 'ct-html';
-			(ChartistHtml.getLabelsClass()).should.equal('ct-html__labels')
+			(ChartistHtml.getLabelsClass()).should.equal('ct-html__labels');
 		});
 		it('detects labels class - for pies', function() {
 			ChartistHtml.config.baseClass = 'cts';
@@ -25,7 +25,7 @@ describe('ChartistHtml', function() {
 	describe('getSeriesClass', function() {
 		it('detects series class - for bars', function() {
 			ChartistHtml.config.baseClass = 'ct-html';
-			(ChartistHtml.getSeriesClass()).should.equal('ct-html__series')
+			(ChartistHtml.getSeriesClass()).should.equal('ct-html__series');
 		});
 		it('detects series class - for pies', function() {
 			ChartistHtml.config.baseClass = 'cts';
@@ -89,6 +89,14 @@ describe('ChartistHtml', function() {
 		});
 
 		describe('integration', function() {	
+		});
+	});
+
+	describe('toSentenceCase', function() {
+		var html = '<div class="ct-html" data-title="A Fine Chart" data-type="bar" data-options="stacked|horizontal"><ul><li class="ct-html__labels">May|June|July|August|September</li><li class="ct-html__series" data-name="Federal">1|2|3|4|5</li><li class="ct-html__series" data-name="State">1|2|3|4|5</li><li class="ct-html__series" data-name="Local">1|2|3|4|5</li></ul></div>';
+		it('detects and capitalizes the first character only of chart type', function() {
+			ChartistHtml.htmlToJson.type = 'bar';
+			(ChartistHtml.toSentenceCase()).should.equal('Bar');
 		});
 	});
 });
