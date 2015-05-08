@@ -22,6 +22,8 @@ ChartistHtml.splitString = function(string) {
 		splitArray,
 		i, max;
 
+	if (typeof string === "undefined") { return; }
+
 	for(i = 0, max = separators.length; i < max; i += 1) {
 		separator = separators[i];
 		if (string.indexOf(separator) > -1) { 
@@ -38,18 +40,14 @@ ChartistHtml.splitString = function(string) {
  * @param {string} string - string of html to be parsed.
  * @returns {object} object - json data object. 
  */
-ChartistHtml.htmlToJson = function(html) {
+ChartistHtml.htmlToJson = function(html, chartType) {
 	var $el = $(html),
 		$labelsEl = $($el.find('.' + this.getLabelsClass())),
 		$seriesEl = $($el.find('.' + this.getSeriesClass())),
 		json = {};
-
-	json.title = $el.attr('data-title'); 
-	json.type = $el.attr('data-type');
 	
-	if (json.type !== 'pie') {
-		json.options = $el.attr('data-options').split('|');
-		json.labels = $labelsEl.html().split('|');
+	if (chartType !== 'pie') {
+		json.labels = ChartistHtml.splitString($labelsEl.html());
 	} else {
 		json.labels = [];
 	}
@@ -59,7 +57,7 @@ ChartistHtml.htmlToJson = function(html) {
 	$seriesEl.each(function() {
 
 		var $seriEl = $(this),
-			stringSeries = $seriEl.html().split('|'),
+			stringSeries = ChartistHtml.splitString($seriEl.html()),
 			numberSeries = [],
 			i, max;
 
@@ -67,9 +65,9 @@ ChartistHtml.htmlToJson = function(html) {
 			numberSeries.push(parseFloat(stringSeries[i]));
 		}
 
-		if ([ 'bar', 'line' ].indexOf(json.type) > -1) {
+		if ([ 'bar', 'line' ].indexOf(chartType) > -1) {
 			json.series.push(numberSeries);
-		} else if (json.type === 'pie') {
+		} else if (chartType === 'pie') {
 			json.series.push(numberSeries[0]);
 			json.labels.push($seriEl.attr('data-name'));
 		} else {
@@ -79,8 +77,25 @@ ChartistHtml.htmlToJson = function(html) {
 	return json;
 };
 
+ChartistHtml.elementToJson = function($el) {
+
+	var json = {},
+		data;
+
+	json.title = $el.attr('data-title'); 
+	json.type = $el.attr('data-type');
+	json.options = ChartistHtml.splitString($el.attr('data-options'));
+
+	data = ChartistHtml.htmlToJson($el.html(), json.type);
+
+	json.series = data.series;
+	json.labels = data.labels;
+
+	return json;
+};
+
 /*
- * Takes a string and capitalizes the first character to meet Chartist's expected format for chart type. 
+ * Takes a string and capitalizes the first character. 
  * @param {string} string - json.type string
  * @returns {string} string - json.type string with first character capitalized. 
  */
