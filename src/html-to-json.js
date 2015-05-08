@@ -22,7 +22,7 @@ ChartistHtml.splitString = function(string) {
 		splitArray,
 		i, max;
 
-	for(i=0, max = separators.length; i < max; i += 1) {
+	for(i = 0, max = separators.length; i < max; i += 1) {
 		separator = separators[i];
 		if (string.indexOf(separator) > -1) { 
 			return string.split(separator);
@@ -45,7 +45,7 @@ ChartistHtml.htmlToJson = function(html) {
 	
 	if (json.type !== 'pie') {
 		json.options = $el.attr('data-options').split('|');
-		json.labels = $labelsEl.html().split('|');s
+		json.labels = $labelsEl.html().split('|');
 	} else {
 		json.labels = [];
 	}

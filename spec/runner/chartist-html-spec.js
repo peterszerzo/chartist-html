@@ -3,7 +3,7 @@ describe('ChartistHtml', function() {
 		(!!ChartistHtml).should.equal(true);
 	});
 });
-describe('ChartistHtml', function() {
+describe('ChartistHtml.config', function() {
 	it('has a config object', function() {
 		(!!ChartistHtml.config).should.equal(true);
 	});
@@ -11,9 +11,35 @@ describe('ChartistHtml', function() {
 describe('ChartistHtml', function() {
 
 	describe('getBaseClass', function() {
-		it('detects base class', function() {
+		it('detects base class - for bars', function() {
 			ChartistHtml.config.baseClass = 'ct-html';
 			(ChartistHtml.getBaseClass()).should.equal('ct-html');
+		});
+		it('detects base class - for pies', function() {
+			ChartistHtml.config.baseClass = 'cts';
+			(ChartistHtml.getBaseClass()).should.equal('cts');
+		});
+	});
+
+	describe('getLabelsClass', function() {
+		it('detects labels class - for bars', function() {
+			ChartistHtml.config.baseClass = 'ct-html';
+			(ChartistHtml.getLabelsClass()).should.equal('ct-html__labels')
+		});
+		it('detects labels class - for pies', function() {
+			ChartistHtml.config.baseClass = 'cts';
+			(ChartistHtml.getLabelsClass(this)).should.equal('cts__labels');
+		});
+	});
+
+	describe('getSeriesClass', function() {
+		it('detects series class - for bars', function() {
+			ChartistHtml.config.baseClass = 'ct-html';
+			(ChartistHtml.getSeriesClass()).should.equal('ct-html__series')
+		});
+		it('detects series class - for pies', function() {
+			ChartistHtml.config.baseClass = 'cts';
+			(ChartistHtml.getSeriesClass(this)).should.equal('cts__series');
 		});
 	});
 
@@ -38,15 +64,6 @@ describe('ChartistHtml', function() {
 			beforeEach(function() {
 				ChartistHtml.config.baseClass = 'ct-html';
 			});
-			it('detects base class', function() {
-				(ChartistHtml.getBaseClass()).should.equal('ct-html');
-			});
-			it('detects labels class', function() {
-				(ChartistHtml.getLabelsClass()).should.equal('ct-html__labels');
-			});
-			it('detects series class', function() {
-				(ChartistHtml.getSeriesClass()).should.equal('ct-html__series');
-			});
 			it('detects chart title', function() {
 				(ChartistHtml.htmlToJson(html).title).should.equal('A Fine Chart');
 			});
@@ -69,15 +86,6 @@ describe('ChartistHtml', function() {
 			var html = '<div class="cts" data-type="pie"><ul><li class="cts__series" data-name="Federal">25</li><li class="cts__series" data-name="State">50</li><li class="cts__series" data-name="Local">25</li></ul></div>';
 			beforeEach(function() {
 				ChartistHtml.config.baseClass = 'cts';
-			});
-			it('detects base class', function() {
-				(ChartistHtml.getBaseClass(this)).should.equal('cts');
-			});
-			it('detects labels class', function() {
-				(ChartistHtml.getLabelsClass(this)).should.equal('cts__labels');
-			});
-			it('detects series class', function() {
-				(ChartistHtml.getSeriesClass(this)).should.equal('cts__series');
 			});
 			it('detects chart type', function() {
 				(ChartistHtml.htmlToJson(html).type).should.equal('pie');

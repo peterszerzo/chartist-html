@@ -29,7 +29,7 @@ ChartistHtml.splitString = function(string) {
 		splitArray,
 		i, max;
 
-	for(i=0, max = separators.length; i < max; i += 1) {
+	for(i = 0, max = separators.length; i < max; i += 1) {
 		separator = separators[i];
 		if (string.indexOf(separator) > -1) { 
 			return string.split(separator);
@@ -37,13 +37,8 @@ ChartistHtml.splitString = function(string) {
 	}
 
 	return [ string ];
-
 };
-	// loop over separator characters
-	// when you find one that is present in the string
-	//   interrupt the loop
-	//   do splitting by that character
-	// return
+
 
 ChartistHtml.htmlToJson = function(html) {
 
@@ -86,4 +81,16 @@ ChartistHtml.htmlToJson = function(html) {
 	});
 
 	return json;
+};
+
+ChartistHtml.toSentenceCase = function(string) {
+
+};
+
+ChartistHtml.renderChart = function($el) {
+	// extract the data
+	// create a new chartist chart
+	var data = this.htmlToJson($el.html()),
+		type = data.type.toSentenceCase(),
+		chart = new Chartist[type](data, options);
 };
