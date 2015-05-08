@@ -38,17 +38,17 @@ describe('ChartistHtml', function() {
 		});
 	});
 
-	describe('htmlToJson', function() {
+	describe('innerHtmlToJson', function() {
 		describe('for bar charts', function() {
 			var html = '<div class="ct-html" data-title="A Fine Chart" data-type="bar" data-options="stacked|horizontal"><ul><li class="ct-html__labels">May|June|July|August|September</li><li class="ct-html__series" data-name="Federal">1|2|3|4|5</li><li class="ct-html__series" data-name="State">1|2|3|4|5</li><li class="ct-html__series" data-name="Local">1|2|3|4|5</li></ul></div>';
 			beforeEach(function() {
 				ChartistHtml.config.baseClass = 'ct-html';
 			});
 			it('detects and separates chart labels', function() {
-				(ChartistHtml.htmlToJson(html, 'bar').labels[0]).should.equal('May');
+				(ChartistHtml.innerHtmlToJson(html, 'bar').labels[0]).should.equal('May');
 			});
 			it('detects and separates chart series - array of array', function() {
-				(ChartistHtml.htmlToJson(html, 'bar').series[0][0]).should.equal(1);
+				(ChartistHtml.innerHtmlToJson(html, 'bar').series[0][0]).should.equal(1);
 			});
 		});
 		
@@ -58,15 +58,19 @@ describe('ChartistHtml', function() {
 				ChartistHtml.config.baseClass = 'cts';
 			});
 			it('detects and separates chart labels', function() {
-				(ChartistHtml.htmlToJson(html, 'pie').labels[0]).should.equal('Federal');
+				(ChartistHtml.innerHtmlToJson(html, 'pie').labels[0]).should.equal('Federal');
 			});
 			it('detects and separates chart series - simple array', function() {
-				(ChartistHtml.htmlToJson(html, 'pie').series[0]).should.equal(25);
+				(ChartistHtml.innerHtmlToJson(html, 'pie').series[0]).should.equal(25);
 			});
 		});
 
 		describe('integration', function() {	
 		});
+	});
+
+	describe('elementToJson', function() {
+		var $el = $('');
 	});
 
 	describe('toSentenceCase', function() {

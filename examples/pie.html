@@ -1,7 +1,68 @@
-<div class="cts" data-type="pie">
-	<ul>
-		<li class="cts__series" data-name="Federal">25</li>
-		<li class="cts__series" data-name="State">50</li>
-		<li class="cts__series" data-name="Local">25</li>
-	</ul>
-</div>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" 
+			  href="../bower_components/chartist/dist/chartist.min.css">
+	</head>
+	<body>
+
+		<div class="cts" data-type="pie">
+			<ul>
+				<li class="cts__series" data-name="Federal">25</li>
+				<li class="cts__series" data-name="State">50</li>
+				<li class="cts__series" data-name="Local">25</li>
+			</ul>
+		</div>
+
+		<script src="../bower_components/jquery/dist/jquery.js"></script>
+		<script src="../bower_components/chartist/dist/chartist.js"></script>
+		<script src="../build/chartist-html.js"></script>
+
+		<div class="ct-chart ct-perfect-fourth"></div>
+
+		<script>
+
+			ChartistHtml.config.baseClass = 'cts';
+
+			$(function() {
+				var $el = $('.cts'),
+					chartData = ChartistHtml.elementToJson($el),
+					chartType = ChartistHtml.toSentenceCase(chartData.type);
+
+				console.log(chartType, chartData);
+
+				var data = {
+					labels: chartData.labels,
+					series: chartData.series
+				};
+
+				var options = {
+					labelInterpolationFnc: function(value) {
+						return value[0]
+					}
+				};
+
+				var responsiveOptions = [
+				  ['screen and (min-width: 640px)', {
+				    chartPadding: 30,
+				    labelOffset: 100,
+				    labelDirection: 'explode',
+				    labelInterpolationFnc: function(value) {
+				      return value;
+				    }
+				  }],
+				  ['screen and (min-width: 1024px)', {
+				    labelOffset: 80,
+				    chartPadding: 20
+				  }]
+				];
+
+				new Chartist[chartType]('.ct-chart', data, options, responsiveOptions);
+
+			});
+
+		</script>
+	</body>
+</html>
+

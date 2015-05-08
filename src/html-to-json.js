@@ -40,7 +40,7 @@ ChartistHtml.splitString = function(string) {
  * @param {string} string - string of html to be parsed.
  * @returns {object} object - json data object. 
  */
-ChartistHtml.htmlToJson = function(html, chartType) {
+ChartistHtml.innerHtmlToJson = function(html, chartType) {
 	var $el = $(html),
 		$labelsEl = $($el.find('.' + this.getLabelsClass())),
 		$seriesEl = $($el.find('.' + this.getSeriesClass())),
@@ -86,7 +86,7 @@ ChartistHtml.elementToJson = function($el) {
 	json.type = $el.attr('data-type');
 	json.options = ChartistHtml.splitString($el.attr('data-options'));
 
-	data = ChartistHtml.htmlToJson($el.html(), json.type);
+	data = ChartistHtml.innerHtmlToJson($el.html(), json.type);
 
 	json.series = data.series;
 	json.labels = data.labels;

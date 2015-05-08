@@ -2,7 +2,8 @@
 <html>
 	<head>
 		<title></title>
-		<!-- include chartist css file from bower components -->
+		<link rel="stylesheet"
+			  href="../bower_components/chartist/dist/chartist.min.css">
 	</head>
 	<body>
 
@@ -18,6 +19,9 @@
 		<script src="../bower_components/jquery/dist/jquery.js"></script>
 		<script src="../bower_components/chartist/dist/chartist.js"></script>
 		<script src="../build/chartist-html.js"></script>
+
+		<div class="ct-chart ct-perfect-fourth"></div>
+
 		<script>
 
 			ChartistHtml.config.baseClass = 'cts';
@@ -27,15 +31,23 @@
 					chartData = ChartistHtml.elementToJson($el),
 					chartType = ChartistHtml.toSentenceCase(chartData.type);
 
-				// append chart to the dom (see chartist docs)
 				console.log(chartType, chartData);
 
-				// new Chartist.Bar === new Chartist["Bar"]
-				// new Chartist[chartType];
+				new Chartist[chartType]('.ct-chart', {
+					labels: chartData.labels,
+					series: chartData.series
+				}, {
+					seriesBarDistance: 0,
+					reverseData: true,
+					stackBars: (chartData.options[0] === 'stacked'),
+					horizontalBars: (chartData.options[1] === 'horizontal'),
+					axisY: {
+						offset: 70
+					}
+				});
 			});
 
 		</script>
-
 	</body>
 </html>
 
