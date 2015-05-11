@@ -3,7 +3,62 @@ ChartistHtml.config = {
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
-	seriesSeparators: ['|', ',']
+	seriesSeparators: ['|', ','],
+	chartOptions: {
+		bar: {
+			options: {
+				seriesBarDistance: 10,
+				axisX: {
+					offset: 70,
+					position: 'end'
+				},
+				axisY: {
+      				offset: 70,
+      				position: 'start',
+      				labelInterpolationFnc: function(value) {
+      					return value[0];
+      				}
+      			},
+      			stackBars: true,
+				horizontalBars: true,
+				reverseData: true
+			},
+			responsiveOptions: [
+				['screen and (min-width: 640px)', {
+				   chartPadding: 30,
+				   labelOffset: 100,
+				   labelInterpolationFnc: function(value) {
+				     return value;
+				   }
+				}],
+				['screen and (min-width: 1024px)', {
+				   chartPadding: 20,
+				   labelOffset: 80
+				}]
+			]
+		},
+		line: {},
+		pie: {
+			options: {
+				labelInterpolationFnc: function(value) {
+					return value[0];
+				}
+			},
+			responsiveOptions: [
+				  ['screen and (min-width: 640px)', {
+				    chartPadding: 30,
+				    labelOffset: 100,
+				    labelInterpolationFnc: function(value) {
+				      return value;
+				    }
+				  }],
+				  ['screen and (min-width: 1024px)', {
+				    chartPadding: 20,
+				    labelOffset: 80
+				  }]
+			]
+		}
+	}	
 };
 ChartistHtml.getBaseClass = function() {
 	return this.config.baseClass;
@@ -47,7 +102,7 @@ ChartistHtml.splitString = function(string) {
  * @param {string} string - string of html to be parsed.
  * @returns {object} object - json data object. 
  */
-ChartistHtml.htmlToJson = function(html, chartType) {
+ChartistHtml.innerHtmlToJson = function(html, chartType) {
 	var $el = $(html),
 		$labelsEl = $($el.find('.' + this.getLabelsClass())),
 		$seriesEl = $($el.find('.' + this.getSeriesClass())),
@@ -93,7 +148,7 @@ ChartistHtml.elementToJson = function($el) {
 	json.type = $el.attr('data-type');
 	json.options = ChartistHtml.splitString($el.attr('data-options'));
 
-	data = ChartistHtml.htmlToJson($el.html(), json.type);
+	data = ChartistHtml.innerHtmlToJson($el.html(), json.type);
 
 	json.series = data.series;
 	json.labels = data.labels;
@@ -115,7 +170,33 @@ ChartistHtml.toSentenceCase = function(str) {
 ChartistHtml.renderChart = function($el) {
 	// extract the data
 	// create a new chartist chart
-	var data = this.htmlToJson($el.html()),
-		type = data.type.toSentenceCase(),
-		chart = new Chartist[type](data, options);
+	var $el = $('.cts'),
+		chartData = ChartistHtml.elementToJson($el),
+		chartType = ChartistHtml.toSentenceCase(chartData.type);
+
+	console.log(chartType, chartData);
+		
+	var data = {
+		labels: chartData.labels,
+		series: chartData.series
+	};
+
+	var options,
+		responsiveOptions;
+
+	if (chartData.type === 'pie') {	
+		options = ChartistHtml.config.chartOptions.pie.options;
+		responsiveOptions = ChartistHtml.config.chartOptions.pie.responsiveOptions;
+		
+		console.log(options, responsiveOptions);
+	} else if (chartData.type === 'bar') {
+		options = ChartistHtml.config.chartOptions.bar.options;
+		responsiveOptions = ChartistHtml.config.chartOptions.bar.responsiveOptions;
+		
+		console.log(options, responsiveOptions);
+	} else {}
+
+	var chart = new Chartist[chartType]('.ct-chart', data, options, responsiveOptions);
+
+	return chart;
 };

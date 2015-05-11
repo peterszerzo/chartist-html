@@ -27,25 +27,14 @@
 			ChartistHtml.config.baseClass = 'cts';
 
 			$(function() {
-				var $el = $('.cts'),
-					chartData = ChartistHtml.elementToJson($el),
-					chartType = ChartistHtml.toSentenceCase(chartData.type);
-
-				console.log(chartType, chartData);
-
-				new Chartist[chartType]('.ct-chart', {
-					labels: chartData.labels,
-					series: chartData.series
-				}, {
-					seriesBarDistance: 0,
-					reverseData: true,
-					stackBars: (chartData.options[0] === 'stacked'),
-					horizontalBars: (chartData.options[1] === 'horizontal'),
-					axisY: {
-						offset: 70
-					}
-				});
+				ChartistHtml.renderChart($('.cts'));
 			});
+			
+ 			// {
+				// 	reverseData: true,
+				// 	stackBars: (chartData.options[0] === 'stacked'),
+				// 	horizontalBars: (chartData.options[1] === 'horizontal'),
+				// });
 
 		</script>
 	</body>

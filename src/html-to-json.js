@@ -104,11 +104,3 @@ ChartistHtml.toSentenceCase = function(str) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
 };
-
-ChartistHtml.renderChart = function($el) {
-	// extract the data
-	// create a new chartist chart
-	var data = this.htmlToJson($el.html()),
-		type = data.type.toSentenceCase(),
-		chart = new Chartist[type](data, options);
-};

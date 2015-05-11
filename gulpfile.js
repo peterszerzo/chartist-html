@@ -4,7 +4,7 @@ var concat = require('gulp-concat');
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
 
 // list of source files listed in order
-var source = [ 'src/init.js', 'src/config.js', 'src/html-to-json.js' ];
+var source = [ 'src/init.js', 'src/config.js', 'src/html-to-json.js', 'src/render.js' ];
 
 // for each source file there must be a spec file present
 var spec = source.map(function(el) { return el.replace('.js', '-spec.js').replace('src', 'spec'); });
@@ -31,6 +31,10 @@ gulp.task('concat-spec', function() {
 gulp.task('run-spec', [ 'concat-spec' ], function() {
 	return gulp.src('./spec/runner/runner.html')
 		.pipe(mochaPhantomJS());
+});
+
+gulp.task('watch', function() {
+	gulp.watch('src/**/*.js', [ 'build' ]);
 });
 
 gulp.task('default', [ 'build', 'concat-spec', 'run-spec' ]);

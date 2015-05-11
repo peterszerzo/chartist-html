@@ -26,20 +26,20 @@
 
 			ChartistHtml.config.baseClass = 'cts';
 
-			$(function() {
-				var $el = $('.cts'),
-					chartData = ChartistHtml.elementToJson($el),
-					chartType = ChartistHtml.toSentenceCase(chartData.type);
+			// $(function() {
+			// 	var $el = $('.cts'),
+			// 		chartData = ChartistHtml.elementToJson($el),
+			// 		chartType = ChartistHtml.toSentenceCase(chartData.type);
 
-				console.log(chartType, chartData);
+			// 	console.log(chartType, chartData);
 
-				new Chartist[chartType]('.ct-chart', {
-					labels: chartData.labels,
-					series: chartData.series
-				}, {
-					showArea: true
-				});
-			});
+			// 	new Chartist[chartType]('.ct-chart', {
+			// 		labels: chartData.labels,
+			// 		series: chartData.series
+			// 	}, {
+			// 		showArea: true
+			// 	});
+			// });
 
 			var $chart = $('.ct-chart');
 
