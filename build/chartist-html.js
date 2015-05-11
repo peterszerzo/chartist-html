@@ -5,43 +5,90 @@ ChartistHtml.config = {
 	modifierClassFragment: '--',
 	seriesSeparators: ['|', ','],
 	chartOptions: {
-		bar: {
-			options: {
-				seriesBarDistance: 10,
-				axisX: {
-					offset: 70,
-					position: 'end'
-				},
-				axisY: {
-      				offset: 70,
-      				position: 'start',
-      				labelInterpolationFnc: function(value) {
-      					return value[0];
-      				}
-      			},
-      			stackBars: true,
-				horizontalBars: true,
-				reverseData: true
-			},
-			responsiveOptions: [
-				['screen and (min-width: 640px)', {
-				   chartPadding: 30,
-				   labelOffset: 100,
-				   labelInterpolationFnc: function(value) {
-				     return value;
-				   }
-				}],
-				['screen and (min-width: 1024px)', {
-				   chartPadding: 20,
-				   labelOffset: 80
-				}]
-			]
-		},
-		line: {},
 		pie: {
 			options: {
-				labelInterpolationFnc: function(value) {
-					return value[0];
+				standard: {
+					labelInterpolationFnc: function(value) {
+						return value[0];
+					}
+				}
+			},
+			responsiveOptions: [
+				  ['screen and (min-width: 640px)', {
+				    chartPadding: 30,
+				    labelOffset: 100,
+				    labelInterpolationFnc: function(value) {
+				      return value;
+				    }
+				  }],
+				  ['screen and (min-width: 1024px)', {
+				    chartPadding: 20,
+				    labelOffset: 80
+				  }]
+			]
+		},
+		bar: {
+			options: {
+				standard: {
+					seriesBarDistance: 10,
+					axisX: {
+						offset: 70,
+						position: 'start',
+						labelInterpolationFnc: function(value) {
+      						return value[0];
+      					}
+					},
+					axisY: {
+      					offset: 70,
+      					position: 'start',
+      				}
+				},
+				stacked: {
+					stackedBars: true
+				},
+				horizontal: {
+					horizontalBars: true,
+					reverseData: true,
+					axisX: {
+      					offset: 70,
+      					position: 'start',
+      				},
+      				axisY: {
+						offset: 70,
+						position: 'start',
+						labelInterpolationFnc: function(value) {
+      						return value[0];
+      					}
+					}
+				}
+			},
+			responsiveOptions: [
+				  ['screen and (min-width: 640px)', {
+				    chartPadding: 30,
+				    labelOffset: 100,
+				    labelInterpolationFnc: function(value) {
+				      return value;
+				    }
+				  }],
+				  ['screen and (min-width: 1024px)', {
+				    chartPadding: 20,
+				    labelOffset: 80
+				  }]
+			]
+		},
+		line: {
+			options: {
+				standard: {
+					showArea: true,
+					axisX: {
+						position: 'start',
+						labelInterpolationFnc: function(value) {
+      						return value[0];
+      					}
+					}, 
+					axisY: {
+						position: 'start'
+					}
 				}
 			},
 			responsiveOptions: [
@@ -60,6 +107,7 @@ ChartistHtml.config = {
 		}
 	}	
 };
+
 ChartistHtml.getBaseClass = function() {
 	return this.config.baseClass;
 };
@@ -170,33 +218,38 @@ ChartistHtml.toSentenceCase = function(str) {
 ChartistHtml.renderChart = function($el) {
 	// extract the data
 	// create a new chartist chart
-	var $el = $('.cts'),
-		chartData = ChartistHtml.elementToJson($el),
+	var chartData = ChartistHtml.elementToJson($el),
 		chartType = ChartistHtml.toSentenceCase(chartData.type);
 
 	console.log(chartType, chartData);
-		
-	var data = {
-		labels: chartData.labels,
-		series: chartData.series
-	};
 
-	var options,
-		responsiveOptions;
+	var options = ChartistHtml.config.chartOptions[chartData.type].options,
+		responsiveOptions = ChartistHtml.config.chartOptions[chartData.type].responsiveOptions;
 
-	if (chartData.type === 'pie') {	
-		options = ChartistHtml.config.chartOptions.pie.options;
-		responsiveOptions = ChartistHtml.config.chartOptions.pie.responsiveOptions;
-		
-		console.log(options, responsiveOptions);
-	} else if (chartData.type === 'bar') {
-		options = ChartistHtml.config.chartOptions.bar.options;
-		responsiveOptions = ChartistHtml.config.chartOptions.bar.responsiveOptions;
-		
-		console.log(options, responsiveOptions);
-	} else {}
-
-	var chart = new Chartist[chartType]('.ct-chart', data, options, responsiveOptions);
+	var chart = new Chartist[chartType]('.ct-chart', chartData, allOptions, allResponsiveOptions);
 
 	return chart;
+};
+/*
+ * Merges the elements in two objects to create a new object with all chart options
+ * @param {string} string - type of chart
+ * @param {array} array - chart options specified in html string
+ * @returns {object} object - new AllOptions object that merges defaults with specifics, and defaults and specifics stay the same 
+ */
+ChartistHtml.getOptions = function(type, options) {
+	var chartType = ChartistHtml.config.chartOptions[type];
+	var defaults = chartType.options.standard;
+	var specifics;
+
+	var allOptions = $.extend({}, defaults, specifics);
+	console.log(allOptions);
+
+	var i, max, option;
+	for(i = 0, max = options.length; i < max; i += 1) {
+		option = options[i];
+		specifics = chartType.options[option];
+		allOptions = $.extend(allOptions, specifics);
+	}
+
+	return allOptions;
 };

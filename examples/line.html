@@ -26,45 +26,34 @@
 
 			ChartistHtml.config.baseClass = 'cts';
 
-			// $(function() {
-			// 	var $el = $('.cts'),
-			// 		chartData = ChartistHtml.elementToJson($el),
-			// 		chartType = ChartistHtml.toSentenceCase(chartData.type);
+			$(function() {
+				ChartistHtml.renderChart($('.cts'));
+			});
 
-			// 	console.log(chartType, chartData);
+			// var $chart = $('.ct-chart');
 
-			// 	new Chartist[chartType]('.ct-chart', {
-			// 		labels: chartData.labels,
-			// 		series: chartData.series
-			// 	}, {
-			// 		showArea: true
+			// var $tooltip = $chart
+			// 	  .append('<div class="tooltip"></div>')
+			// 	  .find('.tooltip')
+			// 	  .hide();
+
+			// 	$chart.on('mouseenter', '.ct-point', function() {
+			// 	  var $point = $(this),
+			// 	    value = $point.attr('ct:value'),
+			// 	    series = $point.parent().attr('ct:series');
+			// 	  $tooltip.html(value).show();
 			// 	});
-			// });
 
-			var $chart = $('.ct-chart');
+			// 	$chart.on('mouseleave', '.ct-point', function() {
+			// 	  $tooltip.hide();
+			// 	});
 
-			var $tooltip = $chart
-				  .append('<div class="tooltip"></div>')
-				  .find('.tooltip')
-				  .hide();
-
-				$chart.on('mouseenter', '.ct-point', function() {
-				  var $point = $(this),
-				    value = $point.attr('ct:value'),
-				    series = $point.parent().attr('ct:series');
-				  $tooltip.html(value).show();
-				});
-
-				$chart.on('mouseleave', '.ct-point', function() {
-				  $tooltip.hide();
-				});
-
-				$chart.on('mousemove', function(event) {
-				  $tooltip.css({
-				    left: (event.offsetX || event.originalEvent.layerX) - $tooltip.width() / 2 - 10,
-				    top: (event.offsetY || event.originalEvent.layerY) - $tooltip.height() - 40
-				  });
-				});
+			// 	$chart.on('mousemove', function(event) {
+			// 	  $tooltip.css({
+			// 	    left: (event.offsetX || event.originalEvent.layerX) - $tooltip.width() / 2 - 10,
+			// 	    top: (event.offsetY || event.originalEvent.layerY) - $tooltip.height() - 40
+			// 	  });
+			// 	});
 
 		</script>
 	</body>
