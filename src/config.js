@@ -34,12 +34,13 @@ ChartistHtml.config = {
 						offset: 70,
 						position: 'end',
 						labelInterpolationFnc: function(value) {
-      						return value;
-      					}
+							return value[0];
+						}
 					},
 					axisY: {
       					offset: 70,
       					position: 'start',
+      					onlyInteger: true
       				}
 				},
 				stacked: {
@@ -51,28 +52,31 @@ ChartistHtml.config = {
 					axisX: {
       					offset: 70,
       					position: 'start',
+      					onlyInteger: true
       				},
       				axisY: {
 						offset: 70,
-						position: 'start',
-						labelInterpolationFnc: function(value) {
-      						return value;
-      					}
-					}
+						position: 'start'
+      				}
 				}
 			},
 			responsiveOptions: [
-				  ['screen and (min-width: 640px)', {
-				    chartPadding: 30,
-				    labelOffset: 100,
-				    labelInterpolationFnc: function(value) {
-				      return value;
+				['screen and (min-width: 640px)', {
+				    seriesBarDistance: 5,
+				    axisX: {
+				    	labelInterpolationFnc: function(value) {
+				      		return value;
+				    	}
 				    }
-				  }],
-				  ['screen and (min-width: 1024px)', {
-				    chartPadding: 20,
-				    labelOffset: 80
-				  }]
+				}],
+				['screen and (min-width: 1024px)', {
+				    seriesBarDistance: 10,
+				    axisX: {
+				    	labelInterpolationFnc: function(value) {
+				      		return value;
+				    	}
+				    }	
+				}],
 			]
 		},
 		line: {
@@ -82,11 +86,12 @@ ChartistHtml.config = {
 					axisX: {
 						position: 'end',
 						labelInterpolationFnc: function(value) {
-      						return value;
+      						return value[0];
       					}
 					}, 
 					axisY: {
-						position: 'start'
+						position: 'start',
+						onlyInteger: true
 					}
 				}
 			},
@@ -100,7 +105,10 @@ ChartistHtml.config = {
 				  }],
 				  ['screen and (min-width: 1024px)', {
 				    chartPadding: 20,
-				    labelOffset: 80
+				    labelOffset: 80,
+				    labelInterpolationFnc: function(value) {
+				      return value;
+				    }
 				  }]
 			]
 		}
