@@ -32,9 +32,9 @@ ChartistHtml.config = {
 					seriesBarDistance: 10,
 					axisX: {
 						offset: 70,
-						position: 'start',
+						position: 'end',
 						labelInterpolationFnc: function(value) {
-      						return value[0];
+      						return value;
       					}
 					},
 					axisY: {
@@ -56,7 +56,7 @@ ChartistHtml.config = {
 						offset: 70,
 						position: 'start',
 						labelInterpolationFnc: function(value) {
-      						return value[0];
+      						return value;
       					}
 					}
 				}
@@ -78,11 +78,11 @@ ChartistHtml.config = {
 		line: {
 			options: {
 				base: {
-					showArea: true,
+					showArea: false,
 					axisX: {
-						position: 'start',
+						position: 'end',
 						labelInterpolationFnc: function(value) {
-      						return value[0];
+      						return value;
       					}
 					}, 
 					axisY: {

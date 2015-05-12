@@ -20,7 +20,9 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 	for(i = 0, max = subtypes.length; i < max; i += 1) {
 		subtype = subtypes[i];
 		specifics = chartTypeOptions[subtype];
-		allOptions = $.extend(allOptions, specifics);
+		if (typeof specifics !== "undefined") {
+			allOptions = $.extend(allOptions, specifics);
+		}
 	}
 
 	return allOptions;

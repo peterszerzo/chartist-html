@@ -33,9 +33,9 @@ ChartistHtml.config = {
 					seriesBarDistance: 10,
 					axisX: {
 						offset: 70,
-						position: 'start',
+						position: 'end',
 						labelInterpolationFnc: function(value) {
-      						return value[0];
+      						return value;
       					}
 					},
 					axisY: {
@@ -57,7 +57,7 @@ ChartistHtml.config = {
 						offset: 70,
 						position: 'start',
 						labelInterpolationFnc: function(value) {
-      						return value[0];
+      						return value;
       					}
 					}
 				}
@@ -79,11 +79,11 @@ ChartistHtml.config = {
 		line: {
 			options: {
 				base: {
-					showArea: true,
+					showArea: false,
 					axisX: {
-						position: 'start',
+						position: 'end',
 						labelInterpolationFnc: function(value) {
-      						return value[0];
+      						return value;
       					}
 					}, 
 					axisY: {
@@ -200,10 +200,14 @@ ChartistHtml.elementToJson = function($el) {
 	json.title = $el.attr('data-title'); 
 	json.type = $el.attr('data-type');
 	
-	var chartSubtypes = [];
-	chartSubtypes.push(ChartistHtml.splitString($el.attr('data-options')));
-	chartSubtypes.push(ChartistHtml.splitString($el.attr('data-subtypes')));
-	json.subtypes = chartSubtypes;
+	var subtypeOptionA = ChartistHtml.splitString($el.attr('data-subtypes'));
+	var subtypeOptionB = ChartistHtml.splitString($el.attr('data-options'));
+
+	if (typeof subtypeOptionA !== "undefined") {
+		json.subtypes = subtypeOptionA;
+	} else {
+		json.subtypes = subtypeOptionB;
+	}
 
 	data = ChartistHtml.innerHtmlToJson($el.html(), json.type);
 
@@ -224,20 +228,36 @@ ChartistHtml.toSentenceCase = function(str) {
       });
 };
 
-ChartistHtml.renderChart = function($el) {
+ChartistHtml.renderChart = function($el, chartId) {
 	// extract the data
 	// create a new chartist chart
-	var chartData = ChartistHtml.elementToJson($el),
-		chartType = ChartistHtml.toSentenceCase(chartData.type);
 
-	console.log(chartType, chartData);
+	if(typeof chartId === "undefined") { chartId = "apples"; }
+
+	var chartData = ChartistHtml.elementToJson($el),
+		chartType = ChartistHtml.toSentenceCase(chartData.type),
+		chartBaseClass = 'ct-chart',
+		chartClass = chartBaseClass + '-' + chartId;
 
 	var options = ChartistHtml.getOptions(chartData.type, chartData.subtypes),
 		responsiveOptions = ChartistHtml.config.chartOptions[chartData.type].responsiveOptions;
 
-	var chart = new Chartist[chartType]('.ct-chart', chartData, options, responsiveOptions);
+	var $chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
+
+	$el.append($chartContainer);
+
+	var chart = new Chartist[chartType]('.' + chartClass, chartData, options, responsiveOptions);
 
 	return chart;
+};
+
+ChartistHtml.renderAll = function() {
+	var i = 0;
+	$('.' + ChartistHtml.config.baseClass).each(function() {
+		console.log($(this), i);
+		ChartistHtml.renderChart($(this), i);
+		i += 1;
+	});
 };
 /*
  * Merges the elements in two objects to create a new object with all chart options
@@ -261,7 +281,9 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 	for(i = 0, max = subtypes.length; i < max; i += 1) {
 		subtype = subtypes[i];
 		specifics = chartTypeOptions[subtype];
-		allOptions = $.extend(allOptions, specifics);
+		if (typeof specifics !== "undefined") {
+			allOptions = $.extend(allOptions, specifics);
+		}
 	}
 
 	return allOptions;

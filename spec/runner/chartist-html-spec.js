@@ -80,13 +80,13 @@ describe('ChartistHtml', function() {
 	});
 
 	describe('elementToJson', function() {
-		var $el = $(html);
-		var html = '<div class="cts" data-type="pie"><ul><li class="cts__series" data-name="Federal">25</li><li class="cts__series" data-name="State">50</li><li class="cts__series" data-name="Local">25</li></ul></div>';
+		var html = '<div class="cts" data-type="pie"><ul><li class="cts__series" data-name="Federal">25</li><li class="cts__series" data-name="State">50</li><li class="cts__series" data-name="Local">25</li></ul></div>',
+		    $el = $(html);
 		beforeEach(function() {
 				ChartistHtml.config.baseClass = 'cts';
 		});
 		it('detects chart type', function() {
-			(ChartistHtml.elementToJson(html, 'pie').type[0].should.equal('pie'));
+			(ChartistHtml.elementToJson($el).type.should.equal('pie'));
 		});
 	});
 

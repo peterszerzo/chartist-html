@@ -90,10 +90,14 @@ ChartistHtml.elementToJson = function($el) {
 	json.title = $el.attr('data-title'); 
 	json.type = $el.attr('data-type');
 	
-	var chartSubtypes = [];
-	chartSubtypes.push(ChartistHtml.splitString($el.attr('data-options')));
-	chartSubtypes.push(ChartistHtml.splitString($el.attr('data-subtypes')));
-	json.subtypes = chartSubtypes;
+	var subtypeOptionA = ChartistHtml.splitString($el.attr('data-subtypes'));
+	var subtypeOptionB = ChartistHtml.splitString($el.attr('data-options'));
+
+	if (typeof subtypeOptionA !== "undefined") {
+		json.subtypes = subtypeOptionA;
+	} else {
+		json.subtypes = subtypeOptionB;
+	}
 
 	data = ChartistHtml.innerHtmlToJson($el.html(), json.type);
 
