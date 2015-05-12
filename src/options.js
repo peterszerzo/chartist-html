@@ -1,21 +1,25 @@
 /*
  * Merges the elements in two objects to create a new object with all chart options
  * @param {string} string - type of chart
- * @param {array} array - chart options specified in html string
+ * @param {array} array - chart subtypes specified in html string
+ * @param {object} config - Optional chart options object. Defaults to ChartistHtml.config.chartOptions
  * @returns {object} object - new AllOptions object that merges defaults with specifics, and defaults and specifics stay the same 
  */
-ChartistHtml.getOptions = function(type, options) {
-	var chartType = ChartistHtml.config.chartOptions[type];
-	var defaults = chartType.options.standard;
+ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
+	if (typeof chartOptions === "undefined") {
+		chartOptions = ChartistHtml.config.chartOptions;
+	}
+
+	var chartTypeOptions = chartOptions[type].options;
+	var defaults = chartTypeOptions.base;
 	var specifics;
 
-	var allOptions = $.extend({}, defaults, specifics);
-	console.log(allOptions);
+	var allOptions = $.extend({}, defaults);
 
-	var i, max, option;
-	for(i = 0, max = options.length; i < max; i += 1) {
-		option = options[i];
-		specifics = chartType.options[option];
+	var i, max, subtype;
+	for(i = 0, max = subtypes.length; i < max; i += 1) {
+		subtype = subtypes[i];
+		specifics = chartTypeOptions[subtype];
 		allOptions = $.extend(allOptions, specifics);
 	}
 

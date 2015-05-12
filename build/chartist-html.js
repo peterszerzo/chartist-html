@@ -7,7 +7,7 @@ ChartistHtml.config = {
 	chartOptions: {
 		pie: {
 			options: {
-				standard: {
+				base: {
 					labelInterpolationFnc: function(value) {
 						return value[0];
 					}
@@ -29,7 +29,7 @@ ChartistHtml.config = {
 		},
 		bar: {
 			options: {
-				standard: {
+				base: {
 					seriesBarDistance: 10,
 					axisX: {
 						offset: 70,
@@ -44,7 +44,7 @@ ChartistHtml.config = {
       				}
 				},
 				stacked: {
-					stackedBars: true
+					stackBars: true
 				},
 				horizontal: {
 					horizontalBars: true,
@@ -78,7 +78,7 @@ ChartistHtml.config = {
 		},
 		line: {
 			options: {
-				standard: {
+				base: {
 					showArea: true,
 					axisX: {
 						position: 'start',
@@ -121,10 +121,10 @@ ChartistHtml.getSeriesClass = function() {
 };
 
 /*
- * Splits string into array based on configured separator characters.
- * Try all of them until one is found in the string.
- * @param {string} string - String to be split.
- * @returns {array} array - Split array. 
+ * Splits string into array based on configured separator characters
+ * Try all of them until one is found in the string
+ * @param {string} string - String to be split
+ * @returns {array} array - Split array
  */
 ChartistHtml.splitString = function(string) {
 	var separators = this.config.seriesSeparators,
@@ -145,10 +145,10 @@ ChartistHtml.splitString = function(string) {
 };
 
 /*
- * Reads and parses an html string into a json object.
- * Json object contains elements in the format that the Chartist library expects. 
- * @param {string} string - string of html to be parsed.
- * @returns {object} object - json data object. 
+ * Reads and parses an html string into a json object
+ * Json object contains elements in the format that the Chartist library expects 
+ * @param {string} string - string of html to be parsed
+ * @returns {object} object - json data object 
  */
 ChartistHtml.innerHtmlToJson = function(html, chartType) {
 	var $el = $(html),
@@ -187,6 +187,11 @@ ChartistHtml.innerHtmlToJson = function(html, chartType) {
 	return json;
 };
 
+/*
+ * Takes the current html element and builds a json object  
+ * @param {string} - string of html
+ * @returns {object} - json data object
+ */
 ChartistHtml.elementToJson = function($el) {
 
 	var json = {},
@@ -194,7 +199,11 @@ ChartistHtml.elementToJson = function($el) {
 
 	json.title = $el.attr('data-title'); 
 	json.type = $el.attr('data-type');
-	json.options = ChartistHtml.splitString($el.attr('data-options'));
+	
+	var chartSubtypes = [];
+	chartSubtypes.push(ChartistHtml.splitString($el.attr('data-options')));
+	chartSubtypes.push(ChartistHtml.splitString($el.attr('data-subtypes')));
+	json.subtypes = chartSubtypes;
 
 	data = ChartistHtml.innerHtmlToJson($el.html(), json.type);
 
@@ -205,9 +214,9 @@ ChartistHtml.elementToJson = function($el) {
 };
 
 /*
- * Takes a string and capitalizes the first character. 
+ * Takes a string and capitalizes the first character 
  * @param {string} string - json.type string
- * @returns {string} string - json.type string with first character capitalized. 
+ * @returns {string} string - json.type string with first character capitalized 
  */
 ChartistHtml.toSentenceCase = function(str) {
       return str.replace(/\w\S*/g, function(txt) {
@@ -223,31 +232,35 @@ ChartistHtml.renderChart = function($el) {
 
 	console.log(chartType, chartData);
 
-	var options = ChartistHtml.config.chartOptions[chartData.type].options,
+	var options = ChartistHtml.getOptions(chartData.type, chartData.subtypes),
 		responsiveOptions = ChartistHtml.config.chartOptions[chartData.type].responsiveOptions;
 
-	var chart = new Chartist[chartType]('.ct-chart', chartData, allOptions, allResponsiveOptions);
+	var chart = new Chartist[chartType]('.ct-chart', chartData, options, responsiveOptions);
 
 	return chart;
 };
 /*
  * Merges the elements in two objects to create a new object with all chart options
  * @param {string} string - type of chart
- * @param {array} array - chart options specified in html string
+ * @param {array} array - chart subtypes specified in html string
+ * @param {object} config - Optional chart options object. Defaults to ChartistHtml.config.chartOptions
  * @returns {object} object - new AllOptions object that merges defaults with specifics, and defaults and specifics stay the same 
  */
-ChartistHtml.getOptions = function(type, options) {
-	var chartType = ChartistHtml.config.chartOptions[type];
-	var defaults = chartType.options.standard;
+ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
+	if (typeof chartOptions === "undefined") {
+		chartOptions = ChartistHtml.config.chartOptions;
+	}
+
+	var chartTypeOptions = chartOptions[type].options;
+	var defaults = chartTypeOptions.base;
 	var specifics;
 
-	var allOptions = $.extend({}, defaults, specifics);
-	console.log(allOptions);
+	var allOptions = $.extend({}, defaults);
 
-	var i, max, option;
-	for(i = 0, max = options.length; i < max; i += 1) {
-		option = options[i];
-		specifics = chartType.options[option];
+	var i, max, subtype;
+	for(i = 0, max = subtypes.length; i < max; i += 1) {
+		subtype = subtypes[i];
+		specifics = chartTypeOptions[subtype];
 		allOptions = $.extend(allOptions, specifics);
 	}
 

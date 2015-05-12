@@ -80,7 +80,14 @@ describe('ChartistHtml', function() {
 	});
 
 	describe('elementToJson', function() {
-		var $el = $('');
+		var $el = $(html);
+		var html = '<div class="cts" data-type="pie"><ul><li class="cts__series" data-name="Federal">25</li><li class="cts__series" data-name="State">50</li><li class="cts__series" data-name="Local">25</li></ul></div>';
+		beforeEach(function() {
+				ChartistHtml.config.baseClass = 'cts';
+		});
+		it('detects chart type', function() {
+			(ChartistHtml.elementToJson(html, 'pie').type[0].should.equal('pie'));
+		});
 	});
 
 	describe('toSentenceCase', function() {
@@ -91,8 +98,17 @@ describe('ChartistHtml', function() {
 });
 
 describe('ChartistHtml.getOptions', function() {
-	var config = {bar:{ standard: {a: b}, stacked: {c: d}, horizontal: {d: f}}};
-	it('builds up the standard options object based on specific chart types', function() {
-		(ChartistHtml.getOptions('bar', [ 'stacked' ])).should.equal({a: b, c: d});
+	var chartOptions = {
+		bar: {
+			options: {
+				base: {a: 'b'}, 
+				stacked: {c: 'd'}, 
+				horizontal: {d: 'f'}
+			}
+		}
+	};
+
+	it('builds up the base options object based on specific chart subtypes', function() {
+		(ChartistHtml.getOptions( 'bar', [ 'stacked' ], chartOptions)).should.equal({a: 'b', c: 'd'});
 	});
 });

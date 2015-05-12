@@ -6,10 +6,10 @@ ChartistHtml.renderChart = function($el) {
 
 	console.log(chartType, chartData);
 
-	var options = ChartistHtml.config.chartOptions[chartData.type].options,
+	var options = ChartistHtml.getOptions(chartData.type, chartData.subtypes),
 		responsiveOptions = ChartistHtml.config.chartOptions[chartData.type].responsiveOptions;
 
-	var chart = new Chartist[chartType]('.ct-chart', chartData, allOptions, allResponsiveOptions);
+	var chart = new Chartist[chartType]('.ct-chart', chartData, options, responsiveOptions);
 
 	return chart;
 };

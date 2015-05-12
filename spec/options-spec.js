@@ -1,6 +1,15 @@
 describe('ChartistHtml.getOptions', function() {
-	var config = {bar:{ standard: {a: b}, stacked: {c: d}, horizontal: {d: f}}};
-	it('builds up the standard options object based on specific chart types', function() {
-		(ChartistHtml.getOptions('bar', [ 'stacked' ])).should.equal({a: b, c: d});
+	var chartOptions = {
+		bar: {
+			options: {
+				base: {a: 'b'}, 
+				stacked: {c: 'd'}, 
+				horizontal: {d: 'f'}
+			}
+		}
+	};
+
+	it('builds up the base options object based on specific chart subtypes', function() {
+		(ChartistHtml.getOptions( 'bar', [ 'stacked' ], chartOptions)).should.equal({a: 'b', c: 'd'});
 	});
 });

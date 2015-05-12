@@ -11,10 +11,10 @@ ChartistHtml.getSeriesClass = function() {
 };
 
 /*
- * Splits string into array based on configured separator characters.
- * Try all of them until one is found in the string.
- * @param {string} string - String to be split.
- * @returns {array} array - Split array. 
+ * Splits string into array based on configured separator characters
+ * Try all of them until one is found in the string
+ * @param {string} string - String to be split
+ * @returns {array} array - Split array
  */
 ChartistHtml.splitString = function(string) {
 	var separators = this.config.seriesSeparators,
@@ -35,10 +35,10 @@ ChartistHtml.splitString = function(string) {
 };
 
 /*
- * Reads and parses an html string into a json object.
- * Json object contains elements in the format that the Chartist library expects. 
- * @param {string} string - string of html to be parsed.
- * @returns {object} object - json data object. 
+ * Reads and parses an html string into a json object
+ * Json object contains elements in the format that the Chartist library expects 
+ * @param {string} string - string of html to be parsed
+ * @returns {object} object - json data object 
  */
 ChartistHtml.innerHtmlToJson = function(html, chartType) {
 	var $el = $(html),
@@ -77,6 +77,11 @@ ChartistHtml.innerHtmlToJson = function(html, chartType) {
 	return json;
 };
 
+/*
+ * Takes the current html element and builds a json object  
+ * @param {string} - string of html
+ * @returns {object} - json data object
+ */
 ChartistHtml.elementToJson = function($el) {
 
 	var json = {},
@@ -84,7 +89,11 @@ ChartistHtml.elementToJson = function($el) {
 
 	json.title = $el.attr('data-title'); 
 	json.type = $el.attr('data-type');
-	json.options = ChartistHtml.splitString($el.attr('data-options'));
+	
+	var chartSubtypes = [];
+	chartSubtypes.push(ChartistHtml.splitString($el.attr('data-options')));
+	chartSubtypes.push(ChartistHtml.splitString($el.attr('data-subtypes')));
+	json.subtypes = chartSubtypes;
 
 	data = ChartistHtml.innerHtmlToJson($el.html(), json.type);
 
@@ -95,9 +104,9 @@ ChartistHtml.elementToJson = function($el) {
 };
 
 /*
- * Takes a string and capitalizes the first character. 
+ * Takes a string and capitalizes the first character 
  * @param {string} string - json.type string
- * @returns {string} string - json.type string with first character capitalized. 
+ * @returns {string} string - json.type string with first character capitalized 
  */
 ChartistHtml.toSentenceCase = function(str) {
       return str.replace(/\w\S*/g, function(txt) {

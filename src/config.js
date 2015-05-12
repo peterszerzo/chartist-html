@@ -6,7 +6,7 @@ ChartistHtml.config = {
 	chartOptions: {
 		pie: {
 			options: {
-				standard: {
+				base: {
 					labelInterpolationFnc: function(value) {
 						return value[0];
 					}
@@ -28,7 +28,7 @@ ChartistHtml.config = {
 		},
 		bar: {
 			options: {
-				standard: {
+				base: {
 					seriesBarDistance: 10,
 					axisX: {
 						offset: 70,
@@ -43,7 +43,7 @@ ChartistHtml.config = {
       				}
 				},
 				stacked: {
-					stackedBars: true
+					stackBars: true
 				},
 				horizontal: {
 					horizontalBars: true,
@@ -77,7 +77,7 @@ ChartistHtml.config = {
 		},
 		line: {
 			options: {
-				standard: {
+				base: {
 					showArea: true,
 					axisX: {
 						position: 'start',
