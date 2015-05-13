@@ -41,41 +41,42 @@ ChartistHtml.splitString = function(string) {
  * @returns {object} object - json data object 
  */
 ChartistHtml.innerHtmlToJson = function(html, chartType) {
-	var $el = $(html),
-		$labelsEl = $($el.find('.' + this.getLabelsClass())),
-		$seriesEl = $($el.find('.' + this.getSeriesClass())),
-		json = {};
+ 	var $el = $(html),
+ 		$labelsEl = $($el.find('.' + this.getLabelsClass())),
+ 		$seriesEl = $($el.find('.' + this.getSeriesClass())),
+ 		json = {};
 	
-	if (chartType !== 'pie') {
-		json.labels = ChartistHtml.splitString($labelsEl.html());
-	} else {
-		json.labels = [];
-	}
+ 	if (chartType !== 'pie') {
+ 		json.labels = ChartistHtml.splitString($labelsEl.html());
+ 	} else {
+ 		json.labels = [];
+ 	}
 
-	json.series = [];
+ 	json.series = [];
 
-	$seriesEl.each(function() {
+ 	$seriesEl.each(function() {
 
-		var $seriEl = $(this),
-			stringSeries = ChartistHtml.splitString($seriEl.html()),
-			numberSeries = [],
-			i, max;
+ 		var $seriEl = $(this),
+ 			stringSeries = ChartistHtml.splitString($seriEl.html()),
+ 			numberSeries = [],
+ 			i, max;
 
-		for(i = 0, max = stringSeries.length; i < max; i += 1) {
-			numberSeries.push(parseFloat(stringSeries[i]));
-		}
+ 		for(i = 0, max = stringSeries.length; i < max; i += 1) {
+ 			numberSeries.push(parseFloat(stringSeries[i]));
+ 		}
 
-		if ([ 'bar', 'line' ].indexOf(chartType) > -1) {
-			json.series.push(numberSeries);
-		} else if (chartType === 'pie') {
-			json.series.push(numberSeries[0]);
-			json.labels.push($seriEl.attr('data-name'));
-		} else {
-		}
-	});
+ 		if ([ 'bar', 'line' ].indexOf(chartType) > -1) {
+ 			json.series.push(numberSeries);
+ 		} else if (chartType === 'pie') {
+ 			json.series.push(numberSeries[0]);
+ 			json.labels.push($seriEl.attr('data-name'));
+ 		} else {
+ 		}
+ 	});
 
-	return json;
-};
+ 	return json;
+ };
+
 
 /*
  * Takes the current html element and builds a json object  
@@ -84,28 +85,28 @@ ChartistHtml.innerHtmlToJson = function(html, chartType) {
  */
 ChartistHtml.elementToJson = function($el) {
 
-	var json = {},
-		data;
+ 	var json = {},
+ 		data;
 
-	json.title = $el.attr('data-title'); 
-	json.type = $el.attr('data-type');
+ 	json.title = $el.attr('data-title'); 
+ 	json.type = $el.attr('data-type');
 	
-	var subtypeOptionA = ChartistHtml.splitString($el.attr('data-subtypes'));
-	var subtypeOptionB = ChartistHtml.splitString($el.attr('data-options'));
+ 	var subtypeOptionA = ChartistHtml.splitString($el.attr('data-subtypes'));
+ 	var subtypeOptionB = ChartistHtml.splitString($el.attr('data-options'));
 
-	if (typeof subtypeOptionA !== "undefined") {
-		json.subtypes = subtypeOptionA;
-	} else {
-		json.subtypes = subtypeOptionB;
-	}
+ 	if (typeof subtypeOptionA !== "undefined") {
+ 		json.subtypes = subtypeOptionA;
+ 	} else {
+ 		json.subtypes = subtypeOptionB;
+ 	}
 
-	data = ChartistHtml.innerHtmlToJson($el.html(), json.type);
+ 	data = ChartistHtml.innerHtmlToJson($el.html(), json.type);
 
-	json.series = data.series;
-	json.labels = data.labels;
+ 	json.series = data.series;
+ 	json.labels = data.labels;
 
-	return json;
-};
+ 	return json;
+ };
 
 /*
  * Takes a string and capitalizes the first character 

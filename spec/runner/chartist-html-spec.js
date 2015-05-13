@@ -86,7 +86,7 @@ describe('ChartistHtml', function() {
 				ChartistHtml.config.baseClass = 'cts';
 		});
 		it('detects chart type', function() {
-			(ChartistHtml.elementToJson($el).type.should.equal('pie'));
+			(ChartistHtml.elementToJson($el)).type.should.equal('pie');
 		});
 	});
 
@@ -96,19 +96,30 @@ describe('ChartistHtml', function() {
 		});
 	});
 });
+xdescribe('ChartistHtml.renderChart', function() {
+	var html = '<div class="cts" data-type="pie"><ul><li class="cts__series" data-name="Federal">25</li><li class="cts__series" data-name="State">50</li><li class="cts__series" data-name="Local">25</li></ul></div>',
+		    $el = $(html);
+		beforeEach(function() {
+			ChartistHtml.config.baseClass = 'cts';
+		});
 
+	it('names chart container using base class and id', function() {
+		(ChartistHtml.renderChart($el, 1).container).should.equal('div.ct-chart.ct-perfect-forth.ct-chart-1');
+	});
+});
 describe('ChartistHtml.getOptions', function() {
 	var chartOptions = {
 		bar: {
 			options: {
-				base: {a: 'b'}, 
-				stacked: {c: 'd'}, 
-				horizontal: {d: 'f'}
+				base: {'a': "b"}, 
+				stacked: {'c': "d"}, 
+				horizontal: {'d': "f"}
 			}
 		}
 	};
 
 	it('builds up the base options object based on specific chart subtypes', function() {
-		(ChartistHtml.getOptions( 'bar', [ 'stacked' ], chartOptions)).should.equal({a: 'b', c: 'd'});
+		(ChartistHtml.getOptions( 'bar', [ 'stacked' ], chartOptions)).should.equal({'a': "b", 'c': "d"});
 	});
 });
+

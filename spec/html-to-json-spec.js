@@ -76,7 +76,7 @@ describe('ChartistHtml', function() {
 				ChartistHtml.config.baseClass = 'cts';
 		});
 		it('detects chart type', function() {
-			(ChartistHtml.elementToJson($el).type.should.equal('pie'));
+			(ChartistHtml.elementToJson($el)).type.should.equal('pie');
 		});
 	});
 

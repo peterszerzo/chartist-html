@@ -17,11 +17,13 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 	var allOptions = $.extend({}, defaults);
 
 	var i, max, subtype;
-	for(i = 0, max = subtypes.length; i < max; i += 1) {
-		subtype = subtypes[i];
-		specifics = chartTypeOptions[subtype];
-		if (typeof specifics !== "undefined") {
-			allOptions = $.extend(allOptions, specifics);
+	if(typeof subtypes !== "undefined" && subtypes.length > 0) {
+		for(i = 0, max = subtypes.length; i < max; i += 1) {
+			subtype = subtypes[i];
+			specifics = chartTypeOptions[subtype];
+			if (typeof specifics !== "undefined") {
+				allOptions = $.extend(allOptions, specifics);
+			}
 		}
 	}
 
