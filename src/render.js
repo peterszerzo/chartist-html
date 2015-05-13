@@ -1,15 +1,31 @@
-ChartistHtml.renderChart = function($el) {
-	// extract the data
-	// create a new chartist chart
-	var chartData = ChartistHtml.elementToJson($el),
-		chartType = ChartistHtml.toSentenceCase(chartData.type);
+/* Extract the data and create a new chartist chart
+* @param {string} string - html string
+* @param {number} number - unique chart id to be added to existing chartBaseClass
+* @returns {object} object - new chart object created using the constructor function 'new'
+*/
+// ChartistHtml.renderChart = function($el, chartId) {
+// 	if (typeof chartId === "undefined") { 
+// 		chartId = "apples"; 
+// 	}
 
-	console.log(chartType, chartData);
+// 	var chartData = ChartistHtml.elementToJson($el),
+// 		chartType = ChartistHtml.toSentenceCase(chartData.type),
+// 		chartBaseClass = 'ct-chart',
+// 		chartClass = chartBaseClass + '-' + chartId;
 
-	var options = ChartistHtml.config.chartOptions[chartData.type].options,
-		responsiveOptions = ChartistHtml.config.chartOptions[chartData.type].responsiveOptions;
+// 	var options = ChartistHtml.getOptions(chartData.type, chartData.subtypes),
+// 		responsiveOptions = ChartistHtml.config.chartOptions[chartData.type].responsiveOptions;
 
-	var chart = new Chartist[chartType]('.ct-chart', chartData, allOptions, allResponsiveOptions);
+// 	var $chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
 
-	return chart;
+// 	$el.append($chartContainer);
+
+// 	var chart = new Chartist[chartType]('.' + chartClass, chartData, options, responsiveOptions);
+// 	console.log(chart);
+	
+// 	return chart;
+// };
+
+ChartistHtml.renderAll = function() {
+	new ChartistHtml.ChartCollectionManager($('.' + ChartistHtml.config.baseClass)).render();
 };

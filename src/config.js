@@ -6,103 +6,114 @@ ChartistHtml.config = {
 	chartOptions: {
 		pie: {
 			options: {
-				standard: {
+				base: {
 					labelInterpolationFnc: function(value) {
 						return value[0];
 					}
 				}
 			},
 			responsiveOptions: [
-				  ['screen and (min-width: 640px)', {
-				    chartPadding: 30,
-				    labelOffset: 100,
-				    labelInterpolationFnc: function(value) {
-				      return value;
-				    }
-				  }],
-				  ['screen and (min-width: 1024px)', {
-				    chartPadding: 20,
-				    labelOffset: 80
-				  }]
-			]
+				['screen and (min-width: 640px)', {
+					chartPadding: 30,
+					labelOffset: 100,
+						labelInterpolationFnc: function(value) {
+							return value;
+						}
+				}],
+				['screen and (min-width: 1024px)', {
+					chartPadding: 20,
+					labelOffset: 80
+				}]
+			] 
 		},
 		bar: {
 			options: {
-				standard: {
+				base: {
 					seriesBarDistance: 10,
 					axisX: {
 						offset: 70,
-						position: 'start',
+						position: 'end',
 						labelInterpolationFnc: function(value) {
-      						return value[0];
-      					}
+							return value[0];
+						}
 					},
 					axisY: {
       					offset: 70,
       					position: 'start',
+      					onlyInteger: true
       				}
 				},
 				stacked: {
-					stackedBars: true
+					stackBars: true
 				},
 				horizontal: {
 					horizontalBars: true,
 					reverseData: true,
 					axisX: {
       					offset: 70,
-      					position: 'start',
+      					position: 'end',
+      					onlyInteger: true
       				},
       				axisY: {
 						offset: 70,
 						position: 'start',
 						labelInterpolationFnc: function(value) {
-      						return value[0];
-      					}
-					}
+							return value[0];
+						}
+      				}
 				}
 			},
 			responsiveOptions: [
-				  ['screen and (min-width: 640px)', {
-				    chartPadding: 30,
-				    labelOffset: 100,
-				    labelInterpolationFnc: function(value) {
-				      return value;
-				    }
-				  }],
-				  ['screen and (min-width: 1024px)', {
-				    chartPadding: 20,
-				    labelOffset: 80
-				  }]
+				['screen and (min-width: 640px)', {
+					seriesBarDistance: 5,
+					axisX: {
+					    labelInterpolationFnc: function(value) {
+					      	return value;
+					    }
+					}
+				}],
+				['screen and (min-width: 1024px)', {
+					seriesBarDistance: 10,
+			 		axisX: {
+					    labelInterpolationFnc: function(value) {
+					      	return value;
+					    }
+					}	
+				}],
 			]
 		},
 		line: {
 			options: {
-				standard: {
-					showArea: true,
+				base: {
+					showArea: false,
 					axisX: {
-						position: 'start',
+						position: 'end',
 						labelInterpolationFnc: function(value) {
       						return value[0];
       					}
 					}, 
 					axisY: {
-						position: 'start'
+						position: 'start',
+						onlyInteger: true
 					}
 				}
 			},
 			responsiveOptions: [
-				  ['screen and (min-width: 640px)', {
-				    chartPadding: 30,
-				    labelOffset: 100,
-				    labelInterpolationFnc: function(value) {
-				      return value;
-				    }
-				  }],
-				  ['screen and (min-width: 1024px)', {
-				    chartPadding: 20,
-				    labelOffset: 80
-				  }]
-			]
+				['screen and (min-width: 640px)', {
+					axisX: {
+					    labelInterpolationFnc: function(value) {
+					      	return value;
+					    }
+					}
+				}],
+				['screen and (min-width: 1024px)', {
+					axisX: {
+					    labelInterpolationFnc: function(value) {
+					      	return value;
+					    }
+					}	
+				}],
+			] 
 		}
-	}	
+	}
 };
