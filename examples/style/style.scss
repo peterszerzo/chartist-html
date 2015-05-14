@@ -1,3 +1,9 @@
 @import "../../bower_components/chartist/dist/scss/settings/_chartist-settings.scss";
 @import "_vars.scss";
 @import "../../bower_components/chartist/dist/scss/chartist.scss";
+
+.cts__tooltip {
+	width: 100px;
+	height: 30px;
+	position: absolute;
+}

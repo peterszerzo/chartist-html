@@ -122,4 +122,23 @@ describe('ChartistHtml.getOptions', function() {
 		(ChartistHtml.getOptions( 'bar', [ 'stacked' ], chartOptions)).should.equal({'a': "b", 'c': "d"});
 	});
 });
+describe('ChartistHtml.ChartManager', function() {
 
+	describe('innerHtmlToJson', function() {
+		describe('for bar charts', function() {
+			var html = '<div class="ct-html" data-title="A Fine Chart" data-type="bar" data-options="stacked|horizontal"><ul><li class="ct-html__labels">May|June|July|August|September</li><li class="ct-html__series" data-name="Federal">1|2|3|4|5</li><li class="ct-html__series" data-name="State">1|2|3|4|5</li><li class="ct-html__series" data-name="Local">1|2|3|4|5</li></ul></div>',
+				chart;
+			beforeEach(function() {
+				ChartistHtml.config.baseClass = 'ct-html';
+				chart = new ChartistHtml.ChartManager($(html), 1);
+			});
+			it('detects and separates chart labels', function() {
+				(chart.innerHtmlToJson(html, 'bar').labels[0]).should.equal('May');
+			});
+			it('detects and separates chart series - array of array', function() {
+				(chart.innerHtmlToJson(html, 'bar').series[0][0]).should.equal(1);
+			});
+		});
+	});
+
+});

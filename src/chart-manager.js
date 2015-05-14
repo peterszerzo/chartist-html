@@ -9,6 +9,12 @@ ChartistHtml.ChartManager.prototype = {
 
 	constructor: ChartistHtml.ChartManager,
 
+	componentSubclassNames: {
+		'pie': 'slice',
+		'line': 'point',
+		'bar': 'bar'
+	},
+
 	innerHtmlToJson: function() {
 
 		var chartType = this.type,
@@ -80,7 +86,8 @@ ChartistHtml.ChartManager.prototype = {
 
 	render: function() {
 
-		var chartData = this.getJson(this.$el),
+		var self = this,
+			chartData = this.getJson(this.$el),
 			chartType = ChartistHtml.toSentenceCase(chartData.type),
 			chartBaseClass = 'ct-chart',
 			chartClass = chartBaseClass + '-' + this.id;
@@ -94,21 +101,77 @@ ChartistHtml.ChartManager.prototype = {
 
 		var chart = new Chartist[chartType]('.' + chartClass, chartData, options, responsiveOptions);
 		
-		this.chart = chart;
+		chart.on('created', function() {
+			self.chart = chart;
+			self.$chart = $(self.$el.find('.ct-chart'));
+			self._bindTooltips();
+		});
 
 		return this;
 	},
 
 	destroy: function() {
-		return this;
+
+		this._unbindTooltips();
+
+		function detach() {
+            window.removeEventListener('resize', this.resizeListener);
+            this.optionsProvider.removeMediaQueryListeners();
+
+			return this;
+		}
 	},
 
-	bindTooltips: function() {
+	_bindTooltips: function() {
+
+		var self = this,
+			$chart = this.$chart,
+			$tooltip = $chart
+				.append('<div class="cts__tooltip"></div>')
+				.find('.cts__tooltip')
+				.hide(),
+			componentSelector = '.ct-' + this.componentSubclassNames[this.type];
+
+		this.$tooltip = $tooltip;
+
+		$chart.on('mouseenter', componentSelector, function() {
+			var $point = $(this),
+				value = $point.attr('ct:value'),
+				series = $point.parent().attr('class'),
+				index,
+				label;
+
+			index = ['a', 'b', 'c'].indexOf(series[series.length - 1]);
+			label = self.chart.data.labels[index];
+			$tooltip.css({ 'visibility': 'visible' });
+			$tooltip.html('<h1>' + label + '</h1>' + '<p>' + value + '</p>').show();
+		});
+
+		$chart.on('mouseleave', componentSelector, function() {
+			$tooltip.css({
+				visibility: 'hidden'
+			});
+		});
+
+		$chart.on('mousemove', function(event) {
+			var x = (event.offsetX || event.originalEvent.layerX) - $tooltip.width() / 2 - 10,
+				y = (event.offsetY || event.originalEvent.layerY) - $tooltip.height() - 40;
+			$tooltip.css({
+				display: 'inline-block',
+				position: 'absolute',
+				left: x,
+				top: y
+			});
+		});
+
 		return this;
 	},
 
 	unbindTooltips: function() {
-
+		$chart.off('mouseenter');
+		$chart.off('mouseleave');
+		$chart.off('mousemove');
+		return this;
 	}
 
 };
