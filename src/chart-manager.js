@@ -43,6 +43,7 @@ ChartistHtml.ChartManager.prototype = {
 			}
 
 			if ([ 'bar', 'line' ].indexOf(chartType) > -1) {
+				//json.series.push($seriEl.attr('data-name'));
 				json.series.push(numberSeries);
 			} else if (chartType === 'pie') {
 				json.series.push(numberSeries[0]);
@@ -50,7 +51,7 @@ ChartistHtml.ChartManager.prototype = {
 			} else {
 			}
 		});
-
+		console.log(json);
 		return json;
 	},
 
@@ -80,7 +81,6 @@ ChartistHtml.ChartManager.prototype = {
 		json.series = data.series;
 		json.labels = data.labels;
 
-		//return json;
 		return json;
 	},
 
@@ -125,10 +125,11 @@ ChartistHtml.ChartManager.prototype = {
 	_bindTooltips: function() {
 
 		var self = this,
+			className = ChartistHtml.config.baseClass + '__tooltip',
 			$chart = this.$chart,
 			$tooltip = $chart
-				.append('<div class="cts__tooltip"></div>')
-				.find('.cts__tooltip')
+				.append('<div class="' + className + '"></div>')
+				.find('.' + className)
 				.hide(),
 			componentSelector = '.ct-' + this.componentSubclassNames[this.type];
 
@@ -147,6 +148,7 @@ ChartistHtml.ChartManager.prototype = {
 			$tooltip.html('<h1>' + label + '</h1>' + '<p>' + value + '</p>').show();
 		});
 
+
 		$chart.on('mouseleave', componentSelector, function() {
 			$tooltip.css({
 				visibility: 'hidden'
@@ -154,8 +156,8 @@ ChartistHtml.ChartManager.prototype = {
 		});
 
 		$chart.on('mousemove', function(event) {
-			var x = (event.offsetX || event.originalEvent.layerX) - $tooltip.width() / 2 - 10,
-				y = (event.offsetY || event.originalEvent.layerY) - $tooltip.height() - 40;
+			var x = (event.offsetX || event.originalEvent.layerX) - $tooltip.width() / 2,
+				y = (event.offsetY || event.originalEvent.layerY) - $tooltip.height();//
 			$tooltip.css({
 				display: 'inline-block',
 				position: 'absolute',
