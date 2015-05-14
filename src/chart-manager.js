@@ -169,10 +169,10 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
-	unbindTooltips: function() {
-		$chart.off('mouseenter');
-		$chart.off('mouseleave');
-		$chart.off('mousemove');
+	_unbindTooltips: function() {
+		this.$chart.off('mouseenter');
+		this.$chart.off('mouseleave');
+		this.$chart.off('mousemove');
 		return this;
 	}
 
