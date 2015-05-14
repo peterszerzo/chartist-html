@@ -51,12 +51,11 @@ ChartistHtml.ChartManager.prototype = {
 			} else {
 			}
 		});
-		console.log(json);
+
 		return json;
 	},
 
 	getJson: function() {
-		// ChartistHtml.elementToJson(this.$el);
 		
 		var $el = this.$el,
 			json = {},
