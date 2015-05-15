@@ -104,6 +104,7 @@ ChartistHtml.ChartManager.prototype = {
 			self.chart = chart;
 			self.$chart = $(self.$el.find('.ct-chart'));
 			self._bindTooltips();
+			self._addColoring();
 		});
 
 		return this;
@@ -116,9 +117,21 @@ ChartistHtml.ChartManager.prototype = {
 		function detach() {
             window.removeEventListener('resize', this.resizeListener);
             this.optionsProvider.removeMediaQueryListeners();
-
 			return this;
 		}
+
+		detach();
+	},
+
+	_addColoring: function() {
+
+		if (typeof ChartistHtml.config.colorSpectrum !== "undefined") {
+
+			this.$chart.find('.ct-series').each(function() {});
+
+		}
+
+		return this;
 	},
 
 	_bindTooltips: function() {

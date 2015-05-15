@@ -1,5 +1,6 @@
 var ChartistHtml = {};
 ChartistHtml.config = {
+	colorSpectrum: [ '#146', '#a8b4cc' ],
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
@@ -355,12 +356,11 @@ ChartistHtml.ChartManager.prototype = {
 			} else {
 			}
 		});
-		console.log(json);
+
 		return json;
 	},
 
 	getJson: function() {
-		// ChartistHtml.elementToJson(this.$el);
 		
 		var $el = this.$el,
 			json = {},
@@ -409,6 +409,7 @@ ChartistHtml.ChartManager.prototype = {
 			self.chart = chart;
 			self.$chart = $(self.$el.find('.ct-chart'));
 			self._bindTooltips();
+			self._addColoring();
 		});
 
 		return this;
@@ -421,9 +422,21 @@ ChartistHtml.ChartManager.prototype = {
 		function detach() {
             window.removeEventListener('resize', this.resizeListener);
             this.optionsProvider.removeMediaQueryListeners();
-
 			return this;
 		}
+
+		detach();
+	},
+
+	_addColoring: function() {
+
+		if (typeof ChartistHtml.config.colorSpectrum !== "undefined") {
+
+			this.$chart.find('.ct-series').each(function() {});
+
+		}
+
+		return this;
 	},
 
 	_bindTooltips: function() {
@@ -473,10 +486,10 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
-	unbindTooltips: function() {
-		$chart.off('mouseenter');
-		$chart.off('mouseleave');
-		$chart.off('mousemove');
+	_unbindTooltips: function() {
+		this.$chart.off('mouseenter');
+		this.$chart.off('mouseleave');
+		this.$chart.off('mousemove');
 		return this;
 	}
 
