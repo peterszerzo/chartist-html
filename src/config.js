@@ -1,5 +1,6 @@
 ChartistHtml.config = {
-	colorSpectrum: [ '#21313E', '#EFEE69' ],
+	colorSpectrum: [ '#85026A', '#019fde' ],
+	backgroundColor: '#FFFFFF',
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',

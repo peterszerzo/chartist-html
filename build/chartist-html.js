@@ -1,6 +1,7 @@
 var ChartistHtml = {};
 ChartistHtml.config = {
-	colorSpectrum: [ '#21313E', '#EFEE69' ],
+	colorSpectrum: [ '#85026A', '#019fde' ],
+	backgroundColor: '#FFFFFF',
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
@@ -430,7 +431,9 @@ ChartistHtml.ChartManager.prototype = {
 
 	_addColoring: function() {
 
-		if (chroma !== "undefined") { // is Chroma present?
+		var self = this;
+
+		if ($('#chromaLib') !== "undefined") {
 
 			if (typeof ChartistHtml.config.colorSpectrum !== "undefined") {
 
@@ -439,20 +442,24 @@ ChartistHtml.ChartManager.prototype = {
 				this.$chart.find('.ct-series').each(function(i) {
 
 					var $el = $(this),
+						chartType = self.type,
 						firstColor = ChartistHtml.config.colorSpectrum[0],
 						lastColor = ChartistHtml.config.colorSpectrum[1],
 						scale = chroma.scale([firstColor, lastColor]).domain([0, seriesCount-1]),
 						color = scale(i).css();
 
-					$el.find('line, path').each(function() { $(this).css('stroke', color); });
+					console.log(chartType);//
 
-					// attr('stroke', color);
-					//create a scale and set start and end colors of series spectrum
-					//interpolate colors for other series inbetween
-					//create a color spectrum that has the same length as chart series
-					//iterate through chart series and apply color spectrum values using jquery attr
+					if (chartType === 'pie') {
+						$el.find('path').each(function() { 
+							$(this).css({ 'fill': color, 'stroke': ChartistHtml.config.backgroundColor, 'stroke-width': 3 }); 
+						});
+					} else {
+						$el.find('line, path').each(function() { 
+							$(this).css('stroke', color); 
+						});
+					}
 				});
-
 			}
 		}
 
