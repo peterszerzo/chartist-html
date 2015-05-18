@@ -125,10 +125,30 @@ ChartistHtml.ChartManager.prototype = {
 
 	_addColoring: function() {
 
-		if (typeof ChartistHtml.config.colorSpectrum !== "undefined") {
+		if (chroma !== "undefined") { // is Chroma present?
 
-			this.$chart.find('.ct-series').each(function() {});
+			if (typeof ChartistHtml.config.colorSpectrum !== "undefined") {
 
+				var seriesCount = this.chart.data.series.length;
+
+				this.$chart.find('.ct-series').each(function(i) {
+
+					var $el = $(this),
+						firstColor = ChartistHtml.config.colorSpectrum[0],
+						lastColor = ChartistHtml.config.colorSpectrum[1],
+						scale = chroma.scale([firstColor, lastColor]).domain([0, seriesCount-1]),
+						color = scale(i).css();
+
+					$el.find('line, path').each(function() { $(this).css('stroke', color); });
+
+					// attr('stroke', color);
+					//create a scale and set start and end colors of series spectrum
+					//interpolate colors for other series inbetween
+					//create a color spectrum that has the same length as chart series
+					//iterate through chart series and apply color spectrum values using jquery attr
+				});
+
+			}
 		}
 
 		return this;
