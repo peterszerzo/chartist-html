@@ -5,6 +5,9 @@ ChartistHtml.config = {
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
 	seriesSeparators: ['|', ','],
+	tooltipTemplate: function(data) {
+		return '<h1>' + data.label + '</h1>' + '<p>' + data.value + '</p>';
+	},
 	chartOptions: {
 		pie: {
 			options: {
@@ -42,7 +45,7 @@ ChartistHtml.config = {
 					axisY: {
       					offset: 70,
       					position: 'start',
-      					onlyInteger: true
+      					//onlyInteger: true
       				}
 				},
 				stacked: {
@@ -54,7 +57,7 @@ ChartistHtml.config = {
 					axisX: {
       					offset: 70,
       					position: 'end',
-      					onlyInteger: true
+      					//onlyInteger: true
       				},
       				axisY: {
 						offset: 70,
@@ -67,7 +70,6 @@ ChartistHtml.config = {
 			},
 			responsiveOptions: [
 				['screen and (min-width: 640px)', {
-					seriesBarDistance: 5,
 					axisX: {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
@@ -75,7 +77,6 @@ ChartistHtml.config = {
 					}
 				}],
 				['screen and (min-width: 1024px)', {
-					seriesBarDistance: 10,
 			 		axisX: {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
@@ -96,7 +97,7 @@ ChartistHtml.config = {
 					}, 
 					axisY: {
 						position: 'start',
-						onlyInteger: true
+						//onlyInteger: true
 					}
 				}
 			},
