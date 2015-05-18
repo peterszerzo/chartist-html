@@ -1,5 +1,7 @@
 var ChartistHtml = {};
 ChartistHtml.config = {
+	colorSpectrum: [ '#85026A', '#019fde' ],
+	backgroundColor: '#FFFFFF',
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
@@ -355,12 +357,11 @@ ChartistHtml.ChartManager.prototype = {
 			} else {
 			}
 		});
-		console.log(json);
+
 		return json;
 	},
 
 	getJson: function() {
-		// ChartistHtml.elementToJson(this.$el);
 		
 		var $el = this.$el,
 			json = {},
@@ -409,6 +410,7 @@ ChartistHtml.ChartManager.prototype = {
 			self.chart = chart;
 			self.$chart = $(self.$el.find('.ct-chart'));
 			self._bindTooltips();
+			self._addColoring();
 		});
 
 		return this;
@@ -421,9 +423,47 @@ ChartistHtml.ChartManager.prototype = {
 		function detach() {
             window.removeEventListener('resize', this.resizeListener);
             this.optionsProvider.removeMediaQueryListeners();
-
 			return this;
 		}
+
+		detach();
+	},
+
+	_addColoring: function() {
+
+		var self = this;
+
+		if ($('#chromaLib') !== "undefined") {
+
+			if (typeof ChartistHtml.config.colorSpectrum !== "undefined") {
+
+				var seriesCount = this.chart.data.series.length;
+
+				this.$chart.find('.ct-series').each(function(i) {
+
+					var $el = $(this),
+						chartType = self.type,
+						firstColor = ChartistHtml.config.colorSpectrum[0],
+						lastColor = ChartistHtml.config.colorSpectrum[1],
+						scale = chroma.scale([firstColor, lastColor]).domain([0, seriesCount-1]),
+						color = scale(i).css();
+
+					console.log(chartType);//
+
+					if (chartType === 'pie') {
+						$el.find('path').each(function() { 
+							$(this).css({ 'fill': color, 'stroke': ChartistHtml.config.backgroundColor, 'stroke-width': 3 }); 
+						});
+					} else {
+						$el.find('line, path').each(function() { 
+							$(this).css('stroke', color); 
+						});
+					}
+				});
+			}
+		}
+
+		return this;
 	},
 
 	_bindTooltips: function() {
@@ -473,10 +513,10 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
-	unbindTooltips: function() {
-		$chart.off('mouseenter');
-		$chart.off('mouseleave');
-		$chart.off('mousemove');
+	_unbindTooltips: function() {
+		this.$chart.off('mouseenter');
+		this.$chart.off('mouseleave');
+		this.$chart.off('mousemove');
 		return this;
 	}
 

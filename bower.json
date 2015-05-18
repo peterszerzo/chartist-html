@@ -15,6 +15,7 @@
   ],
   "dependencies": {
     "jquery": "~2.1.4",
-    "chartist": "~0.8.0"
+    "chartist": "~0.8.0",
+    "chroma": "~2.0"
   }
 }

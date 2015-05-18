@@ -122,7 +122,7 @@ describe('ChartistHtml.getOptions', function() {
 		(ChartistHtml.getOptions( 'bar', [ 'stacked' ], chartOptions)).should.equal({'a': "b", 'c': "d"});
 	});
 });
-describe('ChartistHtml.ChartManager', function() {
+ describe('ChartistHtml.ChartManager', function() {
 
 	describe('innerHtmlToJson', function() {
 		describe('for bar charts', function() {
@@ -138,6 +138,18 @@ describe('ChartistHtml.ChartManager', function() {
 			it('detects and separates chart series - array of array', function() {
 				(chart.innerHtmlToJson(html, 'bar').series[0][0]).should.equal(1);
 			});
+		});
+	});
+
+	describe('getJson', function() {
+		var html = '<div class="cts" data-type="pie"><ul><li class="cts__series" data-name="Federal">25</li><li class="cts__series" data-name="State">50</li><li class="cts__series" data-name="Local">25</li></ul></div>',
+			chart;
+		beforeEach(function() {
+				ChartistHtml.config.baseClass = 'cts';
+				chart = new ChartistHtml.ChartManager($(html), 1);
+		});
+		it('detects chart type', function() {
+			(chart.getJson(html).type).should.equal('pie');
 		});
 	});
 
