@@ -12,6 +12,7 @@ ChartistHtml.config = {
 	seriesSeparators: ['|', ','],
 	xAxis: {
 		labelInterpolationFnc: function(v) {
+			if (typeof numeral === "undefined") { return v; }
 			if (v > 999) {
 				return numeral(v).format('($0.0a)');
 			}
@@ -21,9 +22,7 @@ ChartistHtml.config = {
 	tooltipTemplate: function(data) {
 		var string = "",
 			formatter = (data.value > 999) ? '($0.0a)' : '($0)';
-
-		string = numeral(data.value).format(formatter);
-		
+		string = (typeof numeral !== "undefined") ? numeral(data.value).format(formatter) : data.value;
 		return '<h1>' + data.label + '</h1>' + '<p>' + string + '</p>';
 	},
 	chartOptions: {
@@ -260,34 +259,6 @@ ChartistHtml.toSentenceCase = function(str) {
       });
 };
 
-/* Extract the data and create a new chartist chart
-* @param {string} string - html string
-* @param {number} number - unique chart id to be added to existing chartBaseClass
-* @returns {object} object - new chart object created using the constructor function 'new'
-*/
-// ChartistHtml.renderChart = function($el, chartId) {
-// 	if (typeof chartId === "undefined") { 
-// 		chartId = "apples"; 
-// 	}
-
-// 	var chartData = ChartistHtml.elementToJson($el),
-// 		chartType = ChartistHtml.toSentenceCase(chartData.type),
-// 		chartBaseClass = 'ct-chart',
-// 		chartClass = chartBaseClass + '-' + chartId;
-
-// 	var options = ChartistHtml.getOptions(chartData.type, chartData.subtypes),
-// 		responsiveOptions = ChartistHtml.config.chartOptions[chartData.type].responsiveOptions;
-
-// 	var $chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
-
-// 	$el.append($chartContainer);
-
-// 	var chart = new Chartist[chartType]('.' + chartClass, chartData, options, responsiveOptions);
-// 	console.log(chart);
-	
-// 	return chart;
-// };
-
 ChartistHtml.renderAll = function() {
 	new ChartistHtml.ChartCollectionManager($('.' + ChartistHtml.config.baseClass)).render();
 };
@@ -344,16 +315,23 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	isFillChart: function() {
-
+		if (typeof this.type === "undefined") { return false; }
+		return (this.type === 'pie');
 	},
 
 	isStrokeChart: function() {
-
+		if (typeof this.type === "undefined") { return false; }
+		return (['bar', 'line'].indexOf(this.type) > -1);
 	},
 
+	/*
+	 * Extracts chart content from the inner html.
+	 * @returns {object}
+	 */
 	innerHtmlToJson: function() {
 
 		var chartType = this.type,
+			self = this,
 			$el = this.$el,
 			$labelsEl = $($el.find('.' + ChartistHtml.getLabelsClass())),
 			$seriesEl = $($el.find('.' + ChartistHtml.getSeriesClass())),
@@ -379,10 +357,10 @@ ChartistHtml.ChartManager.prototype = {
 				numberSeries.push(parseFloat(stringSeries[i]));
 			}
 
-			if ([ 'bar', 'line' ].indexOf(chartType) > -1) {
+			if (self.isStrokeChart()) {
 				json.seriesLabels.push($seriEl.attr('data-name'));
 				json.series.push(numberSeries);
-			} else if (chartType === 'pie') {
+			} else if (self.isFillChart()) {
 				json.series.push(numberSeries[0]);
 				json.labels.push($seriEl.attr('data-name'));
 			} else {
@@ -404,21 +382,15 @@ ChartistHtml.ChartManager.prototype = {
 		json.type = $el.attr('data-type');
 
 		this.type = json.type;
-		
-		var subtypeOptionA = ChartistHtml.splitString($el.attr('data-subtypes'));
-		var subtypeOptionB = ChartistHtml.splitString($el.attr('data-options'));
 
-		if (typeof subtypeOptionA !== "undefined") {
-			json.subtypes = subtypeOptionA;
-		} else {
-			json.subtypes = subtypeOptionB;
-		}
+		json.subtypes = ChartistHtml.splitString($el.attr('data-subtypes') || $el.attr('data-options'));
 
 		data = this.innerHtmlToJson($el.html(), json.type);
 
 		json = $.extend(json, data);
 
 		return json;
+
 	},
 
 	render: function() {
@@ -426,16 +398,11 @@ ChartistHtml.ChartManager.prototype = {
 		var self = this,
 			chartData = this.getJson(this.$el),
 			chartType = ChartistHtml.toSentenceCase(chartData.type),
-			chartBaseClass = 'ct-chart',
-			chartClass = chartBaseClass + '-' + this.id;
-
-		var options = ChartistHtml.getOptions(chartData.type, chartData.subtypes),
+			chartClass = this._getChartClass(),
+			options = ChartistHtml.getOptions(chartData.type, chartData.subtypes),
 			responsiveOptions = ChartistHtml.config.chartOptions[chartData.type].responsiveOptions;
 
-		var $chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
-
-		this.$chartContainer = $chartContainer;
-		this.$el.append($chartContainer);
+		this._setChartContainer();
 
 		var chart = new Chartist[chartType]('.' + chartClass, chartData, options, responsiveOptions);
 		
@@ -450,6 +417,17 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
+	_getChartClass: function() {
+		return 'ct-chart-' + this.id;
+	},
+
+	_setChartContainer: function() {
+		var chartBaseClass = 'ct-chart',
+			chartClass = this._getChartClass();
+		this.$chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
+		this.$el.append(this.$chartContainer);
+	},
+
 	destroy: function() {
 
 		var chart = this.chart;
@@ -461,13 +439,11 @@ ChartistHtml.ChartManager.prototype = {
 
         this.$chartContainer.remove();
         this.$titleContainer.remove();
-
-		
 	},
 
 	_appendTitle: function() {
 
-		var title = this.chart.data.title
+		var title = this.chart.data.title,
 			$el = $('<div>' + title + '</div>');
 
 		$el.addClass(ChartistHtml.config.baseClass + '__title');
@@ -501,7 +477,7 @@ ChartistHtml.ChartManager.prototype = {
 
 						color = scale(i).css();
 
-						if (chartType === 'pie') {
+						if (self.isFillChart()) {
 							$el.find('path').each(function() { 
 								$(this).css({ 'fill': color, 'stroke': ChartistHtml.config.backgroundColor, 'stroke-width': 3 }); 
 							});
@@ -575,9 +551,9 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	_unbindTooltips: function() {
-		this.$chart.off('mouseenter');
-		this.$chart.off('mouseleave');
-		this.$chart.off('mousemove');
+		if (this.$chart) {
+			this.$chart.off('mouseenter mouseleave mousemove');
+		}
 		return this;
 	}
 
@@ -588,6 +564,7 @@ ChartistHtml.ChartCollectionManager = function($el) {
 	$el.each(function(i) {
 		self._chartManagers.push(new ChartistHtml.ChartManager($(this), i));
 	});
+	this._isRendered = false;
 	return this;
 };
 
@@ -597,17 +574,23 @@ ChartistHtml.ChartCollectionManager.prototype = {
 
 	render: function() {
 		var i, max;
+		if (this._isRendered) { this.destroy(); }
 		for(i = 0, max = this._chartManagers.length; i < max; i += 1) {
 			this._chartManagers[i].render();
 		}
+		this._isRendered = true;
 		return this;
 	},
 
 	destroy: function() {
 		var i, max;
-		for(i = 0, max = this._chartManagers.length; i < max; i += 1) {
-			this._chartManagers[i].destroy();
+		if (this._isRendered) {
+			for(i = 0, max = this._chartManagers.length; i < max; i += 1) {
+				this._chartManagers[i].destroy();
+			}
+			this._isRendered = false;
 		}
+		return this;
 	}
 
 };

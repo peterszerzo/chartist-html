@@ -7,6 +7,7 @@ ChartistHtml.config = {
 	seriesSeparators: ['|', ','],
 	xAxis: {
 		labelInterpolationFnc: function(v) {
+			if (typeof numeral === "undefined") { return v; }
 			if (v > 999) {
 				return numeral(v).format('($0.0a)');
 			}
@@ -16,9 +17,7 @@ ChartistHtml.config = {
 	tooltipTemplate: function(data) {
 		var string = "",
 			formatter = (data.value > 999) ? '($0.0a)' : '($0)';
-
-		string = numeral(data.value).format(formatter);
-		
+		string = (typeof numeral !== "undefined") ? numeral(data.value).format(formatter) : data.value;
 		return '<h1>' + data.label + '</h1>' + '<p>' + string + '</p>';
 	},
 	chartOptions: {
