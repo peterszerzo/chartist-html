@@ -215,6 +215,8 @@ ChartistHtml.ChartManager.prototype = {
 
 		this.$tooltip = $tooltip;
 
+		$tooltip.css({ visibility: 'hidden' });
+
 		$chart.on('mouseenter', componentSelector, function() {
 			var $point = $(this),
 				value = $point.attr('ct:value'),
@@ -230,8 +232,11 @@ ChartistHtml.ChartManager.prototype = {
 				label = self.chart.data.seriesLabels[index];
 			}
 
-			$tooltip.css({ 'visibility': 'visible' });
-			$tooltip.html(ChartistHtml.config.tooltipTemplate({ label: label, value: value })).show();
+			if (label && value) {
+				$tooltip.html(ChartistHtml.config.tooltipTemplate({ label: label, value: value })).show();
+				$tooltip.css({ 'visibility': 'visible' });
+			}
+			
 		});
 
 
