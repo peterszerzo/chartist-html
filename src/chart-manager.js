@@ -55,15 +55,9 @@ ChartistHtml.ChartManager.prototype = {
 				numberSeries.push(parseFloat(stringSeries[i]));
 			}
 
-			console.log($(this));
-
 			if ([ 'bar', 'line' ].indexOf(chartType) > -1) {
 				json.seriesLabels.push($seriEl.attr('data-name'));
-				//json.series.push(seriesNames);
 				json.series.push(numberSeries);
-				// ÷$(this).each(numberSeries, function() {
-
-				
 			} else if (chartType === 'pie') {
 				json.series.push(numberSeries[0]);
 				json.labels.push($seriEl.attr('data-name'));
@@ -71,7 +65,6 @@ ChartistHtml.ChartManager.prototype = {
 
 			}
 
-			console.log(json.series);
 		});
 
 		return json;
@@ -83,7 +76,7 @@ ChartistHtml.ChartManager.prototype = {
 			json = {},
 			data;
 
-		json.title = $el.attr('data-title'); 
+		json.title = $el.attr('data-title');
 		json.type = $el.attr('data-type');
 
 		this.type = json.type;
@@ -104,8 +97,6 @@ ChartistHtml.ChartManager.prototype = {
 		return json;
 	},
 
-	
-
 	render: function() {
 
 		var self = this,
@@ -114,15 +105,12 @@ ChartistHtml.ChartManager.prototype = {
 			chartBaseClass = 'ct-chart',
 			chartClass = chartBaseClass + '-' + this.id;
 
-		this._appendTitle();
-
-		console.log(chartData);
-
 		var options = ChartistHtml.getOptions(chartData.type, chartData.subtypes),
 			responsiveOptions = ChartistHtml.config.chartOptions[chartData.type].responsiveOptions;
 
 		var $chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
 
+		this.$chartContainer = $chartContainer;
 		this.$el.append($chartContainer);
 
 		var chart = new Chartist[chartType]('.' + chartClass, chartData, options, responsiveOptions);
@@ -130,6 +118,7 @@ ChartistHtml.ChartManager.prototype = {
 		chart.on('created', function() {
 			self.chart = chart;
 			self.$chart = $(self.$el.find('.ct-chart'));
+			self._appendTitle();
 			self._bindTooltips();
 			self._addColoring();
 		});
@@ -137,30 +126,39 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
-	_appendTitle: function() {
-
-		this.$el.append('<div>A Chart Title</div>');
-
-	},
-
 	destroy: function() {
+
+		var chart = this.chart;
 
 		this._unbindTooltips();
 
-		function detach() {
-            window.removeEventListener('resize', this.resizeListener);
-            this.optionsProvider.removeMediaQueryListeners();
-			return this;
-		}
+        window.removeEventListener('resize', chart.resizeListener);
+        chart.optionsProvider.removeMediaQueryListeners();
 
-		detach();
+        this.$chartContainer.remove();
+        this.$titleContainer.remove();
+
+		
+	},
+
+	_appendTitle: function() {
+
+		var title = this.chart.data.title
+			$el = $('<div>' + title + '</div>');
+
+		$el.addClass(ChartistHtml.config.baseClass + '__title');
+
+		this.$el.prepend($el);
+		this.$titleContainer = $el;
+
+		return this;
 	},
 
 	_addColoring: function() {
 
 		var self = this;
 
-		if ($('#chromaLib') !== "undefined") {
+		if (typeof chroma !== "undefined") {
 
 			if (typeof ChartistHtml.config.colorSpectrum !== "undefined") {
 
@@ -173,17 +171,24 @@ ChartistHtml.ChartManager.prototype = {
 						firstColor = ChartistHtml.config.colorSpectrum[0],
 						lastColor = ChartistHtml.config.colorSpectrum[1],
 						scale = chroma.scale([firstColor, lastColor]).domain([0, seriesCount-1]),
+						color;
+
+					if (typeof scale(i) !== "undefined") {
+
 						color = scale(i).css();
 
-					if (chartType === 'pie') {
-						$el.find('path').each(function() { 
-							$(this).css({ 'fill': color, 'stroke': ChartistHtml.config.backgroundColor, 'stroke-width': 3 }); 
-						});
-					} else {
-						$el.find('line, path').each(function() { 
-							$(this).css('stroke', color); 
-						});
+						if (chartType === 'pie') {
+							$el.find('path').each(function() { 
+								$(this).css({ 'fill': color, 'stroke': ChartistHtml.config.backgroundColor, 'stroke-width': 3 }); 
+							});
+						} else {
+							$el.find('line, path').each(function() { 
+								$(this).css('stroke', color); 
+							});
+						}
+
 					}
+					
 				});
 			}
 		}
