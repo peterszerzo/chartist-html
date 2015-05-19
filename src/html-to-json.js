@@ -67,6 +67,7 @@ ChartistHtml.innerHtmlToJson = function(html, chartType) {
 
  		if ([ 'bar', 'line' ].indexOf(chartType) > -1) {
  			json.series.push(numberSeries);
+ 			numberal(json.series).format()
  		} else if (chartType === 'pie') {
  			json.series.push(numberSeries[0]);
  			json.labels.push($seriEl.attr('data-name'));
@@ -76,7 +77,6 @@ ChartistHtml.innerHtmlToJson = function(html, chartType) {
 
  	return json;
  };
-
 
 /*
  * Takes the current html element and builds a json object  

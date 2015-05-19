@@ -5,25 +5,14 @@ ChartistHtml.config = {
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
 	seriesSeparators: ['|', ','],
-	xAxis: {
-		labelInterpolationFnc: function(v) {
-			if (typeof numeral === "undefined") { return v; }
-			if (v > 999) {
-				return numeral(v).format('($0.0a)');
-			}
-			return numeral(v).format('($0)');
-		}
-	},
 	tooltipTemplate: function(data) {
-		var string = "",
-			formatter = (data.value > 999) ? '($0.0a)' : '($0)';
-		string = (typeof numeral !== "undefined") ? numeral(data.value).format(formatter) : data.value;
-		return '<h1>' + data.label + '</h1>' + '<p>' + string + '</p>';
+		return '<h1>' + data.label + '</h1>' + '<p>' + data.value + '</p>';
 	},
 	chartOptions: {
 		pie: {
 			options: {
 				base: {
+					showLabel: false,
 					labelInterpolationFnc: function(value) {
 						return value[0];
 					}

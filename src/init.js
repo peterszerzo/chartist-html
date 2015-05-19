@@ -1,5 +1,3 @@
 var ChartistHtml = {};
 
-ChartistHtml.letterOrder = function() {
-
-};
+ChartistHtml.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];

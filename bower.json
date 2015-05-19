@@ -16,7 +16,6 @@
   "dependencies": {
     "jquery": "~2.1.4",
     "chartist": "~0.8.0"
-    
   },
   "devDependencies": {
     "numeral": "~1.5.3"
