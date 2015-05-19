@@ -1,4 +1,8 @@
 var ChartistHtml = {};
+
+ChartistHtml.letterOrder = function() {
+
+};
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#FFFFFF',
@@ -6,6 +10,22 @@ ChartistHtml.config = {
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
 	seriesSeparators: ['|', ','],
+	xAxis: {
+		labelInterpolationFnc: function(v) {
+			if (v > 999) {
+				return numeral(v).format('($0.0a)');
+			}
+			return numeral(v).format('($0)');
+		}
+	},
+	tooltipTemplate: function(data) {
+		var string = "",
+			formatter = (data.value > 999) ? '($0.0a)' : '($0)';
+
+		string = numeral(data.value).format(formatter);
+		
+		return '<h1>' + data.label + '</h1>' + '<p>' + string + '</p>';
+	},
 	chartOptions: {
 		pie: {
 			options: {
@@ -61,14 +81,13 @@ ChartistHtml.config = {
 						offset: 70,
 						position: 'start',
 						labelInterpolationFnc: function(value) {
-							return value[0];
+							return value;
 						}
       				}
-				}
+      			}
 			},
 			responsiveOptions: [
 				['screen and (min-width: 640px)', {
-					seriesBarDistance: 5,
 					axisX: {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
@@ -76,7 +95,6 @@ ChartistHtml.config = {
 					}
 				}],
 				['screen and (min-width: 1024px)', {
-					seriesBarDistance: 10,
 			 		axisX: {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
@@ -321,21 +339,34 @@ ChartistHtml.ChartManager.prototype = {
 		'bar': 'bar'
 	},
 
+	getType: function() {
+
+	},
+
+	isFillChart: function() {
+
+	},
+
+	isStrokeChart: function() {
+
+	},
+
 	innerHtmlToJson: function() {
 
 		var chartType = this.type,
 			$el = this.$el,
 			$labelsEl = $($el.find('.' + ChartistHtml.getLabelsClass())),
 			$seriesEl = $($el.find('.' + ChartistHtml.getSeriesClass())),
-			json = {};
+			json = {
+				series: [],
+				seriesLabels: [] // for line and bar charts only
+			};
 		
 		if (chartType !== 'pie') {
 			json.labels = ChartistHtml.splitString($labelsEl.html());
 		} else {
 			json.labels = [];
 		}
-
-		json.series = [];
 
 		$seriesEl.each(function() {
 
@@ -349,13 +380,15 @@ ChartistHtml.ChartManager.prototype = {
 			}
 
 			if ([ 'bar', 'line' ].indexOf(chartType) > -1) {
-				//json.series.push($seriEl.attr('data-name'));
+				json.seriesLabels.push($seriEl.attr('data-name'));
 				json.series.push(numberSeries);
 			} else if (chartType === 'pie') {
 				json.series.push(numberSeries[0]);
 				json.labels.push($seriEl.attr('data-name'));
 			} else {
+
 			}
+
 		});
 
 		return json;
@@ -367,7 +400,7 @@ ChartistHtml.ChartManager.prototype = {
 			json = {},
 			data;
 
-		json.title = $el.attr('data-title'); 
+		json.title = $el.attr('data-title');
 		json.type = $el.attr('data-type');
 
 		this.type = json.type;
@@ -383,8 +416,7 @@ ChartistHtml.ChartManager.prototype = {
 
 		data = this.innerHtmlToJson($el.html(), json.type);
 
-		json.series = data.series;
-		json.labels = data.labels;
+		json = $.extend(json, data);
 
 		return json;
 	},
@@ -402,6 +434,7 @@ ChartistHtml.ChartManager.prototype = {
 
 		var $chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
 
+		this.$chartContainer = $chartContainer;
 		this.$el.append($chartContainer);
 
 		var chart = new Chartist[chartType]('.' + chartClass, chartData, options, responsiveOptions);
@@ -409,6 +442,7 @@ ChartistHtml.ChartManager.prototype = {
 		chart.on('created', function() {
 			self.chart = chart;
 			self.$chart = $(self.$el.find('.ct-chart'));
+			self._appendTitle();
 			self._bindTooltips();
 			self._addColoring();
 		});
@@ -418,22 +452,37 @@ ChartistHtml.ChartManager.prototype = {
 
 	destroy: function() {
 
+		var chart = this.chart;
+
 		this._unbindTooltips();
 
-		function detach() {
-            window.removeEventListener('resize', this.resizeListener);
-            this.optionsProvider.removeMediaQueryListeners();
-			return this;
-		}
+        window.removeEventListener('resize', chart.resizeListener);
+        chart.optionsProvider.removeMediaQueryListeners();
 
-		detach();
+        this.$chartContainer.remove();
+        this.$titleContainer.remove();
+
+		
+	},
+
+	_appendTitle: function() {
+
+		var title = this.chart.data.title
+			$el = $('<div>' + title + '</div>');
+
+		$el.addClass(ChartistHtml.config.baseClass + '__title');
+
+		this.$el.prepend($el);
+		this.$titleContainer = $el;
+
+		return this;
 	},
 
 	_addColoring: function() {
 
 		var self = this;
 
-		if ($('#chromaLib') !== "undefined") {
+		if (typeof chroma !== "undefined") {
 
 			if (typeof ChartistHtml.config.colorSpectrum !== "undefined") {
 
@@ -446,19 +495,24 @@ ChartistHtml.ChartManager.prototype = {
 						firstColor = ChartistHtml.config.colorSpectrum[0],
 						lastColor = ChartistHtml.config.colorSpectrum[1],
 						scale = chroma.scale([firstColor, lastColor]).domain([0, seriesCount-1]),
+						color;
+
+					if (typeof scale(i) !== "undefined") {
+
 						color = scale(i).css();
 
-					console.log(chartType);//
+						if (chartType === 'pie') {
+							$el.find('path').each(function() { 
+								$(this).css({ 'fill': color, 'stroke': ChartistHtml.config.backgroundColor, 'stroke-width': 3 }); 
+							});
+						} else {
+							$el.find('line, path').each(function() { 
+								$(this).css('stroke', color); 
+							});
+						}
 
-					if (chartType === 'pie') {
-						$el.find('path').each(function() { 
-							$(this).css({ 'fill': color, 'stroke': ChartistHtml.config.backgroundColor, 'stroke-width': 3 }); 
-						});
-					} else {
-						$el.find('line, path').each(function() { 
-							$(this).css('stroke', color); 
-						});
 					}
+					
 				});
 			}
 		}
@@ -475,6 +529,7 @@ ChartistHtml.ChartManager.prototype = {
 				.append('<div class="' + className + '"></div>')
 				.find('.' + className)
 				.hide(),
+			chartType = this.type,
 			componentSelector = '.ct-' + this.componentSubclassNames[this.type];
 
 		this.$tooltip = $tooltip;
@@ -486,10 +541,16 @@ ChartistHtml.ChartManager.prototype = {
 				index,
 				label;
 
-			index = ['a', 'b', 'c'].indexOf(series[series.length - 1]);
-			label = self.chart.data.labels[index];
+			index = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'].indexOf(series[series.length - 1]);
+
+			if (chartType === 'pie') {
+				label = self.chart.data.labels[index];
+			} else {
+				label = self.chart.data.seriesLabels[index];
+			}
+
 			$tooltip.css({ 'visibility': 'visible' });
-			$tooltip.html('<h1>' + label + '</h1>' + '<p>' + value + '</p>').show();
+			$tooltip.html(ChartistHtml.config.tooltipTemplate({ label: label, value: value })).show();
 		});
 
 

@@ -5,6 +5,22 @@ ChartistHtml.config = {
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
 	seriesSeparators: ['|', ','],
+	xAxis: {
+		labelInterpolationFnc: function(v) {
+			if (v > 999) {
+				return numeral(v).format('($0.0a)');
+			}
+			return numeral(v).format('($0)');
+		}
+	},
+	tooltipTemplate: function(data) {
+		var string = "",
+			formatter = (data.value > 999) ? '($0.0a)' : '($0)';
+
+		string = numeral(data.value).format(formatter);
+		
+		return '<h1>' + data.label + '</h1>' + '<p>' + string + '</p>';
+	},
 	chartOptions: {
 		pie: {
 			options: {
@@ -60,14 +76,13 @@ ChartistHtml.config = {
 						offset: 70,
 						position: 'start',
 						labelInterpolationFnc: function(value) {
-							return value[0];
+							return value;
 						}
       				}
-				}
+      			}
 			},
 			responsiveOptions: [
 				['screen and (min-width: 640px)', {
-					seriesBarDistance: 5,
 					axisX: {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
@@ -75,7 +90,6 @@ ChartistHtml.config = {
 					}
 				}],
 				['screen and (min-width: 1024px)', {
-					seriesBarDistance: 10,
 			 		axisX: {
 					    labelInterpolationFnc: function(value) {
 					      	return value;

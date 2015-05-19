@@ -1,140 +1,135 @@
 0 info it worked if it ends with ok
-1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'chroma-js' ]
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'numeral' ]
 2 info using npm@2.7.4
 3 info using node@v0.12.2
-4 silly cache add args [ 'chroma-js', null ]
-5 verbose cache add spec chroma-js
-6 silly cache add parsed spec { raw: 'chroma-js',
+4 silly cache add args [ 'numeral', null ]
+5 verbose cache add spec numeral
+6 silly cache add parsed spec { raw: 'numeral',
 6 silly cache add   scope: null,
-6 silly cache add   name: 'chroma-js',
+6 silly cache add   name: 'numeral',
 6 silly cache add   rawSpec: '',
 6 silly cache add   spec: '*',
 6 silly cache add   type: 'range' }
-7 verbose addNamed chroma-js@*
+7 verbose addNamed numeral@*
 8 silly addNamed semver.valid null
 9 silly addNamed semver.validRange *
-10 silly addNameRange { name: 'chroma-js', range: '*', hasData: false }
-11 silly mapToRegistry name chroma-js
+10 silly addNameRange { name: 'numeral', range: '*', hasData: false }
+11 silly mapToRegistry name numeral
 12 silly mapToRegistry using default registry
 13 silly mapToRegistry registry https://registry.npmjs.org/
-14 silly mapToRegistry uri https://registry.npmjs.org/chroma-js
-15 verbose addNameRange registry:https://registry.npmjs.org/chroma-js not in flight; fetching
-16 verbose request uri https://registry.npmjs.org/chroma-js
+14 silly mapToRegistry uri https://registry.npmjs.org/numeral
+15 verbose addNameRange registry:https://registry.npmjs.org/numeral not in flight; fetching
+16 verbose request uri https://registry.npmjs.org/numeral
 17 verbose request no auth needed
-18 info attempt registry request try #1 at 9:27:48 AM
-19 verbose request id 3e8261fa53199097
-20 http request GET https://registry.npmjs.org/chroma-js
-21 http 200 https://registry.npmjs.org/chroma-js
-22 silly get cb [ 200,
-22 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
-22 silly get     etag: '"6P2ORA73RI99P5Y3JYD8CP6T2"',
-22 silly get     'content-type': 'application/json',
-22 silly get     'cache-control': 'max-age=60',
-22 silly get     'content-length': '21411',
-22 silly get     'accept-ranges': 'bytes',
-22 silly get     date: 'Mon, 18 May 2015 13:27:48 GMT',
-22 silly get     via: '1.1 varnish',
-22 silly get     age: '0',
-22 silly get     connection: 'keep-alive',
-22 silly get     'x-served-by': 'cache-jfk1020-JFK',
-22 silly get     'x-cache': 'HIT',
-22 silly get     'x-cache-hits': '1',
-22 silly get     'x-timer': 'S1431955668.106561,VS0,VE84',
-22 silly get     vary: 'Accept' } ]
-23 verbose get saving chroma-js to /Users/mcinchakj/.npm/registry.npmjs.org/chroma-js/.cache.json
-24 silly addNameRange number 2 { name: 'chroma-js', range: '*', hasData: true }
-25 silly addNameRange versions [ 'chroma-js',
-25 silly addNameRange   [ '0.2.5',
-25 silly addNameRange     '0.4.3',
-25 silly addNameRange     '0.4.7',
-25 silly addNameRange     '0.4.8',
-25 silly addNameRange     '0.4.10',
-25 silly addNameRange     '0.4.11',
-25 silly addNameRange     '0.5.1',
-25 silly addNameRange     '0.5.2',
-25 silly addNameRange     '0.5.4',
-25 silly addNameRange     '0.5.5',
-25 silly addNameRange     '0.5.6',
-25 silly addNameRange     '0.5.7',
-25 silly addNameRange     '0.5.8',
-25 silly addNameRange     '0.5.9',
-25 silly addNameRange     '0.6.0',
-25 silly addNameRange     '0.6.1',
-25 silly addNameRange     '0.6.2',
-25 silly addNameRange     '0.6.3',
-25 silly addNameRange     '0.7.1',
-25 silly addNameRange     '0.7.2' ] ]
-26 verbose addNamed chroma-js@0.7.2
-27 silly addNamed semver.valid 0.7.2
-28 silly addNamed semver.validRange 0.7.2
-29 silly mapToRegistry name chroma-js
-30 silly mapToRegistry using default registry
-31 silly mapToRegistry registry https://registry.npmjs.org/
-32 silly mapToRegistry uri https://registry.npmjs.org/chroma-js
-33 verbose addRemoteTarball https://registry.npmjs.org/chroma-js/-/chroma-js-0.7.2.tgz not in flight; adding
-34 verbose addRemoteTarball [ 'https://registry.npmjs.org/chroma-js/-/chroma-js-0.7.2.tgz',
-34 verbose addRemoteTarball   'd8373f97cda7310e447e1dd21974efb239e3117d' ]
-35 info retry fetch attempt 1 at 9:27:48 AM
-36 info attempt registry request try #1 at 9:27:48 AM
-37 http fetch GET https://registry.npmjs.org/chroma-js/-/chroma-js-0.7.2.tgz
-38 http fetch 200 https://registry.npmjs.org/chroma-js/-/chroma-js-0.7.2.tgz
-39 silly fetchAndShaCheck shasum d8373f97cda7310e447e1dd21974efb239e3117d
-40 verbose addTmpTarball /var/folders/r5/d5z8hfr9555gvklfs02llgr90nmqx2/T/npm-15068-07aa4386/registry.npmjs.org/chroma-js/-/chroma-js-0.7.2.tgz not in flight; adding
-41 verbose addTmpTarball already have metadata; skipping unpack for chroma-js@0.7.2
-42 silly cache afterAdd chroma-js@0.7.2
-43 verbose afterAdd /Users/mcinchakj/.npm/chroma-js/0.7.2/package/package.json not in flight; writing
-44 verbose afterAdd /Users/mcinchakj/.npm/chroma-js/0.7.2/package/package.json written
-45 silly install resolved [ { name: 'chroma-js',
-45 silly install resolved     description: 'JavaScript library for color conversions',
-45 silly install resolved     version: '0.7.2',
-45 silly install resolved     author: { name: 'Gregor Aisch' },
-45 silly install resolved     homepage: 'https://github.com/gka/chroma.js',
-45 silly install resolved     keywords: [ 'color' ],
-45 silly install resolved     maintainers: [ [Object], [Object] ],
-45 silly install resolved     bugs: { url: 'https://github.com/gka/chroma.js/issues' },
-45 silly install resolved     repository: { type: 'git', url: 'git://github.com/gka/chroma.js.git' },
-45 silly install resolved     main: 'chroma.js',
-45 silly install resolved     scripts: { test: 'vows; echo' },
-45 silly install resolved     devDependencies:
-45 silly install resolved      { 'coffee-script': '1.2',
-45 silly install resolved        'es6-shim': '^0.18.0',
-45 silly install resolved        'uglify-js': '2.x',
-45 silly install resolved        vows: '0.8.x' },
-45 silly install resolved     spm: { main: 'chroma.js', ignore: [Object] },
-45 silly install resolved     gitHead: 'cf3f9903a8683da93bf6b676e3dee2b9011d96a8',
-45 silly install resolved     _id: 'chroma-js@0.7.2',
-45 silly install resolved     _shasum: 'd8373f97cda7310e447e1dd21974efb239e3117d',
-45 silly install resolved     _from: 'chroma-js@*',
-45 silly install resolved     _npmVersion: '1.4.28',
-45 silly install resolved     _npmUser: { name: 'gka', email: 'mail@driven-by-data.net' },
-45 silly install resolved     dist:
-45 silly install resolved      { shasum: 'd8373f97cda7310e447e1dd21974efb239e3117d',
-45 silly install resolved        tarball: 'http://registry.npmjs.org/chroma-js/-/chroma-js-0.7.2.tgz' },
-45 silly install resolved     directories: {},
-45 silly install resolved     _resolved: 'https://registry.npmjs.org/chroma-js/-/chroma-js-0.7.2.tgz' } ]
-46 info install chroma-js@0.7.2 into /Users/mcinchakj/Desktop/chartist-html
-47 info installOne chroma-js@0.7.2
-48 verbose installOne of chroma-js to /Users/mcinchakj/Desktop/chartist-html not in flight; installing
-49 warn locking Error: EACCES, open '/Users/mcinchakj/.npm/_locks/chroma-js-749ae253b370d8d8.lock'
-49 warn locking     at Error (native)
-49 warn locking  /Users/mcinchakj/.npm/_locks/chroma-js-749ae253b370d8d8.lock failed { [Error: EACCES, open '/Users/mcinchakj/.npm/_locks/chroma-js-749ae253b370d8d8.lock']
-49 warn locking   errno: -13,
-49 warn locking   code: 'EACCES',
-49 warn locking   path: '/Users/mcinchakj/.npm/_locks/chroma-js-749ae253b370d8d8.lock' }
-50 verbose stack Error: Attempt to unlock /Users/mcinchakj/Desktop/chartist-html/node_modules/chroma-js, which hasn't been locked
-50 verbose stack     at unlock (/usr/local/lib/node_modules/npm/lib/utils/locker.js:66:11)
-50 verbose stack     at cb (/usr/local/lib/node_modules/npm/lib/install.js:1004:5)
-50 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:1008:20
-50 verbose stack     at /usr/local/lib/node_modules/npm/lib/utils/locker.js:40:9
-50 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/lockfile/lockfile.js:149:38)
-50 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/lockfile/lockfile.js:177:38
-50 verbose stack     at FSReqWrap.oncomplete (fs.js:95:15)
-51 verbose cwd /Users/mcinchakj/Desktop/chartist-html
-52 error Darwin 14.0.0
-53 error argv "node" "/usr/local/bin/npm" "install" "chroma-js"
-54 error node v0.12.2
-55 error npm  v2.7.4
-56 error Attempt to unlock /Users/mcinchakj/Desktop/chartist-html/node_modules/chroma-js, which hasn't been locked
-57 error If you need help, you may report this error at:
-57 error     <https://github.com/npm/npm/issues>
-58 verbose exit [ 1, true ]
+18 info attempt registry request try #1 at 11:44:31 AM
+19 verbose request id 48751b3f203807cf
+20 verbose etag "E5N1CIUB0CV1V4UQ3GPHEVVMJ"
+21 http request GET https://registry.npmjs.org/numeral
+22 http 304 https://registry.npmjs.org/numeral
+23 silly get cb [ 304,
+23 silly get   { date: 'Tue, 19 May 2015 15:44:31 GMT',
+23 silly get     via: '1.1 varnish',
+23 silly get     'cache-control': 'max-age=60',
+23 silly get     etag: '"E5N1CIUB0CV1V4UQ3GPHEVVMJ"',
+23 silly get     age: '50',
+23 silly get     connection: 'keep-alive',
+23 silly get     'x-served-by': 'cache-jfk1027-JFK',
+23 silly get     'x-cache': 'HIT',
+23 silly get     'x-cache-hits': '1',
+23 silly get     'x-timer': 'S1432050271.141973,VS0,VE0',
+23 silly get     vary: 'Accept' } ]
+24 verbose etag https://registry.npmjs.org/numeral from cache
+25 verbose get saving numeral to /Users/mcinchakj/.npm/registry.npmjs.org/numeral/.cache.json
+26 silly addNameRange number 2 { name: 'numeral', range: '*', hasData: true }
+27 silly addNameRange versions [ 'numeral',
+27 silly addNameRange   [ '1.0.1',
+27 silly addNameRange     '1.0.2',
+27 silly addNameRange     '1.0.3',
+27 silly addNameRange     '1.0.4',
+27 silly addNameRange     '1.1.0',
+27 silly addNameRange     '1.2.1',
+27 silly addNameRange     '1.2.2',
+27 silly addNameRange     '1.2.3',
+27 silly addNameRange     '1.2.5',
+27 silly addNameRange     '1.3.1',
+27 silly addNameRange     '1.3.2',
+27 silly addNameRange     '1.3.3',
+27 silly addNameRange     '1.4.0',
+27 silly addNameRange     '1.4.1',
+27 silly addNameRange     '1.4.5',
+27 silly addNameRange     '1.4.6',
+27 silly addNameRange     '1.4.7',
+27 silly addNameRange     '1.4.8',
+27 silly addNameRange     '1.5.0',
+27 silly addNameRange     '1.5.1',
+27 silly addNameRange     '1.5.2',
+27 silly addNameRange     '1.5.3' ] ]
+28 verbose addNamed numeral@1.5.3
+29 silly addNamed semver.valid 1.5.3
+30 silly addNamed semver.validRange 1.5.3
+31 silly cache afterAdd numeral@1.5.3
+32 verbose afterAdd /Users/mcinchakj/.npm/numeral/1.5.3/package/package.json not in flight; writing
+33 verbose afterAdd /Users/mcinchakj/.npm/numeral/1.5.3/package/package.json written
+34 silly install resolved [ { name: 'numeral',
+34 silly install resolved     version: '1.5.3',
+34 silly install resolved     description: 'Format and manipulate numbers.',
+34 silly install resolved     homepage: 'http://numeraljs.com',
+34 silly install resolved     author:
+34 silly install resolved      { name: 'Adam Draper',
+34 silly install resolved        email: 'adamwdraper@gmail.com',
+34 silly install resolved        url: 'http://github.com/adamwdraper' },
+34 silly install resolved     keywords: [ 'numeral', 'number', 'format', 'time', 'money', 'percentage' ],
+34 silly install resolved     main: './numeral.js',
+34 silly install resolved     engines: { node: '*' },
+34 silly install resolved     repository:
+34 silly install resolved      { type: 'git',
+34 silly install resolved        url: 'https://github.com/adamwdraper/Numeral-js' },
+34 silly install resolved     bugs: { url: 'https://github.com/adamwdraper/Numeral-js/issues' },
+34 silly install resolved     licenses: [ [Object] ],
+34 silly install resolved     devDependencies:
+34 silly install resolved      { 'uglify-js': 'latest',
+34 silly install resolved        grunt: 'latest',
+34 silly install resolved        'grunt-contrib-uglify': 'latest',
+34 silly install resolved        'grunt-contrib-jshint': 'latest',
+34 silly install resolved        'grunt-contrib-nodeunit': '~0.1.2',
+34 silly install resolved        'grunt-contrib-concat': '~0.3.0' },
+34 silly install resolved     scripts: { test: 'grunt' },
+34 silly install resolved     ender: './ender.js',
+34 silly install resolved     _id: 'numeral@1.5.3',
+34 silly install resolved     _from: 'numeral@*',
+34 silly install resolved     dist:
+34 silly install resolved      { shasum: 'a4c3eba68239580509f818267c77243bce43ff62',
+34 silly install resolved        tarball: 'http://registry.npmjs.org/numeral/-/numeral-1.5.3.tgz' },
+34 silly install resolved     _npmVersion: '1.3.11',
+34 silly install resolved     _npmUser: { name: 'adamwdraper', email: 'adamwdraper@gmail.com' },
+34 silly install resolved     maintainers: [ [Object] ],
+34 silly install resolved     directories: {},
+34 silly install resolved     _shasum: 'a4c3eba68239580509f818267c77243bce43ff62',
+34 silly install resolved     _resolved: 'https://registry.npmjs.org/numeral/-/numeral-1.5.3.tgz',
+34 silly install resolved     readme: 'ERROR: No README data found!' } ]
+35 info install numeral@1.5.3 into /Users/mcinchakj/Desktop/chartist-html
+36 info installOne numeral@1.5.3
+37 verbose installOne of numeral to /Users/mcinchakj/Desktop/chartist-html not in flight; installing
+38 warn locking Error: EACCES, open '/Users/mcinchakj/.npm/_locks/numeral-eda9aff872e3c172.lock'
+38 warn locking     at Error (native)
+38 warn locking  /Users/mcinchakj/.npm/_locks/numeral-eda9aff872e3c172.lock failed { [Error: EACCES, open '/Users/mcinchakj/.npm/_locks/numeral-eda9aff872e3c172.lock']
+38 warn locking   errno: -13,
+38 warn locking   code: 'EACCES',
+38 warn locking   path: '/Users/mcinchakj/.npm/_locks/numeral-eda9aff872e3c172.lock' }
+39 verbose stack Error: Attempt to unlock /Users/mcinchakj/Desktop/chartist-html/node_modules/numeral, which hasn't been locked
+39 verbose stack     at unlock (/usr/local/lib/node_modules/npm/lib/utils/locker.js:66:11)
+39 verbose stack     at cb (/usr/local/lib/node_modules/npm/lib/install.js:1004:5)
+39 verbose stack     at /usr/local/lib/node_modules/npm/lib/install.js:1008:20
+39 verbose stack     at /usr/local/lib/node_modules/npm/lib/utils/locker.js:40:9
+39 verbose stack     at cb (/usr/local/lib/node_modules/npm/node_modules/lockfile/lockfile.js:149:38)
+39 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/lockfile/lockfile.js:177:38
+39 verbose stack     at FSReqWrap.oncomplete (fs.js:95:15)
+40 verbose cwd /Users/mcinchakj/Desktop/chartist-html
+41 error Darwin 14.0.0
+42 error argv "node" "/usr/local/bin/npm" "install" "numeral"
+43 error node v0.12.2
+44 error npm  v2.7.4
+45 error Attempt to unlock /Users/mcinchakj/Desktop/chartist-html/node_modules/numeral, which hasn't been locked
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]
