@@ -35,7 +35,7 @@ gulp.task('run-spec', [ 'concat-spec' ], function() {
 });
 
 gulp.task('watch', function() {
-	gulp.watch('src/**/*.js', [ 'build' ]);
+	gulp.watch('src/**/*.js', [ 'build', 'style' ]);
 });
 
 gulp.task('style', function() {
@@ -44,4 +44,4 @@ gulp.task('style', function() {
 		.pipe(gulp.dest('./examples/style/'));
 });
 
-gulp.task('default', [ 'build', 'concat-spec', 'run-spec' ]);
+gulp.task('default', [ 'build', 'concat-spec', 'run-spec', 'style']);

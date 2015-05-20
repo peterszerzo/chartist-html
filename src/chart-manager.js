@@ -72,7 +72,6 @@ ChartistHtml.ChartManager.prototype = {
 			} else {
 
 			}
-
 		});
 
 		return json;
@@ -124,6 +123,7 @@ ChartistHtml.ChartManager.prototype = {
 				self.$chart = $(self.$el.find('.ct-chart'));
 				self._appendTitle();
 				self._bindTooltips();
+				//self._formatSeriesNumbers();
 				self._isRendered = true;
 			}
 			self._addColoring();
@@ -173,16 +173,19 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
-	// future
-	_formatSeriesNumbers: function() {
+	// future labels format
+	_formatSeriesNumbers: function(v) {
 
 		var series = this.chart.data.series,
 			formattedSeries;
 
+		console.log(series);
+		
 		formattedSeries = this.chart.data.series;
+		console.log(formattedSeries);
 
 		this.chart.data.formattedSeries = formattedSeries;
-
+		console.log(this.chart.data.formattedSeries);
 	},
 
 	_formatValue: function(v) {
@@ -192,7 +195,7 @@ ChartistHtml.ChartManager.prototype = {
 				currency: (v > 999) ? '($0.0a)' : '($0)',
 				numbers: (v > 999) ? '(0.0a)' : '(0)'
 			};
-		console.log(v);
+
 		return (typeof numeral !== "undefined") ? numeral(v).format(formatter[format]) : v;
 	},
 
@@ -250,9 +253,9 @@ ChartistHtml.ChartManager.prototype = {
 
 		this.$tooltip = $tooltip;
 
-		$tooltip.css({ visibility: 'hidden' });
+		$tooltip.css({ visibility: 'hidden', display: 'inline-block', position: 'absolute' });
 
-		$chart.on('mouseenter', componentSelector, function() {
+		$chart.on('mouseover', componentSelector, function(e) {
 			var $point = $(this),
 				value = self._formatValue($point.attr('ct:value')),
 				series = $point.parent().attr('class'),
@@ -271,9 +274,7 @@ ChartistHtml.ChartManager.prototype = {
 				$tooltip.html(ChartistHtml.config.tooltipTemplate({ label: label, value: value })).show();
 				$tooltip.css({ 'visibility': 'visible' });
 			}
-			
 		});
-
 
 		$chart.on('mouseleave', componentSelector, function() {
 			$tooltip.css({
@@ -283,10 +284,8 @@ ChartistHtml.ChartManager.prototype = {
 
 		$chart.on('mousemove', function(event) {
 			var x = (event.offsetX || event.originalEvent.layerX) - $tooltip.width() / 2,
-				y = (event.offsetY || event.originalEvent.layerY) - $tooltip.height();//
+				y = (event.offsetY || event.originalEvent.layerY) - $tooltip.height() - 15; //fixes flicker
 			$tooltip.css({
-				display: 'inline-block',
-				position: 'absolute',
 				left: x,
 				top: y
 			});
@@ -301,5 +300,4 @@ ChartistHtml.ChartManager.prototype = {
 		}
 		return this;
 	}
-
 };

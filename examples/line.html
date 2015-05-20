@@ -7,52 +7,48 @@
 	</head>
 	<body>
 
-		<div class="cts" data-type="line" data-x-title="x-title" data-y-title="y-title" data-title="title">
+		<div class="cts" data-type="line" data-subtypes="stacked|horizontal" data-title="This is a line chart about currency less than 1k" data-series-format="currency">
 			<ul class="hidden">
 				<li class="cts__labels">May|June|July|August|September</li>
-				<li class="cts__series" data-name="Federal">1|2|7|3|1</li>
-				<li class="cts__series" data-name="State"  >1|3|4|1|1</li>
-				<li class="cts__series" data-name="Local"  >1|6|4|2|1</li>
+				<li class="cts__series" data-name="Federal">0|200|250|438|null</li>
+				<li class="cts__series" data-name="State">null|464|325|610|550</li>
+				<li class="cts__series" data-name="Local">247|175|388|590|225</li>
 			</ul>
 		</div>
 
 		<script src="../bower_components/jquery/dist/jquery.js"></script>
 		<script src="../bower_components/chartist/dist/chartist.js"></script>
+		<script src="../bower_components/chroma/chroma.js"></script>
+		<script src="../bower_components/numeral/numeral.js"></script>
 		<script src="../build/chartist-html.js"></script>
 
 		<script>
-			$('ul').toggle();
+
+			$('ul').hide();
 
 			ChartistHtml.config.baseClass = 'cts';
 
 			$(function() {
-				ChartistHtml.renderChart($('.cts'));
+				var chartManager = new ChartistHtml.ChartCollectionManager($('.cts'));
+				$('a#build').click(function(e) {
+					e.preventDefault();
+					chartManager.render();
+				});
+				$('a#destroy').click(function(e) {
+					e.preventDefault();
+					chartManager.destroy();
+				});
+
+				console.log(chartManager);
 			});
 
-			// var $chart = $('.ct-chart');
+			// $('ul').toggle();
 
-			// var $tooltip = $chart
-			// 	  .append('<div class="tooltip"></div>')
-			// 	  .find('.tooltip')
-			// 	  .hide();
+			// ChartistHtml.config.baseClass = 'cts';
 
-			// 	$chart.on('mouseenter', '.ct-point', function() {
-			// 	  var $point = $(this),
-			// 	    value = $point.attr('ct:value'),
-			// 	    series = $point.parent().attr('ct:series');
-			// 	  $tooltip.html(value).show();
-			// 	});
-
-			// 	$chart.on('mouseleave', '.ct-point', function() {
-			// 	  $tooltip.hide();
-			// 	});
-
-			// 	$chart.on('mousemove', function(event) {
-			// 	  $tooltip.css({
-			// 	    left: (event.offsetX || event.originalEvent.layerX) - $tooltip.width() / 2 - 10,
-			// 	    top: (event.offsetY || event.originalEvent.layerY) - $tooltip.height() - 40
-			// 	  });
-			// 	});
+			// $(function() {
+			// 	ChartistHtml.renderChart($('.cts'));
+			// });
 
 		</script>
 	</body>

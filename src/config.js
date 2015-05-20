@@ -12,7 +12,7 @@ ChartistHtml.config = {
 		pie: {
 			options: {
 				base: {
-					showLabel: false,
+					showLabel: false, //turn off labels on slices, only tooltips on pies
 					labelInterpolationFnc: function(value) {
 						return value[0];
 					}
@@ -64,7 +64,7 @@ ChartistHtml.config = {
 						offset: 70,
 						position: 'start',
 						labelInterpolationFnc: function(value) {
-							return value;
+							return value.slice(0, 4);
 						}
       				}
       			}
