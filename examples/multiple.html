@@ -10,36 +10,36 @@
 		<a id="build" href="#">Build all charts</a>
 		<a id="destroy" href="#">Destroy all charts</a>
 
-		<div class="cts" data-type="bar" data-options="stacked|horizontal" data-title="This is a sideways bar chart about currency more than 1k">
+		<div class="cts" data-type="bar" data-options="stacked|horizontal" data-title="This is a sideways bar chart about currency more than 1k" data-series-format="currency">
 			<ul class="hidden">
 				<li class="cts__labels">May|June|July|August|September</li>
-				<li class="cts__series" data-format="currency" data-name="Federal">1000000|2756893|345664|4000000|5234000</li>
-				<li class="cts__series" data-format="currency" data-name="State">1234567|2000000|3789567|4343434|5000000</li>
-				<li class="cts__series" data-format="currency" data-name="Local">1456654|2121212|3000000|4000000|5111343</li>
+				<li class="cts__series" data-name="Federal">1000000|2756893|345664|4000000|5234000</li>
+				<li class="cts__series" data-name="State">1234567|2000000|3789567|4343434|5000000</li>
+				<li class="cts__series" data-name="Local">1456654|2121212|3000000|4000000|5111343</li>
 			</ul>
 		</div>
 
-		<div class="cts" data-type="line" data-subtypes="stacked|horizontal" data-title="This is a line chart about currency less than 1k">
+ 		<div class="cts" data-type="line" data-subtypes="stacked|horizontal" data-title="This is a line chart about currency less than 1k" data-series-format="currency">
 			<ul class="hidden">
 				<li class="cts__labels">May|June|July|August|September</li>
-				<li class="cts__series" data-format="currency" data-name="Federal">0|200|250|438|null</li>
-				<li class="cts__series" data-format="currency" data-name="State">null|464|325|610|550</li>
-				<li class="cts__series" data-format="currency" data-name="Local">247|175|388|590|225</li>
+				<li class="cts__series" data-name="Federal">0|200|250|438|null</li>
+				<li class="cts__series" data-name="State">null|464|325|610|550</li>
+				<li class="cts__series" data-name="Local">247|175|388|590|225</li>
 			</ul>
 		</div>
 
-		<div class="cts" data-type="pie" data-options="horizontal" data-title="This is a pie chart about numbers more than 1k">
+		<div class="cts" data-type="pie" data-options="horizontal" data-title="This is a pie chart about numbers more than 1k" data-series-format="numbers">
 			<ul class="hidden">
 				<li class="cts__labels">Federal|State|Local</li>
-				<li class="cts__series" data-format="numbers" data-name="May">45678901</li>
-				<li class="cts__series" data-format="numbers" data-name="June">87654321</li>
-				<li class="cts__series" data-format="numbers" data-name="July">1222336677</li>
-				<li class="cts__series" data-format="numbers" data-name="August">70987345</li>
-				<li class="cts__series" data-format="numbers" data-name="September">10000000</li>
+				<li class="cts__series" data-name="May">45678901</li>
+				<li class="cts__series" data-name="June">87654321</li>
+				<li class="cts__series" data-name="July">12336677</li>
+				<li class="cts__series" data-name="August">70987345</li>
+				<li class="cts__series" data-name="September">10000000</li>
 			</ul>
 		</div>
 
-		<div class="cts" data-type="bar" data-subtypes="stack" data-title="This is a bar chart about numbers less than 1k">
+		<div class="cts" data-type="bar" data-subtypes="stack" data-title="This is a bar chart about numbers less than 1k" data-series-name="numbers">
 			<ul class="hidden">
 				<li class="cts__labels">May|June|July|August|September</li>
 				<li class="cts__series" data-name="Federal">12|27|58|41|50</li>

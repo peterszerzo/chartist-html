@@ -5,25 +5,14 @@ ChartistHtml.config = {
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
 	seriesSeparators: ['|', ','],
-	xAxis: {
-		labelInterpolationFnc: function(v) {
-			if (typeof numeral === "undefined") { return v; }
-			if (v > 999) {
-				return numeral(v).format('($0.0a)');
-			}
-			return numeral(v).format('($0)');
-		}
-	},
 	tooltipTemplate: function(data) {
-		var string = "",
-			formatter = (data.value > 999) ? '($0.0a)' : '($0)';
-		string = (typeof numeral !== "undefined") ? numeral(data.value).format(formatter) : data.value;
-		return '<h1>' + data.label + '</h1>' + '<p>' + string + '</p>';
+		return '<h1>' + data.label + '</h1>' + '<p>' + data.value + '</p>';
 	},
 	chartOptions: {
 		pie: {
 			options: {
 				base: {
+					showLabel: false, //turn off labels, only tooltips on pies
 					labelInterpolationFnc: function(value) {
 						return value[0];
 					}
@@ -57,7 +46,10 @@ ChartistHtml.config = {
 					axisY: {
       					offset: 70,
       					position: 'start',
-      					onlyInteger: true
+      					onlyInteger: true,
+      					labelInterpolationFnc: function(value) {
+      						return numeral(value).format('(0)');
+      					}
       				}
 				},
 				stacked: {
@@ -69,13 +61,16 @@ ChartistHtml.config = {
 					axisX: {
       					offset: 70,
       					position: 'end',
-      					onlyInteger: true
+      					onlyInteger: true,
+      					labelInterpolationFnc: function(value) {
+      						return numeral(value).format('($0.0a)');
+      					}
       				},
       				axisY: {
 						offset: 70,
 						position: 'start',
 						labelInterpolationFnc: function(value) {
-							return value;
+							return value.slice(0, 4);
 						}
       				}
       			}
@@ -86,10 +81,20 @@ ChartistHtml.config = {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
 					    }
+					},
+					axisY: {
+					    labelInterpolationFnc: function(value) {
+					      	return value;
+					    }
 					}
 				}],
 				['screen and (min-width: 1024px)', {
 			 		axisX: {
+					    labelInterpolationFnc: function(value) {
+					      	return value;
+					    }
+					},
+					axisY: {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
 					    }
@@ -109,7 +114,10 @@ ChartistHtml.config = {
 					}, 
 					axisY: {
 						position: 'start',
-						onlyInteger: true
+						onlyInteger: true,
+						labelInterpolationFnc: function(value) {
+							return numeral(value).format('($0)');
+						}
 					}
 				}
 			},
