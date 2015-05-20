@@ -123,7 +123,6 @@ ChartistHtml.ChartManager.prototype = {
 				self.$chart = $(self.$el.find('.ct-chart'));
 				self._appendTitle();
 				self._bindTooltips();
-				//self._formatSeriesNumbers();
 				self._isRendered = true;
 			}
 			self._addColoring();
@@ -136,10 +135,13 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	_setChartContainer: function() {
+		
 		var chartBaseClass = 'ct-chart',
 			chartClass = this._getChartClass();
+
 		this.$chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
 		this.$el.append(this.$chartContainer);
+
 		return this;
 	},
 
@@ -147,13 +149,13 @@ ChartistHtml.ChartManager.prototype = {
 
 		var chart = this.chart;
 
-		//if (!this._isRendered) {
+		if (this._isRendered) {
 			this._unbindTooltips();
 	        window.removeEventListener('resize', chart.resizeListener);
 	        chart.optionsProvider.removeMediaQueryListeners();
 	        this.$chartContainer.remove();
 	        this.$titleContainer.remove();
-		//}
+		}
 
         this._isRendered = false;
 
@@ -173,22 +175,8 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
-	// future labels format
-	_formatSeriesNumbers: function(v) {
-
-		var series = this.chart.data.series,
-			formattedSeries;
-
-		console.log(series);
-		
-		formattedSeries = this.chart.data.series;
-		console.log(formattedSeries);
-
-		this.chart.data.formattedSeries = formattedSeries;
-		console.log(this.chart.data.formattedSeries);
-	},
-
 	_formatValue: function(v) {
+		
 		var format = this.chart.data.seriesFormat,
 			string = "",
 			formatter = {

@@ -12,7 +12,7 @@ ChartistHtml.config = {
 		pie: {
 			options: {
 				base: {
-					showLabel: false, //turn off labels on slices, only tooltips on pies
+					showLabel: false, //turn off labels, only tooltips on pies
 					labelInterpolationFnc: function(value) {
 						return value[0];
 					}
@@ -46,7 +46,10 @@ ChartistHtml.config = {
 					axisY: {
       					offset: 70,
       					position: 'start',
-      					onlyInteger: true
+      					onlyInteger: true,
+      					labelInterpolationFnc: function(value) {
+      						return numeral(value).format('(0)');
+      					}
       				}
 				},
 				stacked: {
@@ -58,7 +61,10 @@ ChartistHtml.config = {
 					axisX: {
       					offset: 70,
       					position: 'end',
-      					onlyInteger: true
+      					onlyInteger: true,
+      					labelInterpolationFnc: function(value) {
+      						return numeral(value).format('($0.0a)');
+      					}
       				},
       				axisY: {
 						offset: 70,
@@ -75,10 +81,20 @@ ChartistHtml.config = {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
 					    }
+					},
+					axisY: {
+					    labelInterpolationFnc: function(value) {
+					      	return value;
+					    }
 					}
 				}],
 				['screen and (min-width: 1024px)', {
 			 		axisX: {
+					    labelInterpolationFnc: function(value) {
+					      	return value;
+					    }
+					},
+					axisY: {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
 					    }
@@ -98,7 +114,10 @@ ChartistHtml.config = {
 					}, 
 					axisY: {
 						position: 'start',
-						onlyInteger: true
+						onlyInteger: true,
+						labelInterpolationFnc: function(value) {
+							return numeral(value).format('($0)');
+						}
 					}
 				}
 			},

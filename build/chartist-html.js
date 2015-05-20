@@ -15,7 +15,7 @@ ChartistHtml.config = {
 		pie: {
 			options: {
 				base: {
-					showLabel: false, //turn off labels on slices, only tooltips on pies
+					showLabel: false, //turn off labels, only tooltips on pies
 					labelInterpolationFnc: function(value) {
 						return value[0];
 					}
@@ -49,7 +49,10 @@ ChartistHtml.config = {
 					axisY: {
       					offset: 70,
       					position: 'start',
-      					onlyInteger: true
+      					onlyInteger: true,
+      					labelInterpolationFnc: function(value) {
+      						return numeral(value).format('(0)');
+      					}
       				}
 				},
 				stacked: {
@@ -61,7 +64,10 @@ ChartistHtml.config = {
 					axisX: {
       					offset: 70,
       					position: 'end',
-      					onlyInteger: true
+      					onlyInteger: true,
+      					labelInterpolationFnc: function(value) {
+      						return numeral(value).format('($0.0a)');
+      					}
       				},
       				axisY: {
 						offset: 70,
@@ -78,10 +84,20 @@ ChartistHtml.config = {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
 					    }
+					},
+					axisY: {
+					    labelInterpolationFnc: function(value) {
+					      	return value;
+					    }
 					}
 				}],
 				['screen and (min-width: 1024px)', {
 			 		axisX: {
+					    labelInterpolationFnc: function(value) {
+					      	return value;
+					    }
+					},
+					axisY: {
 					    labelInterpolationFnc: function(value) {
 					      	return value;
 					    }
@@ -101,7 +117,10 @@ ChartistHtml.config = {
 					}, 
 					axisY: {
 						position: 'start',
-						onlyInteger: true
+						onlyInteger: true,
+						labelInterpolationFnc: function(value) {
+							return numeral(value).format('($0)');
+						}
 					}
 				}
 			},
@@ -405,7 +424,6 @@ ChartistHtml.ChartManager.prototype = {
 				self.$chart = $(self.$el.find('.ct-chart'));
 				self._appendTitle();
 				self._bindTooltips();
-				//self._formatSeriesNumbers();
 				self._isRendered = true;
 			}
 			self._addColoring();
@@ -418,10 +436,13 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	_setChartContainer: function() {
+		
 		var chartBaseClass = 'ct-chart',
 			chartClass = this._getChartClass();
+
 		this.$chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
 		this.$el.append(this.$chartContainer);
+
 		return this;
 	},
 
@@ -429,13 +450,13 @@ ChartistHtml.ChartManager.prototype = {
 
 		var chart = this.chart;
 
-		//if (!this._isRendered) {
+		if (this._isRendered) {
 			this._unbindTooltips();
 	        window.removeEventListener('resize', chart.resizeListener);
 	        chart.optionsProvider.removeMediaQueryListeners();
 	        this.$chartContainer.remove();
 	        this.$titleContainer.remove();
-		//}
+		}
 
         this._isRendered = false;
 
@@ -455,22 +476,8 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
-	// future labels format
-	_formatSeriesNumbers: function(v) {
-
-		var series = this.chart.data.series,
-			formattedSeries;
-
-		console.log(series);
-		
-		formattedSeries = this.chart.data.series;
-		console.log(formattedSeries);
-
-		this.chart.data.formattedSeries = formattedSeries;
-		console.log(this.chart.data.formattedSeries);
-	},
-
 	_formatValue: function(v) {
+		
 		var format = this.chart.data.seriesFormat,
 			string = "",
 			formatter = {
