@@ -83,6 +83,9 @@ ChartistHtml.formatters = {
 		var formatter = (v > 999) ? '(0.0a)' : '(0)';
 		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
 	},
+	percent: function(v) {
+		return (v + "%");
+	},
 	year: function(v) {
 		return (v > 999) ? ("'" + v.substring(2, 4)) : v;
 	},
