@@ -450,6 +450,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	getType: function() {
+		return this.data.type;
 	},
 
 	isFillChart: function() {
@@ -473,7 +474,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	 * Extracts chart content from the inner html.
+	 * Extracts chart content from the inner html (unordered list).
 	 * @returns {object}
 	 */
 	innerHtmlToJson: function() {
@@ -517,7 +518,7 @@ ChartistHtml.ChartManager.prototype = {
 		return json;
 	},
 
-	getJson: function() {
+	setData: function() {
 		var $el = this.$el,
 			json = {},
 			data;
@@ -537,7 +538,7 @@ ChartistHtml.ChartManager.prototype = {
 
 		this.data = json;
 
-		return json;
+		return this;
 	},
 
 	getOptions: function() {
@@ -571,7 +572,7 @@ ChartistHtml.ChartManager.prototype = {
 			chartClass,
 			chart;
 
-		this.getJson();
+		this.setData();
 		chartType = ChartistHtml.toSentenceCase(this.data.type);
 		chartClass = this._getChartClass();
 
