@@ -98,14 +98,14 @@ ChartistHtml.config = {
 					axisX: {
 						position: 'end',
 						labelInterpolationFnc: function(value) {
-      						return "'" + value.substring(2, 4); //use _interpolateLabelsValue to return value
+      						return value;
       					}
 					}, 
 					axisY: {
 						position: 'start',
 						onlyInteger: true,
 						labelInterpolationFnc: function(value) {
-							return numeral(value).format('($0)'); //use _formatSeriesValue to determine argument passed to 'format'
+							return value;
 						}
 					}
 				}
