@@ -1,6 +1,6 @@
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
-	backgroundColor: '#FFFFFF',
+	backgroundColor: '#fff',
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
@@ -12,44 +12,39 @@ ChartistHtml.config = {
 		pie: {
 			options: {
 				base: {
-					showLabel: false, //turn off labels, only tooltips on pies
+					showLabel: false, //only tooltips on pies
 					labelInterpolationFnc: function(value) {
 						return value[0];
 					}
 				}
 			},
-			responsiveOptions: [
-				['screen and (min-width: 640px)', {
-					chartPadding: 30,
-					labelOffset: 100,
-						labelInterpolationFnc: function(value) {
-							return value;
-						}
-				}],
-				['screen and (min-width: 1024px)', {
-					chartPadding: 20,
-					labelOffset: 80
-				}]
-			] 
+			/* if labels are off, then we don't need responsive labels */
+			// responsiveOptions: [
+			// 	['screen and (min-width: 640px)', {
+			// 		chartPadding: 30,
+			// 		labelOffset: 100,
+			// 			labelInterpolationFnc: function(value) {
+			// 				return value;
+			// 			}
+			// 	}],
+			// 	['screen and (min-width: 1024px)', {
+			// 		chartPadding: 20,
+			// 		labelOffset: 80
+			// 	}]
+			// ] 
 		},
 		bar: {
 			options: {
 				base: {
-					seriesBarDistance: 10,
+					seriesBarDistance: 13,
 					axisX: {
 						offset: 70,
-						position: 'end',
-						labelInterpolationFnc: function(value) {
-							return value[0];
-						}
+						position: 'end'
 					},
 					axisY: {
       					offset: 70,
       					position: 'start',
-      					onlyInteger: true,
-      					labelInterpolationFnc: function(value) {
-      						return numeral(value).format('(0)');
-      					}
+      					onlyInteger: true
       				}
 				},
 				stacked: {
@@ -61,17 +56,11 @@ ChartistHtml.config = {
 					axisX: {
       					offset: 70,
       					position: 'end',
-      					onlyInteger: true,
-      					labelInterpolationFnc: function(value) {
-      						return numeral(value).format('($0.0a)');
-      					}
+      					onlyInteger: true
       				},
       				axisY: {
 						offset: 70,
-						position: 'start',
-						labelInterpolationFnc: function(value) {
-							return value.slice(0, 4);
-						}
+						position: 'start'
       				}
       			}
 			},
@@ -109,14 +98,14 @@ ChartistHtml.config = {
 					axisX: {
 						position: 'end',
 						labelInterpolationFnc: function(value) {
-      						return value[0];
+      						return value;
       					}
 					}, 
 					axisY: {
 						position: 'start',
 						onlyInteger: true,
 						labelInterpolationFnc: function(value) {
-							return numeral(value).format('($0)');
+							return value;
 						}
 					}
 				}

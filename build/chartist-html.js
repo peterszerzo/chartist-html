@@ -1,9 +1,152 @@
 var ChartistHtml = {};
 
+ChartistHtml.formatters = {
+	currency: function(v) {
+		var formatter = (v > 999) ? '($0.0a)' : '($0)';
+		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
+	},
+	number: function(v) {
+		var formatter = (v > 999) ? '(0.0a)' : '(0)';
+		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
+	},
+	year: function(v) {
+		return (v > 999) ? ("'" + v.substring(2, 4)) : v;
+	},
+	state: function(v) {
+
+		$.each(ChartistHtml.states, function(i) {
+			if (v === ChartistHtml.states[i].name) {
+				v = ChartistHtml.states[i].abbreviation;
+			} else {
+				v = v;
+			}
+		});
+
+		return v;
+	},
+	month: function(v) {
+
+		$.each(ChartistHtml.months, function(i) {
+			if (v === ChartistHtml.months[i].name) {
+				v = ChartistHtml.months[i].abbreviation;
+			} else {
+				v = v;
+			}
+		});
+
+		return v;
+	}
+};
+
 ChartistHtml.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
+
+ChartistHtml.months = [	
+	{ name: 'January', abbreviation: 'Jan'},
+	{ name: 'February', abbreviation: 'Feb'},
+	{ name: 'March', abbreviation: 'Mar'},
+	{ name: 'April', abbreviation: 'Apr'},
+	{ name: 'May', abbreviation: 'May'},
+	{ name: 'June', abbreviation: 'June'},
+	{ name: 'July', abbreviation: 'July'},
+	{ name: 'August', abbreviation: 'Aug'},
+	{ name: 'September', abbreviation: 'Sept'},
+	{ name: 'October', abbreviation: 'Oct'},
+	{ name: 'November', abbreviation: 'Nov'},
+	{ name: 'December', abbreviation: 'Dec'},
+];
+
+ChartistHtml.states = [
+    { name: 'Alabama', abbreviation: 'AL'},
+    { name: 'Alaska', abbreviation: 'AK'},
+    { name: 'Arizona', abbreviation: 'AZ'},
+    { name: 'Arkansas', abbreviation: 'AR'},
+    { name: 'California', abbreviation: 'CA'},
+    { name: 'Colorado', abbreviation: 'CO'},
+    { name: 'Connecticut', abbreviation: 'CT'},
+    { name: 'Delaware', abbreviation: 'DE'},
+    { name: 'District of Columbia', abbreviation: 'DC'},
+    { name: 'Florida', abbreviation: 'FL'},
+    { name: 'Georgia', abbreviation: 'GA'},
+    { name: 'Hawaii', abbreviation: 'HI'},
+    { name: 'Idaho', abbreviation: 'ID'},
+    { name: 'Illinois', abbreviation: 'IL'},
+    { name: 'Indiana', abbreviation: 'IN'},
+    { name: 'Iowa', abbreviation: 'IA'},
+    { name: 'Kansas', abbreviation: 'KS'},
+    { name: 'Kentucky', abbreviation: 'KY'},
+    { name: 'Lousiana', abbreviation: 'LA'},
+    { name: 'Maine', abbreviation: 'ME'},
+    { name: 'Maryland', abbreviation: 'MD'},
+    { name: 'Massachusets', abbreviation: 'MA'},
+    { name: 'Michigan', abbreviation: 'MI'},
+    { name: 'Minnesota', abbreviation: 'MN'},
+    { name: 'Mississippi', abbreviation: 'MS'},
+    { name: 'Missouri', abbreviation: 'MO'},
+    { name: 'Montana', abbreviation: 'MT'},
+    { name: 'Nebraska', abbreviation: 'NE'},
+    { name: 'Nevada', abbreviation: 'NV'},
+    { name: 'New Hampshire', abbreviation: 'NH'},
+    { name: 'New Jersey', abbreviation: 'NJ'},
+    { name: 'New Mexico', abbreviation: 'NM'},
+    { name: 'New York', abbreviation: 'NY'},
+    { name: 'North Carolina', abbreviation: 'NC'},
+    { name: 'North Dakota', abbreviation: 'ND'},
+    { name: 'Ohio', abbreviation: 'OH'},
+    { name: 'Oklahoma', abbreviation: 'OK'},
+    { name: 'Oregon', abbreviation: 'OR'},
+    { name: 'Pennsylvania', abbreviation: 'PA'},
+    { name: 'Rhode Island', abbreviation: 'RI'},
+    { name: 'South Carolina', abbreviation: 'SC'},
+    { name: 'South Dakota', abbreviation: 'SD'},
+    { name: 'Tennessee', abbreviation: 'TN'},
+    { name: 'Texas', abbreviation: 'TX'},
+    { name: 'Utah', abbreviation: 'UT'},
+    { name: 'Vermont', abbreviation: 'VT'},
+    { name: 'Virginia', abbreviation: 'VA'},
+    { name: 'Washington', abbreviation: 'WA'},
+    { name: 'West Virginia', abbreviation: 'WV'},
+    { name: 'Wisconsin', abbreviation: 'WI'},
+    { name: 'Wyoming', abbreviation: 'WY' }
+];
+
+// ChartistHtml.formatters = {
+// 	currency: function(v) {
+// 		var formatter = (v > 999) ? '($0.0a)' : '($0)';
+// 		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
+// 	},
+// 	number: function(v) {
+// 		var formatter = (v > 999) ? '(0.0a)' : '(0)';
+// 		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
+// 	},
+// 	year: function(v) {
+// 		return (v > 999) ? ("'" + v.substring(2, 4)) : v;
+// 	},
+// 	state: function(v) {
+// 		$.each(ChartistHtml.states, function(i) {
+// 			if (v === ChartistHtml.states[i].name) {
+// 				v = ChartistHtml.states[i].abbreviation;
+// 			} else {
+// 				v = v;
+// 			}
+// 		});
+
+// 		return v;
+// 	},
+// 	month: function(v) {
+// 		$.each(ChartistHtml.months, function(i) {
+// 			if (v === ChartistHtml.months[i].name) {
+// 				v = ChartistHtml.months[i].abbreviation;
+// 			} else {
+// 				v = v;
+// 			}
+// 		});
+
+// 		return v;
+// 	}
+// };
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
-	backgroundColor: '#FFFFFF',
+	backgroundColor: '#fff',
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
@@ -15,44 +158,39 @@ ChartistHtml.config = {
 		pie: {
 			options: {
 				base: {
-					showLabel: false, //turn off labels, only tooltips on pies
+					showLabel: false, //only tooltips on pies
 					labelInterpolationFnc: function(value) {
 						return value[0];
 					}
 				}
 			},
-			responsiveOptions: [
-				['screen and (min-width: 640px)', {
-					chartPadding: 30,
-					labelOffset: 100,
-						labelInterpolationFnc: function(value) {
-							return value;
-						}
-				}],
-				['screen and (min-width: 1024px)', {
-					chartPadding: 20,
-					labelOffset: 80
-				}]
-			] 
+			/* if labels are off, then we don't need responsive labels */
+			// responsiveOptions: [
+			// 	['screen and (min-width: 640px)', {
+			// 		chartPadding: 30,
+			// 		labelOffset: 100,
+			// 			labelInterpolationFnc: function(value) {
+			// 				return value;
+			// 			}
+			// 	}],
+			// 	['screen and (min-width: 1024px)', {
+			// 		chartPadding: 20,
+			// 		labelOffset: 80
+			// 	}]
+			// ] 
 		},
 		bar: {
 			options: {
 				base: {
-					seriesBarDistance: 10,
+					seriesBarDistance: 13,
 					axisX: {
 						offset: 70,
-						position: 'end',
-						labelInterpolationFnc: function(value) {
-							return value[0];
-						}
+						position: 'end'
 					},
 					axisY: {
       					offset: 70,
       					position: 'start',
-      					onlyInteger: true,
-      					labelInterpolationFnc: function(value) {
-      						return numeral(value).format('(0)');
-      					}
+      					onlyInteger: true
       				}
 				},
 				stacked: {
@@ -64,17 +202,11 @@ ChartistHtml.config = {
 					axisX: {
       					offset: 70,
       					position: 'end',
-      					onlyInteger: true,
-      					labelInterpolationFnc: function(value) {
-      						return numeral(value).format('($0.0a)');
-      					}
+      					onlyInteger: true
       				},
       				axisY: {
 						offset: 70,
-						position: 'start',
-						labelInterpolationFnc: function(value) {
-							return value.slice(0, 4);
-						}
+						position: 'start'
       				}
       			}
 			},
@@ -112,14 +244,14 @@ ChartistHtml.config = {
 					axisX: {
 						position: 'end',
 						labelInterpolationFnc: function(value) {
-      						return value[0];
+      						return value;
       					}
 					}, 
 					axisY: {
 						position: 'start',
 						onlyInteger: true,
 						labelInterpolationFnc: function(value) {
-							return numeral(value).format('($0)');
+							return value;
 						}
 					}
 				}
@@ -318,10 +450,10 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	getType: function() {
-
 	},
 
 	isFillChart: function() {
+
 		if (typeof this.type === "undefined") { return false; }
 		return (this.type === 'pie');
 	},
@@ -331,12 +463,20 @@ ChartistHtml.ChartManager.prototype = {
 		return (['bar', 'line'].indexOf(this.type) > -1);
 	},
 
+	isHorizontalChart: function() {
+		return this.data.subtypes.indexOf('horizontal') > -1;
+	},
+
+	isSeriesOnX: function() {
+		if (this.type === "bar") { return this.isHorizontalChart(); }
+		if (this.type === "line") { return !this.isHorizontalChart(); }
+	},
+
 	/*
 	 * Extracts chart content from the inner html.
 	 * @returns {object}
 	 */
 	innerHtmlToJson: function() {
-
 		var chartType = this.type,
 			self = this,
 			$el = this.$el,
@@ -354,7 +494,6 @@ ChartistHtml.ChartManager.prototype = {
 		}
 
 		$seriesEl.each(function() {
-
 			var $seriEl = $(this),
 				stringSeries = ChartistHtml.splitString($seriEl.html()),
 				numberSeries = [],
@@ -379,13 +518,13 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	getJson: function() {
-		
 		var $el = this.$el,
 			json = {},
 			data;
 
 		json.title = $el.attr('data-title');
 		json.seriesFormat = $el.attr('data-series-format');
+		json.labelsFormat = $el.attr('data-labels-format');
 		json.type = $el.attr('data-type');
 
 		this.type = json.type;
@@ -396,26 +535,52 @@ ChartistHtml.ChartManager.prototype = {
 
 		json = $.extend(json, data);
 
+		this.data = json;
+
 		return json;
+	},
+
+	getOptions: function() {
+
+		var options = ChartistHtml.getOptions(this.data.type, this.data.subtypes),
+			responsiveOptions = ChartistHtml.config.chartOptions[this.data.type].responsiveOptions;
+
+		var fsv = this._formatSeriesValue.bind(this),
+			flv = this._formatLabelsValue.bind(this);
+
+		if (this.isStrokeChart()) {
+			options.axisX = options.axisX || {};
+			options.axisY = options.axisY || {};
+			options.axisX.labelInterpolationFnc = this.isSeriesOnX() ? fsv : flv;
+			options.axisY.labelInterpolationFnc = this.isSeriesOnX() ? flv : fsv;
+		}
+
+		if (this.isSeriesOnX() && this.data.seriesFormat === 'currency') { 
+			responsiveOptions.axisX = responsiveOptions.axisX || {};
+			responsiveOptions.axisX.labelInterpolationFnc = fsv;
+		}
+
+		return { options: options, responsiveOptions: responsiveOptions };
+
 	},
 
 	render: function() {
 
 		var self = this,
-			chartData = this.getJson(this.$el),
-			chartType = ChartistHtml.toSentenceCase(chartData.type),
-			chartClass = this._getChartClass(),
-			options = ChartistHtml.getOptions(chartData.type, chartData.subtypes),
-			responsiveOptions = ChartistHtml.config.chartOptions[chartData.type].responsiveOptions,
+			chartType,
+			chartClass,
 			chart;
+
+		this.getJson();
+		chartType = ChartistHtml.toSentenceCase(this.data.type);
+		chartClass = this._getChartClass();
 
 		this._setChartContainer();
 
-		//options.axisX = options.axisX || {};
-		//options.axisX.labelInterpolationFnc = function(v) { return 'ummm'; };
+		var opt = this.getOptions();
 
 		if(!self._isRendered) {
-			chart = new Chartist[chartType]('.' + chartClass, chartData, options, responsiveOptions);
+			chart = new Chartist[chartType]('.' + chartClass, this.data, opt.options, opt.responsiveOptions);
 		}
 
 		chart.on('created', function() {
@@ -428,6 +593,7 @@ ChartistHtml.ChartManager.prototype = {
 			}
 			self._addColoring();
 		});
+
 		return this;
 	},
 
@@ -436,7 +602,6 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	_setChartContainer: function() {
-		
 		var chartBaseClass = 'ct-chart',
 			chartClass = this._getChartClass();
 
@@ -447,7 +612,6 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	destroy: function() {
-
 		var chart = this.chart;
 
 		if (this._isRendered) {
@@ -464,7 +628,6 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	_appendTitle: function() {
-
 		var title = this.chart.data.title,
 			$el = $('<div>' + title + '</div>');
 
@@ -476,20 +639,23 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
-	_formatValue: function(v) {
-		
-		var format = this.chart.data.seriesFormat,
-			string = "",
-			formatter = {
-				currency: (v > 999) ? '($0.0a)' : '($0)',
-				numbers: (v > 999) ? '(0.0a)' : '(0)'
-			};
+	/*
+	 * Formats series on chart axes and tooltips
+	 * @returns {string}
+	 */
+	_formatSeriesValue: function(v) {
+		return ChartistHtml.formatters[this.data.seriesFormat](v);
+	},
 
-		return (typeof numeral !== "undefined") ? numeral(v).format(formatter[format]) : v;
+	/*
+	* Abbreviates labels on chart axes in response to screen width
+	* @returns {string}
+	*/
+	_formatLabelsValue: function(v) {
+		return ChartistHtml.formatters[this.data.labelsFormat](v);
 	},
 
 	_addColoring: function() {
-
 		var self = this;
 
 		if (typeof chroma !== "undefined") {
@@ -529,7 +695,6 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	_bindTooltips: function() {
-
 		var self = this,
 			className = ChartistHtml.config.baseClass + '__tooltip',
 			$chart = this.$chart,
@@ -542,11 +707,11 @@ ChartistHtml.ChartManager.prototype = {
 
 		this.$tooltip = $tooltip;
 
-		$tooltip.css({ visibility: 'hidden', display: 'inline-block', position: 'absolute' });
+		$tooltip.css({ visibility: 'hidden', display: 'table', position: 'absolute' });
 
 		$chart.on('mouseover', componentSelector, function(e) {
 			var $point = $(this),
-				value = self._formatValue($point.attr('ct:value')),
+				value = self._formatSeriesValue($point.attr('ct:value')),
 				series = $point.parent().attr('class'),
 				index,
 				label;
@@ -587,6 +752,7 @@ ChartistHtml.ChartManager.prototype = {
 		if (this.$chart) {
 			this.$chart.off('mouseenter mouseleave mousemove');
 		}
+
 		return this;
 	}
 };
