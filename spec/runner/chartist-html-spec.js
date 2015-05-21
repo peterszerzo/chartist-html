@@ -3,6 +3,7 @@ describe('ChartistHtml', function() {
 		(!!ChartistHtml).should.equal(true);
 	});
 });
+
 describe('ChartistHtml.config', function() {
 	it('has a config object', function() {
 		(!!ChartistHtml.config).should.equal(true);
