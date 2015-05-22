@@ -42,7 +42,7 @@ ChartistHtml.config = {
 						position: 'end'
 					},
 					axisY: {
-      					offset: 70,
+      					offset: 50,
       					position: 'start',
       					onlyInteger: true
       				}
@@ -54,7 +54,7 @@ ChartistHtml.config = {
 					horizontalBars: true,
 					reverseData: true,
 					axisX: {
-      					offset: 70,
+      					offset: 50,
       					position: 'end',
       					onlyInteger: true
       				},
@@ -96,12 +96,14 @@ ChartistHtml.config = {
 				base: {
 					showArea: false,
 					axisX: {
+						offset: 50,
 						position: 'end',
 						labelInterpolationFnc: function(value) {
       						return value;
       					}
 					}, 
 					axisY: {
+						offset: 50,
 						position: 'start',
 						onlyInteger: true,
 						labelInterpolationFnc: function(value) {

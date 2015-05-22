@@ -1,6 +1,6 @@
 /*
 * Formats and abbreviates series and labels on chart axes based on specified data formats
-* @param {value} - number or string, depending on series or labels
+* @param {value} - number or string, depending whether chart series or labels
 * @returns {string} - returns formatted string
 */
 ChartistHtml.formatters = {
@@ -13,7 +13,7 @@ ChartistHtml.formatters = {
 		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
 	},
 	percent: function(v) {
-		return (v + "%");
+		return (v + "%"); //eventually use numeral here to convert from decimal notation
 	},
 	year: function(v) {
 		return (v > 999) ? ("'" + v.substring(2, 4)) : v;

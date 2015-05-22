@@ -71,7 +71,7 @@ ChartistHtml.states = [
 ];
 /*
 * Formats and abbreviates series and labels on chart axes based on specified data formats
-* @param {value} - number or string, depending on series or labels
+* @param {value} - number or string, depending whether chart series or labels
 * @returns {string} - returns formatted string
 */
 ChartistHtml.formatters = {
@@ -84,7 +84,7 @@ ChartistHtml.formatters = {
 		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
 	},
 	percent: function(v) {
-		return (v + "%");
+		return (v + "%"); //eventually use numeral here to convert from decimal notation
 	},
 	year: function(v) {
 		return (v > 999) ? ("'" + v.substring(2, 4)) : v;
@@ -156,7 +156,7 @@ ChartistHtml.config = {
 						position: 'end'
 					},
 					axisY: {
-      					offset: 70,
+      					offset: 50,
       					position: 'start',
       					onlyInteger: true
       				}
@@ -168,7 +168,7 @@ ChartistHtml.config = {
 					horizontalBars: true,
 					reverseData: true,
 					axisX: {
-      					offset: 70,
+      					offset: 50,
       					position: 'end',
       					onlyInteger: true
       				},
@@ -210,12 +210,14 @@ ChartistHtml.config = {
 				base: {
 					showArea: false,
 					axisX: {
+						offset: 50,
 						position: 'end',
 						labelInterpolationFnc: function(value) {
       						return value;
       					}
 					}, 
 					axisY: {
+						offset: 50,
 						position: 'start',
 						onlyInteger: true,
 						labelInterpolationFnc: function(value) {
@@ -417,11 +419,15 @@ ChartistHtml.ChartManager.prototype = {
 		'bar': 'bar'
 	},
 
+	defaultChartDirections: {
+		'line': 'horizontal',
+		'bar': 'vertical'
+	},
+
 	getType: function() {
 	},
 
 	isFillChart: function() {
-
 		if (typeof this.type === "undefined") { return false; }
 		return (this.type === 'pie');
 	},
@@ -441,7 +447,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	 * Extracts chart content from the inner html.
+	 * Extracts chart content from the inner html
 	 * @returns {object}
 	 */
 	innerHtmlToJson: function() {
@@ -485,6 +491,10 @@ ChartistHtml.ChartManager.prototype = {
 		return json;
 	},
 
+	/*
+	* Get chart data from html div
+	* @return {obj} - json data object
+	*/
 	getJson: function() {
 		var $el = this.$el,
 			json = {},
@@ -508,8 +518,11 @@ ChartistHtml.ChartManager.prototype = {
 		return json;
 	},
 
+	/*
+	* Gets chart options based on type and subtype
+	* @return {obj} - options and responsive options
+	*/
 	getOptions: function() {
-
 		var options = ChartistHtml.getOptions(this.data.type, this.data.subtypes),
 			responsiveOptions = ChartistHtml.config.chartOptions[this.data.type].responsiveOptions;
 
@@ -529,11 +542,13 @@ ChartistHtml.ChartManager.prototype = {
 		}
 
 		return { options: options, responsiveOptions: responsiveOptions };
-
 	},
 
+	/*
+	* Build a single chart
+	* @returns {obj} - chart manager object
+	*/
 	render: function() {
-
 		var self = this,
 			chartType,
 			chartClass,
@@ -571,9 +586,10 @@ ChartistHtml.ChartManager.prototype = {
 
 	_setChartContainer: function() {
 		var chartBaseClass = 'ct-chart',
+			containerSize = ' ct-perfect-fourth ',
 			chartClass = this._getChartClass();
 
-		this.$chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
+		this.$chartContainer = $('<div class="' + chartBaseClass + containerSize + chartClass + '"><div>');
 		this.$el.append(this.$chartContainer);
 
 		return this;
@@ -595,6 +611,10 @@ ChartistHtml.ChartManager.prototype = {
         return this;
 	},
 
+	/*
+	 * Adds title div to chart container
+	 * @returns {div}
+	 */
 	_appendTitle: function() {
 		var title = this.chart.data.title,
 			$el = $('<div>' + title + '</div>');
@@ -612,7 +632,9 @@ ChartistHtml.ChartManager.prototype = {
 	 * @returns {string}
 	 */
 	_formatSeriesValue: function(v) {
-		return ChartistHtml.formatters[this.data.seriesFormat](v);
+		if ( typeof this.data.seriesFormat !== 'undefined') {
+		 	return ChartistHtml.formatters[this.data.seriesFormat](v);
+		}
 	},
 
 	/*
@@ -620,9 +642,15 @@ ChartistHtml.ChartManager.prototype = {
 	* @returns {string}
 	*/
 	_formatLabelsValue: function(v) {
-		return ChartistHtml.formatters[this.data.labelsFormat](v);
+		if ( typeof this.data.labelsFormat !== 'undefined') {
+			return ChartistHtml.formatters[this.data.labelsFormat](v);
+		}
 	},
 
+	/*
+	* Applies color scale to chart series using two-color spectrum
+	* @returns {obj} - chart manager object
+	*/
 	_addColoring: function() {
 		var self = this;
 
