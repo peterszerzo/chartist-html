@@ -403,7 +403,7 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 
 	return allOptions;
 };
-ChartistHtml.ChartManager = function($el, chartId) {
+ChartistHtml.ChartManager = function($el, chartId) { //
 	this.id = (typeof chartId !== "undefined") ? chartId : 1;
 	this.type = undefined;
 	this.$el = $el;
@@ -422,11 +422,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	getType: function() {
-<<<<<<< HEAD
 		return this.type === "bar";
-=======
-		return this.data.type;
->>>>>>> 1d554447b8f788b523a7e4049d109203800089ed
 	},
 
 	isFillChart: function() {
@@ -450,11 +446,8 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-<<<<<<< HEAD
 	 * Extracts chart content from the inner html
-=======
 	 * Extracts chart content from the inner html (unordered list).
->>>>>>> 1d554447b8f788b523a7e4049d109203800089ed
 	 * @returns {object}
 	 */
 	innerHtmlToJson: function() {
@@ -498,13 +491,10 @@ ChartistHtml.ChartManager.prototype = {
 		return json;
 	},
 
-<<<<<<< HEAD
 	/*
 	* Get chart data from html div
 	* @return {obj} - json data object
 	*/
-=======
->>>>>>> 1d554447b8f788b523a7e4049d109203800089ed
 	setData: function() {
 		var $el = this.$el,
 			json = {},

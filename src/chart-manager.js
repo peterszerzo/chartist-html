@@ -1,4 +1,4 @@
-ChartistHtml.ChartManager = function($el, chartId) {
+ChartistHtml.ChartManager = function($el, chartId) { //
 	this.id = (typeof chartId !== "undefined") ? chartId : 1;
 	this.type = undefined;
 	this.$el = $el;
@@ -18,7 +18,6 @@ ChartistHtml.ChartManager.prototype = {
 
 	getType: function() {
 		return this.type === "bar";
-		return this.data.type;
 	},
 
 	isFillChart: function() {
