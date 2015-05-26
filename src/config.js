@@ -1,6 +1,8 @@
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#fff',
+	longLabelLength: 40,//set character length to define long labels
+	labelOffsetCoefficient: 3,
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
@@ -42,7 +44,7 @@ ChartistHtml.config = {
 						position: 'end'
 					},
 					axisY: {
-      					offset: 70,
+						offset: 50,
       					position: 'start',
       					onlyInteger: true
       				}
@@ -54,7 +56,7 @@ ChartistHtml.config = {
 					horizontalBars: true,
 					reverseData: true,
 					axisX: {
-      					offset: 70,
+						offset: 50,
       					position: 'end',
       					onlyInteger: true
       				},
@@ -67,25 +69,25 @@ ChartistHtml.config = {
 			responsiveOptions: [
 				['screen and (min-width: 640px)', {
 					axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					},
 					axisY: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}
 				}],
 				['screen and (min-width: 1024px)', {
 			 		axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					},
 					axisY: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}	
 				}],
@@ -96,12 +98,14 @@ ChartistHtml.config = {
 				base: {
 					showArea: false,
 					axisX: {
+						offset: 50,
 						position: 'end',
 						labelInterpolationFnc: function(value) {
       						return value;
       					}
 					}, 
 					axisY: {
+						offset: 50,
 						position: 'start',
 						onlyInteger: true,
 						labelInterpolationFnc: function(value) {
@@ -113,15 +117,15 @@ ChartistHtml.config = {
 			responsiveOptions: [
 				['screen and (min-width: 640px)', {
 					axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}
 				}],
 				['screen and (min-width: 1024px)', {
 					axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}	
 				}],

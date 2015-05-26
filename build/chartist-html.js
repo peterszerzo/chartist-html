@@ -1,43 +1,4 @@
 var ChartistHtml = {};
-
-ChartistHtml.formatters = {
-	currency: function(v) {
-		var formatter = (v > 999) ? '($0.0a)' : '($0)';
-		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
-	},
-	number: function(v) {
-		var formatter = (v > 999) ? '(0.0a)' : '(0)';
-		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
-	},
-	year: function(v) {
-		return (v > 999) ? ("'" + v.substring(2, 4)) : v;
-	},
-	state: function(v) {
-
-		$.each(ChartistHtml.states, function(i) {
-			if (v === ChartistHtml.states[i].name) {
-				v = ChartistHtml.states[i].abbreviation;
-			} else {
-				v = v;
-			}
-		});
-
-		return v;
-	},
-	month: function(v) {
-
-		$.each(ChartistHtml.months, function(i) {
-			if (v === ChartistHtml.months[i].name) {
-				v = ChartistHtml.months[i].abbreviation;
-			} else {
-				v = v;
-			}
-		});
-
-		return v;
-	}
-};
-
 ChartistHtml.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
 
 ChartistHtml.months = [	
@@ -108,45 +69,54 @@ ChartistHtml.states = [
     { name: 'Wisconsin', abbreviation: 'WI'},
     { name: 'Wyoming', abbreviation: 'WY' }
 ];
+/*
+* Formats and abbreviates series and labels on chart axes based on specified data formats
+* @param {value} - number or string, depending whether chart series or labels
+* @returns {string} - returns formatted string
+*/
+ChartistHtml.formatters = {
+	currency: function(v) {
+		var formatter = (v > 999) ? '($0.0a)' : '($0)';
+		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
+	},
+	number: function(v) {
+		var formatter = (v > 999) ? '(0.0a)' : '(0)';
+		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
+	},
+	percent: function(v) {
+		return (v + "%"); //eventually use numeral here to convert from decimal notation
+	},
+	year: function(v) {
+		return (v > 999) ? ("'" + v.substring(2, 4)) : v;
+	},
+	state: function(v) {
+		$.each(ChartistHtml.states, function(i) {
+			if (v === ChartistHtml.states[i].name) {
+				v = ChartistHtml.states[i].abbreviation;
+			} else {
+				v = v;
+			}
+		});
 
-// ChartistHtml.formatters = {
-// 	currency: function(v) {
-// 		var formatter = (v > 999) ? '($0.0a)' : '($0)';
-// 		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
-// 	},
-// 	number: function(v) {
-// 		var formatter = (v > 999) ? '(0.0a)' : '(0)';
-// 		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
-// 	},
-// 	year: function(v) {
-// 		return (v > 999) ? ("'" + v.substring(2, 4)) : v;
-// 	},
-// 	state: function(v) {
-// 		$.each(ChartistHtml.states, function(i) {
-// 			if (v === ChartistHtml.states[i].name) {
-// 				v = ChartistHtml.states[i].abbreviation;
-// 			} else {
-// 				v = v;
-// 			}
-// 		});
+		return v;
+	},
+	month: function(v) {
+		$.each(ChartistHtml.months, function(i) {
+			if (v === ChartistHtml.months[i].name) {
+				v = ChartistHtml.months[i].abbreviation;
+			} else {
+				v = v;
+			}
+		});
 
-// 		return v;
-// 	},
-// 	month: function(v) {
-// 		$.each(ChartistHtml.months, function(i) {
-// 			if (v === ChartistHtml.months[i].name) {
-// 				v = ChartistHtml.months[i].abbreviation;
-// 			} else {
-// 				v = v;
-// 			}
-// 		});
-
-// 		return v;
-// 	}
-// };
+		return v;
+	}
+};
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#fff',
+	longLabelLength: 40,//set character length to define long labels
+	labelOffsetCoefficient: 3,
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
@@ -188,7 +158,7 @@ ChartistHtml.config = {
 						position: 'end'
 					},
 					axisY: {
-      					offset: 70,
+						offset: 50,
       					position: 'start',
       					onlyInteger: true
       				}
@@ -200,7 +170,7 @@ ChartistHtml.config = {
 					horizontalBars: true,
 					reverseData: true,
 					axisX: {
-      					offset: 70,
+						offset: 50,
       					position: 'end',
       					onlyInteger: true
       				},
@@ -213,25 +183,25 @@ ChartistHtml.config = {
 			responsiveOptions: [
 				['screen and (min-width: 640px)', {
 					axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					},
 					axisY: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}
 				}],
 				['screen and (min-width: 1024px)', {
 			 		axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					},
 					axisY: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}	
 				}],
@@ -242,12 +212,14 @@ ChartistHtml.config = {
 				base: {
 					showArea: false,
 					axisX: {
+						offset: 50,
 						position: 'end',
 						labelInterpolationFnc: function(value) {
       						return value;
       					}
 					}, 
 					axisY: {
+						offset: 50,
 						position: 'start',
 						onlyInteger: true,
 						labelInterpolationFnc: function(value) {
@@ -259,15 +231,15 @@ ChartistHtml.config = {
 			responsiveOptions: [
 				['screen and (min-width: 640px)', {
 					axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}
 				}],
 				['screen and (min-width: 1024px)', {
 					axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}	
 				}],
@@ -431,7 +403,7 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 
 	return allOptions;
 };
-ChartistHtml.ChartManager = function($el, chartId) {
+ChartistHtml.ChartManager = function($el, chartId) { //
 	this.id = (typeof chartId !== "undefined") ? chartId : 1;
 	this.type = undefined;
 	this.$el = $el;
@@ -450,11 +422,10 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	getType: function() {
-		return this.data.type;
+		return this.type === "bar";
 	},
 
 	isFillChart: function() {
-
 		if (typeof this.type === "undefined") { return false; }
 		return (this.type === 'pie');
 	},
@@ -465,7 +436,8 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	isHorizontalChart: function() {
-		return this.data.subtypes.indexOf('horizontal') > -1;
+		if (typeof this.data.subtypes === "undefined") { return false; }
+		return (this.data.subtypes.indexOf('horizontal') > -1);
 	},
 
 	isSeriesOnX: function() {
@@ -474,6 +446,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
+	 * Extracts chart content from the inner html
 	 * Extracts chart content from the inner html (unordered list).
 	 * @returns {object}
 	 */
@@ -518,6 +491,10 @@ ChartistHtml.ChartManager.prototype = {
 		return json;
 	},
 
+	/*
+	* Get chart data from html div
+	* @return {obj} - json data object
+	*/
 	setData: function() {
 		var $el = this.$el,
 			json = {},
@@ -541,10 +518,15 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
+	/*
+	* Gets chart options based on type and subtype
+	* @return {obj} - options and responsive options
+	*/
 	getOptions: function() {
 
 		var options = ChartistHtml.getOptions(this.data.type, this.data.subtypes),
-			responsiveOptions = ChartistHtml.config.chartOptions[this.data.type].responsiveOptions;
+			responsiveOptions = ChartistHtml.config.chartOptions[this.data.type].responsiveOptions,
+			longestLabelLength;
 
 		var fsv = this._formatSeriesValue.bind(this),
 			flv = this._formatLabelsValue.bind(this);
@@ -561,12 +543,22 @@ ChartistHtml.ChartManager.prototype = {
 			responsiveOptions.axisX.labelInterpolationFnc = fsv;
 		}
 
-		return { options: options, responsiveOptions: responsiveOptions };
+		if (this.isHorizontalChart() && this.type === "bar") {
+			options.axisY = options.axisY || {};
+			longestLabelLength = this._getLongestLabelLength();
+			if (longestLabelLength > ChartistHtml.config.longLabelLength) {
+				options.axisY.offset = Math.round(longestLabelLength * ChartistHtml.config.labelOffsetCoefficient);
+			}
+		}
 
+		return { options: options, responsiveOptions: responsiveOptions };
 	},
 
+	/*
+	* Build a single chart
+	* @returns {obj} - chart manager object
+	*/
 	render: function() {
-
 		var self = this,
 			chartType,
 			chartClass,
@@ -604,9 +596,10 @@ ChartistHtml.ChartManager.prototype = {
 
 	_setChartContainer: function() {
 		var chartBaseClass = 'ct-chart',
+			containerSize = ' ct-perfect-fourth ',
 			chartClass = this._getChartClass();
 
-		this.$chartContainer = $('<div class="' + chartBaseClass + ' ct-perfect-fourth ' + chartClass + '"><div>');
+		this.$chartContainer = $('<div class="' + chartBaseClass + containerSize + chartClass + '"><div>');
 		this.$el.append(this.$chartContainer);
 
 		return this;
@@ -628,6 +621,10 @@ ChartistHtml.ChartManager.prototype = {
         return this;
 	},
 
+	/*
+	 * Adds title div to chart container
+	 * @returns {div}
+	 */
 	_appendTitle: function() {
 		var title = this.chart.data.title,
 			$el = $('<div>' + title + '</div>');
@@ -645,7 +642,9 @@ ChartistHtml.ChartManager.prototype = {
 	 * @returns {string}
 	 */
 	_formatSeriesValue: function(v) {
-		return ChartistHtml.formatters[this.data.seriesFormat](v);
+		if ( typeof this.data.seriesFormat !== 'undefined' ) {
+		 	return ChartistHtml.formatters[this.data.seriesFormat](v);
+		}
 	},
 
 	/*
@@ -653,9 +652,34 @@ ChartistHtml.ChartManager.prototype = {
 	* @returns {string}
 	*/
 	_formatLabelsValue: function(v) {
-		return ChartistHtml.formatters[this.data.labelsFormat](v);
+		if ( typeof this.data.labelsFormat !== 'undefined' ) {
+			return ChartistHtml.formatters[this.data.labelsFormat](v);
+		}
 	},
 
+	/*
+	* Finds longest label in array 
+	* Used to adjust axis offset for labels not set by formatters
+	* @returns {number} - length of string
+	*/
+	_getLongestLabelLength: function (v) {
+		var labels = this.data.labels,
+			longestLength = 0,
+			i, max;
+
+		for ( i = 0, max = labels.length; i < max; i++ )  {
+			if (labels[i].length > longestLength) {
+				longestLength = labels[i].length;
+			}
+		}
+
+		return longestLength;
+	},
+
+	/*
+	* Applies color scale to chart series using two-color spectrum
+	* @returns {obj} - chart manager object
+	*/
 	_addColoring: function() {
 		var self = this;
 

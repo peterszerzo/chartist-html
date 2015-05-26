@@ -17,7 +17,7 @@
 				<li class="cts__series" data-name="State">1234567|2000000|3789567|4343434|5000000</li>
 				<li class="cts__series" data-name="Local">1456654|2121212|3000000|4000000|5111343</li>
 			</ul>
-		</div>
+		</div> 
 
  		<div class="cts" data-type="line" data-subtypes="stacked|horizontal" data-title="This is a line chart about currency less than 1k" data-series-format="currency" data-labels-format="year">
 			<ul class="hidden">
@@ -39,14 +39,22 @@
 			</ul>
 		</div>
 
-		<div class="cts" data-type="bar" data-subtypes="stack" data-title="This is a bar chart about numbers less than 1k" data-series-format="number" data-labels-format="state">
+		<div class="cts" data-type="bar" data-subtypes="stack" data-title="This is a bar chart about percents" data-series-format="percent" data-labels-format="state">
 			<ul class="hidden">
 				<li class="cts__labels">New York|Pennsylvania|District of Columbia|Virginia|Maryland</li>
 				<li class="cts__series" data-name="Federal">12|27|58|41|50</li>
-				<li class="cts__series" data-name="State">300|411|100|485|524</li>
-				<li class="cts__series" data-name="Local">56|23|47|100|36</li>
+				<li class="cts__series" data-name="State">13.4|41.1|10|48.5|52.4</li>
+				<li class="cts__series" data-name="Local">56|23|47|19|36</li>
 			</ul>
 		</div>
+
+		<div class="cts" data-type="bar" data-options="horizontal" data-title="This is a sideways bar chart with long strings of text as labels" data-series-format="number">
+			<ul class="hidden">
+				<li class="cts__labels">18 characters long|this string has length 25|this string is long and has 41 characters|this string is very long and has more than 55 characters|this is the longest string test and it has 66 characters</li>
+				<li class="cts__series" data-name="Federal">990000|2756893|345664|4000000|5234000</li>
+				<li class="cts__series" data-name="State">1234567|2000000|3789567|4343434|5000000</li>
+			</ul>
+		</div> 
 
 		<script src="../bower_components/jquery/dist/jquery.js"></script>
 		<script src="../bower_components/chartist/dist/chartist.js"></script>
