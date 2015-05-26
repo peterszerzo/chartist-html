@@ -115,8 +115,8 @@ ChartistHtml.formatters = {
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#fff',
-	longLabelLength: 40, //set character length to define long labels
-	labelOffsetCoefficient: 3, 
+	longLabelLength: 40,//set character length to define long labels
+	labelOffsetCoefficient: 3,
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
@@ -158,7 +158,7 @@ ChartistHtml.config = {
 						position: 'end'
 					},
 					axisY: {
-      					offset: 50,
+						offset: 50,
       					position: 'start',
       					onlyInteger: true
       				}
@@ -170,7 +170,7 @@ ChartistHtml.config = {
 					horizontalBars: true,
 					reverseData: true,
 					axisX: {
-      					offset: 50,
+						offset: 50,
       					position: 'end',
       					onlyInteger: true
       				},
@@ -183,25 +183,25 @@ ChartistHtml.config = {
 			responsiveOptions: [
 				['screen and (min-width: 640px)', {
 					axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					},
 					axisY: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}
 				}],
 				['screen and (min-width: 1024px)', {
 			 		axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					},
 					axisY: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}	
 				}],
@@ -231,15 +231,15 @@ ChartistHtml.config = {
 			responsiveOptions: [
 				['screen and (min-width: 640px)', {
 					axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}
 				}],
 				['screen and (min-width: 1024px)', {
 					axisX: {
-					    labelInterpolationFnc: function(value) {
-					      	return value;
+						labelInterpolationFnc: function(value) {
+							return value;
 					    }
 					}	
 				}],
@@ -421,11 +421,6 @@ ChartistHtml.ChartManager.prototype = {
 		'bar': 'bar'
 	},
 
-	defaultChartDirections: {
-		'line': 'horizontal',
-		'bar': 'vertical'
-	},
-
 	getType: function() {
 		return this.type === "bar";
 	},
@@ -441,7 +436,8 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	isHorizontalChart: function() {
-		return this.data.subtypes.indexOf('horizontal') > -1;
+		if (typeof this.data.subtypes === "undefined") { return false; }
+		return (this.data.subtypes.indexOf('horizontal') > -1);
 	},
 
 	isSeriesOnX: function() {
@@ -498,7 +494,7 @@ ChartistHtml.ChartManager.prototype = {
 	* Get chart data from html div
 	* @return {obj} - json data object
 	*/
-	getJson: function() {
+	setData: function() {
 		var $el = this.$el,
 			json = {},
 			data;
@@ -567,7 +563,7 @@ ChartistHtml.ChartManager.prototype = {
 			chartClass,
 			chart;
 
-		this.getJson();
+		this.setData();
 		chartType = ChartistHtml.toSentenceCase(this.data.type);
 		chartClass = this._getChartClass();
 

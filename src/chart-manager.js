@@ -16,11 +16,6 @@ ChartistHtml.ChartManager.prototype = {
 		'bar': 'bar'
 	},
 
-	defaultChartDirections: {
-		'line': 'horizontal',
-		'bar': 'vertical'
-	},
-
 	getType: function() {
 		return this.type === "bar";
 	},
@@ -36,7 +31,8 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	isHorizontalChart: function() {
-		return this.data.subtypes.indexOf('horizontal') > -1;
+		if (typeof this.data.subtypes === "undefined") { return false; }
+		return (this.data.subtypes.indexOf('horizontal') > -1);
 	},
 
 	isSeriesOnX: function() {
@@ -93,7 +89,7 @@ ChartistHtml.ChartManager.prototype = {
 	* Get chart data from html div
 	* @return {obj} - json data object
 	*/
-	getJson: function() {
+	setData: function() {
 		var $el = this.$el,
 			json = {},
 			data;
@@ -162,7 +158,7 @@ ChartistHtml.ChartManager.prototype = {
 			chartClass,
 			chart;
 
-		this.getJson();
+		this.setData();
 		chartType = ChartistHtml.toSentenceCase(this.data.type);
 		chartClass = this._getChartClass();
 
