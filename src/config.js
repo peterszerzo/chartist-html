@@ -1,6 +1,8 @@
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#fff',
+	longLabelLength: 40, //set character length to define long labels
+	labelOffsetCoefficient: 3, 
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',

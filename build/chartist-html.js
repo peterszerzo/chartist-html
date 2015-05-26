@@ -115,6 +115,8 @@ ChartistHtml.formatters = {
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#fff',
+	longLabelLength: 40, //set character length to define long labels
+	labelOffsetCoefficient: 3, 
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
 	modifierClassFragment: '--',
@@ -425,6 +427,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	getType: function() {
+		return this.type === "bar";
 	},
 
 	isFillChart: function() {
@@ -523,8 +526,10 @@ ChartistHtml.ChartManager.prototype = {
 	* @return {obj} - options and responsive options
 	*/
 	getOptions: function() {
+
 		var options = ChartistHtml.getOptions(this.data.type, this.data.subtypes),
-			responsiveOptions = ChartistHtml.config.chartOptions[this.data.type].responsiveOptions;
+			responsiveOptions = ChartistHtml.config.chartOptions[this.data.type].responsiveOptions,
+			longestLabelLength;
 
 		var fsv = this._formatSeriesValue.bind(this),
 			flv = this._formatLabelsValue.bind(this);
@@ -539,6 +544,14 @@ ChartistHtml.ChartManager.prototype = {
 		if (this.isSeriesOnX() && this.data.seriesFormat === 'currency') { 
 			responsiveOptions.axisX = responsiveOptions.axisX || {};
 			responsiveOptions.axisX.labelInterpolationFnc = fsv;
+		}
+
+		if (this.isHorizontalChart() && this.type === "bar") {
+			options.axisY = options.axisY || {};
+			longestLabelLength = this._getLongestLabelLength();
+			if (longestLabelLength > ChartistHtml.config.longLabelLength) {
+				options.axisY.offset = Math.round(longestLabelLength * ChartistHtml.config.labelOffsetCoefficient);
+			}
 		}
 
 		return { options: options, responsiveOptions: responsiveOptions };
@@ -632,7 +645,7 @@ ChartistHtml.ChartManager.prototype = {
 	 * @returns {string}
 	 */
 	_formatSeriesValue: function(v) {
-		if ( typeof this.data.seriesFormat !== 'undefined') {
+		if ( typeof this.data.seriesFormat !== 'undefined' ) {
 		 	return ChartistHtml.formatters[this.data.seriesFormat](v);
 		}
 	},
@@ -642,9 +655,28 @@ ChartistHtml.ChartManager.prototype = {
 	* @returns {string}
 	*/
 	_formatLabelsValue: function(v) {
-		if ( typeof this.data.labelsFormat !== 'undefined') {
+		if ( typeof this.data.labelsFormat !== 'undefined' ) {
 			return ChartistHtml.formatters[this.data.labelsFormat](v);
 		}
+	},
+
+	/*
+	* Finds longest label in array 
+	* Used to adjust axis offset for labels not set by formatters
+	* @returns {number} - length of string
+	*/
+	_getLongestLabelLength: function (v) {
+		var labels = this.data.labels,
+			longestLength = 0,
+			i, max;
+
+		for ( i = 0, max = labels.length; i < max; i++ )  {
+			if (labels[i].length > longestLength) {
+				longestLength = labels[i].length;
+			}
+		}
+
+		return longestLength;
 	},
 
 	/*
