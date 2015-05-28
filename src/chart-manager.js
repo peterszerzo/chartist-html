@@ -16,10 +16,6 @@ ChartistHtml.ChartManager.prototype = {
 		'bar': 'bar'
 	},
 
-	getType: function() {
-		return this.type === "bar";
-	},
-
 	isFillChart: function() {
 		if (typeof this.type === "undefined") { return false; }
 		return (this.type === 'pie');
