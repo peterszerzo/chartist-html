@@ -10,6 +10,6 @@ describe('ChartistHtml.getOptions', function() {
 	};
 
 	it('builds up the base options object based on specific chart subtypes', function() {
-		(ChartistHtml.getOptions( 'bar', [ 'stacked' ], chartOptions)).should.equal({'a': "b", 'c': "d"});
+		(ChartistHtml.getOptions( 'bar', [ 'stacked' ], chartOptions)).should.eql({'a': "b", 'c': "d"});
 	});
 });
