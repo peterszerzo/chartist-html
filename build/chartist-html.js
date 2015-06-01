@@ -641,6 +641,7 @@ ChartistHtml.ChartManager.prototype = {
 		if ( typeof this.data.seriesFormat !== 'undefined' ) {
 		 	return ChartistHtml.formatters[this.data.seriesFormat](v);
 		}
+		return v;
 	},
 
 	/*
@@ -651,6 +652,7 @@ ChartistHtml.ChartManager.prototype = {
 		if ( typeof this.data.labelsFormat !== 'undefined' ) {
 			return ChartistHtml.formatters[this.data.labelsFormat](v);
 		}
+		return v;
 	},
 
 	/*
