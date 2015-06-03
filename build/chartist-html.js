@@ -87,6 +87,7 @@ ChartistHtml.formatters = {
 		return (v + "%"); //eventually use numeral here to convert from decimal notation
 	},
 	year: function(v) {
+		if (typeof v.substring === "undefined") { return String(v); }
 		return (v > 999) ? ("'" + v.substring(2, 4)) : v;
 	},
 	state: function(v) {
@@ -136,7 +137,7 @@ ChartistHtml.config = {
 			},
 			/* if labels are off, then we don't need responsive labels */
 			// responsiveOptions: [
-			// 	['screen and (min-width: 640px)', {
+			// 	['screen and (min-width: 1000px)', {
 			// 		chartPadding: 30,
 			// 		labelOffset: 100,
 			// 			labelInterpolationFnc: function(value) {
@@ -181,7 +182,7 @@ ChartistHtml.config = {
       			}
 			},
 			responsiveOptions: [
-				['screen and (min-width: 640px)', {
+				['screen and (min-width: 1000px)', {
 					axisX: {
 						labelInterpolationFnc: function(value) {
 							return value;
@@ -229,7 +230,7 @@ ChartistHtml.config = {
 				}
 			},
 			responsiveOptions: [
-				['screen and (min-width: 640px)', {
+				['screen and (min-width: 1000px)', {
 					axisX: {
 						labelInterpolationFnc: function(value) {
 							return value;
@@ -645,6 +646,7 @@ ChartistHtml.ChartManager.prototype = {
 		if ( typeof this.data.seriesFormat !== 'undefined' ) {
 		 	return ChartistHtml.formatters[this.data.seriesFormat](v);
 		}
+		return v;
 	},
 
 	/*
@@ -655,6 +657,7 @@ ChartistHtml.ChartManager.prototype = {
 		if ( typeof this.data.labelsFormat !== 'undefined' ) {
 			return ChartistHtml.formatters[this.data.labelsFormat](v);
 		}
+		return v;
 	},
 
 	/*
