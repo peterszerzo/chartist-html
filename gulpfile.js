@@ -5,7 +5,7 @@ var mochaPhantomJS = require('gulp-mocha-phantomjs');
 var sass = require('gulp-sass');
 
 // list of source files listed in order
-var source = [ 'src/init.js', 'src/data.js', 'src/formatters.js', 'src/config.js', 'src/html-to-json.js', 'src/render.js', 'src/options.js', 'src/chart-manager.js', 'src/chart-collection-manager.js' ];
+var source = [ 'src/init.js', 'src/data.js', 'src/exists.js', 'src/formatters.js', 'src/config.js', 'src/html-to-json.js', 'src/render.js', 'src/options.js', 'src/chart-manager.js', 'src/chart-collection-manager.js' ];
 
 // for each source file there must be a spec file present
 var spec = source.map(function(el) { return el.replace('.js', '-spec.js').replace('src', 'spec'); });
