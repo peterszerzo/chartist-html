@@ -17,7 +17,7 @@ ChartistHtml.formatters = {
 	},
 	year: function(v) {
 		if (typeof v.substring === "undefined") { return String(v); }
-		return (v > 999) ? ("'" + v.substring(2, 4)) : v;
+		return (v.length = 4) ? ("'" + v.substring(2, 4)) : v;
 	},
 	state: function(v) {
 		$.each(ChartistHtml.states, function(i) {

@@ -46,7 +46,7 @@ ChartistHtml.config = {
 					axisY: {
 						offset: 50,
       					position: 'start',
-      					onlyInteger: false
+      					onlyInteger: true
       				}
 				},
 				stacked: {
@@ -58,7 +58,7 @@ ChartistHtml.config = {
 					axisX: {
 						offset: 50,
       					position: 'end',
-      					onlyInteger: false
+      					onlyInteger: true
       				},
       				axisY: {
 						offset: 70,
@@ -107,7 +107,7 @@ ChartistHtml.config = {
 					axisY: {
 						offset: 50,
 						position: 'start',
-						onlyInteger: false,
+						onlyInteger: true,
 						labelInterpolationFnc: function(value) {
 							return value;
 						}
