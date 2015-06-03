@@ -129,26 +129,9 @@ ChartistHtml.config = {
 		pie: {
 			options: {
 				base: {
-					showLabel: false, //only tooltips on pies
-					labelInterpolationFnc: function(value) {
-						return value[0];
-					}
+					showLabel: false //only tooltips on pies, so no responsive options needed
 				}
-			},
-			/* if labels are off, then we don't need responsive labels */
-			// responsiveOptions: [
-			// 	['screen and (min-width: 1000px)', {
-			// 		chartPadding: 30,
-			// 		labelOffset: 100,
-			// 			labelInterpolationFnc: function(value) {
-			// 				return value;
-			// 			}
-			// 	}],
-			// 	['screen and (min-width: 1024px)', {
-			// 		chartPadding: 20,
-			// 		labelOffset: 80
-			// 	}]
-			// ] 
+			}
 		},
 		bar: {
 			options: {
@@ -214,18 +197,12 @@ ChartistHtml.config = {
 					showArea: false,
 					axisX: {
 						offset: 50,
-						position: 'end',
-						labelInterpolationFnc: function(value) {
-      						return value;
-      					}
+						position: 'end'
 					}, 
 					axisY: {
 						offset: 50,
 						position: 'start',
-						onlyInteger: true,
-						labelInterpolationFnc: function(value) {
-							return value;
-						}
+						onlyInteger: true
 					}
 				}
 			},
@@ -447,7 +424,6 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	 * Extracts chart content from the inner html
 	 * Extracts chart content from the inner html (unordered list).
 	 * @returns {object}
 	 */
@@ -521,7 +497,8 @@ ChartistHtml.ChartManager.prototype = {
 
 	/*
 	* Gets chart options based on type and subtype
-	* @return {obj} - options and responsive options
+	* @return {obj} - chart options
+	* @return {array} - chart responsive options, array of arrays
 	*/
 	getOptions: function() {
 
@@ -540,8 +517,8 @@ ChartistHtml.ChartManager.prototype = {
 		}
 
 		if (this.isSeriesOnX() && this.data.seriesFormat === 'currency') { 
-			responsiveOptions.axisX = responsiveOptions.axisX || {};
-			responsiveOptions.axisX.labelInterpolationFnc = fsv;
+			responsiveOptions[1].axisX = responsiveOptions[1].axisX || [];
+			responsiveOptions[1].axisX.labelInterpolationFnc = fsv;
 		}
 
 		if (this.isHorizontalChart() && this.type === "bar") {
@@ -551,7 +528,7 @@ ChartistHtml.ChartManager.prototype = {
 				options.axisY.offset = Math.round(longestLabelLength * ChartistHtml.config.labelOffsetCoefficient);
 			}
 		}
-
+		console.log(options, responsiveOptions);
 		return { options: options, responsiveOptions: responsiveOptions };
 	},
 
@@ -662,7 +639,7 @@ ChartistHtml.ChartManager.prototype = {
 
 	/*
 	* Finds longest label in array 
-	* Used to adjust axis offset for labels not set by formatters
+	* Used to adjust axis offset for long labels not set by formatters
 	* @returns {number} - length of string
 	*/
 	_getLongestLabelLength: function (v) {

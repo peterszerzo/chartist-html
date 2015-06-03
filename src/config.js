@@ -14,26 +14,9 @@ ChartistHtml.config = {
 		pie: {
 			options: {
 				base: {
-					showLabel: false, //only tooltips on pies
-					labelInterpolationFnc: function(value) {
-						return value[0];
-					}
+					showLabel: false //only tooltips on pies, so no responsive options needed
 				}
-			},
-			/* if labels are off, then we don't need responsive labels */
-			// responsiveOptions: [
-			// 	['screen and (min-width: 1000px)', {
-			// 		chartPadding: 30,
-			// 		labelOffset: 100,
-			// 			labelInterpolationFnc: function(value) {
-			// 				return value;
-			// 			}
-			// 	}],
-			// 	['screen and (min-width: 1024px)', {
-			// 		chartPadding: 20,
-			// 		labelOffset: 80
-			// 	}]
-			// ] 
+			}
 		},
 		bar: {
 			options: {
@@ -99,18 +82,12 @@ ChartistHtml.config = {
 					showArea: false,
 					axisX: {
 						offset: 50,
-						position: 'end',
-						labelInterpolationFnc: function(value) {
-      						return value;
-      					}
+						position: 'end'
 					}, 
 					axisY: {
 						offset: 50,
 						position: 'start',
-						onlyInteger: true,
-						labelInterpolationFnc: function(value) {
-							return value;
-						}
+						onlyInteger: true
 					}
 				}
 			},
