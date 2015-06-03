@@ -52,7 +52,7 @@ ChartistHtml.ChartManager.prototype = {
 			$seriesEl = $($el.find('.' + ChartistHtml.getSeriesClass())),
 			json = {
 				series: [],
-				seriesLabels: [] // for line and bar charts only
+				seriesLabels: [] //for line and bar charts only
 			};
 		
 		if (chartType !== 'pie') {
@@ -145,7 +145,7 @@ ChartistHtml.ChartManager.prototype = {
 				options.axisY.offset = Math.round(longestLabelLength * ChartistHtml.config.labelOffsetCoefficient);
 			}
 		}
-		// console.log(options, responsiveOptions);
+
 		return { options: options, responsiveOptions: responsiveOptions };
 	},
 
@@ -280,9 +280,9 @@ ChartistHtml.ChartManager.prototype = {
 	_addColoring: function() {
 		var self = this;
 
-		if (typeof chroma !== "undefined") {
+		if ( typeof chroma !== "undefined" ) {
 
-			if (typeof ChartistHtml.config.colorSpectrum !== "undefined") {
+			if ( typeof ChartistHtml.config.colorSpectrum !== "undefined" ) {
 
 				var seriesCount = this.chart.data.series.length;
 
@@ -295,7 +295,7 @@ ChartistHtml.ChartManager.prototype = {
 						scale = chroma.scale([firstColor, lastColor]).domain([0, seriesCount-1]),
 						color;
 
-					if (typeof scale(i) !== "undefined") {
+					if ( typeof scale(i) !== "undefined" ) {
 
 						color = scale(i).css();
 
