@@ -1,5 +1,5 @@
 ChartistHtml.ChartManager = function($el, chartId) { //
-	this.id = (typeof chartId !== "undefined") ? chartId : 1;
+	this.id = (ChartistHtml.exists(chartId)) ? chartId : 1;
 	this.type = undefined;
 	this.$el = $el;
 	this._isRendered = false;
@@ -17,17 +17,17 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	isFillChart: function() {
-		if (typeof this.type === "undefined") { return false; }
+		if (!ChartistHtml.exists(this.type)) { return false; }
 		return (this.type === 'pie');
 	},
 
 	isStrokeChart: function() {
-		if (typeof this.type === "undefined") { return false; }
+		if (!ChartistHtml.exists(this.type)) { return false; }
 		return (['bar', 'line'].indexOf(this.type) > -1);
 	},
 
 	isHorizontalChart: function() {
-		if (typeof this.data.subtypes === "undefined") { return false; }
+		if (!ChartistHtml.exists(this.data.subtypes)) { return false; }
 		return (this.data.subtypes.indexOf('horizontal') > -1);
 	},
 
@@ -125,8 +125,8 @@ ChartistHtml.ChartManager.prototype = {
 		if (this.isStrokeChart()) {
 			options.axisX = options.axisX || {};
 			options.axisY = options.axisY || {};
-			options.axisX.labelInterpolationFnc = this.isSeriesOnX() ? fsv : flv;
-			options.axisY.labelInterpolationFnc = this.isSeriesOnX() ? flv : fsv;
+			options.axisX.labelInterpolationFnc = this.isHorizontalChart() ? fsv : flv;
+			options.axisY.labelInterpolationFnc = this.isHorizontalChart() ? flv : fsv;
 		}
 
 		if (this.isSeriesOnX() && this.data.seriesFormat === 'currency') { 
@@ -213,17 +213,19 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	 * Adds title div to chart container
+	 * Adds title div to chart container if chart has a title
 	 * @returns {div}
 	 */
 	_appendTitle: function() {
 		var title = this.chart.data.title,
 			$el = $('<div>' + title + '</div>');
 
-		$el.addClass(ChartistHtml.config.baseClass + '__title');
+		if (ChartistHtml.exists(this.chart.data.title)) {
+			$el.addClass(ChartistHtml.config.baseClass + '__title');
 
-		this.$el.prepend($el);
-		this.$titleContainer = $el;
+			this.$el.prepend($el);
+			this.$titleContainer = $el;
+		}
 
 		return this;
 	},
@@ -233,9 +235,10 @@ ChartistHtml.ChartManager.prototype = {
 	 * @returns {string}
 	 */
 	_formatSeriesValue: function(v) {
-		if ( typeof this.data.seriesFormat !== 'undefined' ) {
+		if (ChartistHtml.exists(ChartistHtml.formatters[this.data.seriesFormat])) {
 		 	return ChartistHtml.formatters[this.data.seriesFormat](v);
 		}
+
 		return v;
 	},
 
@@ -244,9 +247,10 @@ ChartistHtml.ChartManager.prototype = {
 	* @returns {string}
 	*/
 	_formatLabelsValue: function(v) {
-		if ( typeof this.data.labelsFormat !== 'undefined' ) {
+		if (ChartistHtml.exists(ChartistHtml.formatters[this.data.labelsFormat])) {
 			return ChartistHtml.formatters[this.data.labelsFormat](v);
 		}
+
 		return v;
 	},
 
@@ -276,9 +280,9 @@ ChartistHtml.ChartManager.prototype = {
 	_addColoring: function() {
 		var self = this;
 
-		if ( typeof chroma !== "undefined" ) {
+		if (ChartistHtml.exists(chroma)) {
 
-			if ( typeof ChartistHtml.config.colorSpectrum !== "undefined" ) {
+			if (ChartistHtml.exists(ChartistHtml.config.colorSpectrum)) {
 
 				var seriesCount = this.chart.data.series.length;
 
@@ -291,7 +295,7 @@ ChartistHtml.ChartManager.prototype = {
 						scale = chroma.scale([firstColor, lastColor]).domain([0, seriesCount-1]),
 						color;
 
-					if ( typeof scale(i) !== "undefined" ) {
+					if (ChartistHtml.exists(scale(i))) {
 
 						color = scale(i).css();
 

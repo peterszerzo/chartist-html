@@ -6,7 +6,7 @@
  * @returns {object} object - new AllOptions object that merges defaults with specifics, and defaults and specifics stay the same 
  */
 ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
-	if (typeof chartOptions === "undefined") {
+	if (!ChartistHtml.exists(chartOptions)) {
 		chartOptions = ChartistHtml.config.chartOptions;
 	}
 
@@ -17,11 +17,11 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 	var allOptions = $.extend({}, defaults);
 
 	var i, max, subtype;
-	if(typeof subtypes !== "undefined" && subtypes.length > 0) {
+	if (ChartistHtml.exists(subtypes) && subtypes.length > 0) {
 		for(i = 0, max = subtypes.length; i < max; i += 1) {
 			subtype = subtypes[i];
 			specifics = chartTypeOptions[subtype];
-			if (typeof specifics !== "undefined") {
+			if (ChartistHtml.exists(specifics)) {
 				allOptions = $.extend(allOptions, specifics);
 			}
 		}

@@ -70,44 +70,48 @@ ChartistHtml.states = [
     { name: 'Wyoming', abbreviation: 'WY' }
 ];
 /*
+* Protects for existence
+* @returns
+*/
+ChartistHtml.exists = function(a) {
+	// console.log("I exist!");
+	return (typeof a !== "undefined" && a !== null);
+};
+/*
 * Formats and abbreviates series and labels on chart axes based on specified data formats
-* @param {value} - number or string, depending whether chart series or labels
+* @param {value} - number or string, depending on chart series or labels
 * @returns {string} - returns formatted string
 */
 ChartistHtml.formatters = {
 	currency: function(v) {
-		var formatter = (v > 999) ? '($0.0a)' : '($0)';
-		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
+		var formatter = (v > 999) ? '($0.00a)' : '($0)';
+		return (ChartistHtml.exists(numeral)) ? numeral(v).format(formatter) : v;
 	},
 	number: function(v) {
-		var formatter = (v > 999) ? '(0.0a)' : '(0)';
-		return (typeof numeral !== "undefined") ? numeral(v).format(formatter) : v;
+		var formatter = (v > 999) ? '(0.00a)' : '(0)';
+		return (ChartistHtml.exists(numeral)) ? numeral(v).format(formatter) : v;
 	},
 	percent: function(v) {
 		return (v + "%"); //eventually use numeral here to convert from decimal notation
 	},
 	year: function(v) {
-		if (typeof v.substring === "undefined") { return String(v); }
-		return (v.length = 4) ? ("'" + v.substring(2, 4)) : v;
+		if (!ChartistHtml.exists(v.substring)) { v = String(v); }
+		return (v.length === 4) ? ("'" + v.substring(2, 4)) : v;
 	},
 	state: function(v) {
 		$.each(ChartistHtml.states, function(i) {
 			if (v === ChartistHtml.states[i].name) {
 				v = ChartistHtml.states[i].abbreviation;
-			} else {
-				v = v;
-			}
+			} 
 		});
-
+		
 		return v;
 	},
 	month: function(v) {
 		$.each(ChartistHtml.months, function(i) {
 			if (v === ChartistHtml.months[i].name) {
 				v = ChartistHtml.months[i].abbreviation;
-			} else {
-				v = v;
-			}
+			} 
 		});
 
 		return v;
@@ -116,7 +120,7 @@ ChartistHtml.formatters = {
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#fff',
-	longLabelLength: 40,//set character length to define long labels
+	longLabelLength: 35,//set character length to define long labels
 	labelOffsetCoefficient: 3,
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
@@ -142,7 +146,7 @@ ChartistHtml.config = {
 						position: 'end'
 					},
 					axisY: {
-						offset: 50,
+						offset: 70,
       					position: 'start',
       					onlyInteger: true
       				}
@@ -154,7 +158,7 @@ ChartistHtml.config = {
 					horizontalBars: true,
 					reverseData: true,
 					axisX: {
-						offset: 50,
+						offset: 70,
       					position: 'end',
       					onlyInteger: true
       				},
@@ -165,7 +169,7 @@ ChartistHtml.config = {
       			}
 			},
 			responsiveOptions: [
-				['screen and (min-width: 1000px)', {
+				['screen and (min-width: 1920px)', {
 					axisX: {
 						labelInterpolationFnc: function(value) {
 							return value;
@@ -177,7 +181,7 @@ ChartistHtml.config = {
 					    }
 					}
 				}],
-				['screen and (min-width: 1024px)', {
+				['screen and (min-width: 1920px)', {
 			 		axisX: {
 						labelInterpolationFnc: function(value) {
 							return value;
@@ -196,25 +200,25 @@ ChartistHtml.config = {
 				base: {
 					showArea: false,
 					axisX: {
-						offset: 50,
+						offset: 70,
 						position: 'end'
 					}, 
 					axisY: {
-						offset: 50,
+						offset: 70,
 						position: 'start',
 						onlyInteger: true
 					}
 				}
 			},
 			responsiveOptions: [
-				['screen and (min-width: 1000px)', {
+				['screen and (min-width: 1920px)', {
 					axisX: {
 						labelInterpolationFnc: function(value) {
 							return value;
 					    }
 					}
 				}],
-				['screen and (min-width: 1024px)', {
+				['screen and (min-width: 1920px)', {
 					axisX: {
 						labelInterpolationFnc: function(value) {
 							return value;
@@ -228,7 +232,7 @@ ChartistHtml.config = {
 
 ChartistHtml.getBaseClass = function() {
 	return this.config.baseClass;
-};
+};//
 
 ChartistHtml.getLabelsClass = function() {
 	return this.config.baseClass + this.config.elementClassFragment + 'labels';
@@ -250,7 +254,7 @@ ChartistHtml.splitString = function(string) {
 		splitArray,
 		i, max;
 
-	if (typeof string === "undefined") { return; }
+	if (!ChartistHtml.exists(string)) { return; }
 
 	for(i = 0, max = separators.length; i < max; i += 1) {
 		separator = separators[i];
@@ -263,83 +267,9 @@ ChartistHtml.splitString = function(string) {
 };
 
 /*
- * Reads and parses an html string into a json object
- * Json object contains elements in the format that the Chartist library expects 
- * @param {string} string - string of html to be parsed
- * @returns {object} object - json data object 
- */
-ChartistHtml.innerHtmlToJson = function(html, chartType) {
- 	var $el = $(html),
- 		$labelsEl = $($el.find('.' + this.getLabelsClass())),
- 		$seriesEl = $($el.find('.' + this.getSeriesClass())),
- 		json = {};
-	
- 	if (chartType !== 'pie') {
- 		json.labels = ChartistHtml.splitString($labelsEl.html());
- 	} else {
- 		json.labels = [];
- 	}
-
- 	json.series = [];
-
- 	$seriesEl.each(function() {
-
- 		var $seriEl = $(this),
- 			stringSeries = ChartistHtml.splitString($seriEl.html()),
- 			numberSeries = [],
- 			i, max;
-
- 		for(i = 0, max = stringSeries.length; i < max; i += 1) {
- 			numberSeries.push(parseFloat(stringSeries[i]));
- 		}
-
- 		if ([ 'bar', 'line' ].indexOf(chartType) > -1) {
- 			json.series.push(numberSeries);
- 			numberal(json.series).format();
- 		} else if (chartType === 'pie') {
- 			json.series.push(numberSeries[0]);
- 			json.labels.push($seriEl.attr('data-name'));
- 		} else {
- 		}
- 	});
-
- 	return json;
- };
-
-/*
- * Takes the current html element and builds a json object  
- * @param {string} - string of html
- * @returns {object} - json data object
- */
-ChartistHtml.elementToJson = function($el) {
-
- 	var json = {},
- 		data;
-
- 	json.title = $el.attr('data-title'); 
- 	json.type = $el.attr('data-type');
-	
- 	var subtypeOptionA = ChartistHtml.splitString($el.attr('data-subtypes'));
- 	var subtypeOptionB = ChartistHtml.splitString($el.attr('data-options'));
-
- 	if (typeof subtypeOptionA !== "undefined") {
- 		json.subtypes = subtypeOptionA;
- 	} else {
- 		json.subtypes = subtypeOptionB;
- 	}
-
- 	data = ChartistHtml.innerHtmlToJson($el.html(), json.type);
-
- 	json.series = data.series;
- 	json.labels = data.labels;
-
- 	return json;
- };
-
-/*
  * Takes a string and capitalizes the first character 
- * @param {string} string - json.type string
- * @returns {string} string - json.type string with first character capitalized 
+ * @param {string} - string
+ * @returns {string} - sentence case string
  */
 ChartistHtml.toSentenceCase = function(str) {
       return str.replace(/\w\S*/g, function(txt) {
@@ -358,7 +288,7 @@ ChartistHtml.renderAll = function() {
  * @returns {object} object - new AllOptions object that merges defaults with specifics, and defaults and specifics stay the same 
  */
 ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
-	if (typeof chartOptions === "undefined") {
+	if (!ChartistHtml.exists(chartOptions)) {
 		chartOptions = ChartistHtml.config.chartOptions;
 	}
 
@@ -369,11 +299,11 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 	var allOptions = $.extend({}, defaults);
 
 	var i, max, subtype;
-	if(typeof subtypes !== "undefined" && subtypes.length > 0) {
+	if (ChartistHtml.exists(subtypes) && subtypes.length > 0) {
 		for(i = 0, max = subtypes.length; i < max; i += 1) {
 			subtype = subtypes[i];
 			specifics = chartTypeOptions[subtype];
-			if (typeof specifics !== "undefined") {
+			if (ChartistHtml.exists(specifics)) {
 				allOptions = $.extend(allOptions, specifics);
 			}
 		}
@@ -382,7 +312,7 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 	return allOptions;
 };
 ChartistHtml.ChartManager = function($el, chartId) { //
-	this.id = (typeof chartId !== "undefined") ? chartId : 1;
+	this.id = (ChartistHtml.exists(chartId)) ? chartId : 1;
 	this.type = undefined;
 	this.$el = $el;
 	this._isRendered = false;
@@ -400,17 +330,17 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	isFillChart: function() {
-		if (typeof this.type === "undefined") { return false; }
+		if (!ChartistHtml.exists(this.type)) { return false; }
 		return (this.type === 'pie');
 	},
 
 	isStrokeChart: function() {
-		if (typeof this.type === "undefined") { return false; }
+		if (!ChartistHtml.exists(this.type)) { return false; }
 		return (['bar', 'line'].indexOf(this.type) > -1);
 	},
 
 	isHorizontalChart: function() {
-		if (typeof this.data.subtypes === "undefined") { return false; }
+		if (!ChartistHtml.exists(this.data.subtypes)) { return false; }
 		return (this.data.subtypes.indexOf('horizontal') > -1);
 	},
 
@@ -508,8 +438,8 @@ ChartistHtml.ChartManager.prototype = {
 		if (this.isStrokeChart()) {
 			options.axisX = options.axisX || {};
 			options.axisY = options.axisY || {};
-			options.axisX.labelInterpolationFnc = this.isSeriesOnX() ? fsv : flv;
-			options.axisY.labelInterpolationFnc = this.isSeriesOnX() ? flv : fsv;
+			options.axisX.labelInterpolationFnc = this.isHorizontalChart() ? fsv : flv;
+			options.axisY.labelInterpolationFnc = this.isHorizontalChart() ? flv : fsv;
 		}
 
 		if (this.isSeriesOnX() && this.data.seriesFormat === 'currency') { 
@@ -596,17 +526,19 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	 * Adds title div to chart container
+	 * Adds title div to chart container if chart has a title
 	 * @returns {div}
 	 */
 	_appendTitle: function() {
 		var title = this.chart.data.title,
 			$el = $('<div>' + title + '</div>');
 
-		$el.addClass(ChartistHtml.config.baseClass + '__title');
+		if (ChartistHtml.exists(this.chart.data.title)) {
+			$el.addClass(ChartistHtml.config.baseClass + '__title');
 
-		this.$el.prepend($el);
-		this.$titleContainer = $el;
+			this.$el.prepend($el);
+			this.$titleContainer = $el;
+		}
 
 		return this;
 	},
@@ -616,9 +548,10 @@ ChartistHtml.ChartManager.prototype = {
 	 * @returns {string}
 	 */
 	_formatSeriesValue: function(v) {
-		if ( typeof this.data.seriesFormat !== 'undefined' ) {
+		if (ChartistHtml.exists(ChartistHtml.formatters[this.data.seriesFormat])) {
 		 	return ChartistHtml.formatters[this.data.seriesFormat](v);
 		}
+
 		return v;
 	},
 
@@ -627,9 +560,10 @@ ChartistHtml.ChartManager.prototype = {
 	* @returns {string}
 	*/
 	_formatLabelsValue: function(v) {
-		if ( typeof this.data.labelsFormat !== 'undefined' ) {
+		if (ChartistHtml.exists(ChartistHtml.formatters[this.data.labelsFormat])) {
 			return ChartistHtml.formatters[this.data.labelsFormat](v);
 		}
+
 		return v;
 	},
 
@@ -659,9 +593,9 @@ ChartistHtml.ChartManager.prototype = {
 	_addColoring: function() {
 		var self = this;
 
-		if ( typeof chroma !== "undefined" ) {
+		if (ChartistHtml.exists(chroma)) {
 
-			if ( typeof ChartistHtml.config.colorSpectrum !== "undefined" ) {
+			if (ChartistHtml.exists(ChartistHtml.config.colorSpectrum)) {
 
 				var seriesCount = this.chart.data.series.length;
 
@@ -674,7 +608,7 @@ ChartistHtml.ChartManager.prototype = {
 						scale = chroma.scale([firstColor, lastColor]).domain([0, seriesCount-1]),
 						color;
 
-					if ( typeof scale(i) !== "undefined" ) {
+					if (ChartistHtml.exists(scale(i))) {
 
 						color = scale(i).css();
 
