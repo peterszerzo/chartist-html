@@ -517,7 +517,7 @@ ChartistHtml.ChartManager.prototype = {
 	        window.removeEventListener('resize', chart.resizeListener);
 	        chart.optionsProvider.removeMediaQueryListeners();
 	        this.$chartContainer.remove();
-	        this.$titleContainer.remove();
+	        if(ChartistHtml.exists(this.$titleContainer)) { this.$titleContainer.remove(); }
 		}
 
         this._isRendered = false;
