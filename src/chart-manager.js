@@ -27,7 +27,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	isHorizontalChart: function() {
-		if (!ChartistHtml.exists(this.data.subtypes)) { return false; }
+		if (!ChartistHtml.exists(this, 'data.subtypes')) { return false; }
 		return (this.data.subtypes.indexOf('horizontal') > -1);
 	},
 

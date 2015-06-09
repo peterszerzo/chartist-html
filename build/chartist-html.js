@@ -71,10 +71,18 @@ ChartistHtml.states = [
 ];
 /*
 * Protects for existence
+* @param {obj} - object, and if object exists, then keys
 * @returns {a}
 */
-ChartistHtml.exists = function(a) {
-	return (typeof a !== "undefined" && a !== null);
+ChartistHtml.exists = function(obj, key) {
+	// return (typeof obj !== "undefined" && obj !== null);
+	if (typeof obj === "undefined" || obj === null) { return false; }
+	if (typeof key === "undefined" || key === null || key === "") { return true; }
+	var keys = key.split('.'),
+		keysExceptFirst = keys.slice(1).join('.'),
+		newObj = obj[keys[0]];
+	if (typeof newObj === "undefined" || newObj === null) { return false; }
+	return ChartistHtml.exists(newObj, keysExceptFirst);
 };
 /*
 * Formats and abbreviates series and labels on chart axes based on specified data formats
@@ -338,7 +346,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	isHorizontalChart: function() {
-		if (!ChartistHtml.exists(this.data.subtypes)) { return false; }
+		if (!ChartistHtml.exists(this, 'data.subtypes')) { return false; }
 		return (this.data.subtypes.indexOf('horizontal') > -1);
 	},
 

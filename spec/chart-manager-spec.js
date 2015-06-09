@@ -2,37 +2,37 @@ describe('ChartistHtml.ChartManager', function() {
 
 	describe('isFillChart', function() {
 		var cm = new ChartistHtml.ChartManager();
-		cm.data = { type: "pie" };
+		cm.type = "pie";
 
 		it('detects chart type', function() {
-			(cm.isFillChart(cm.data)).should.eql(false); //pie charts are fill charts, should equal true
+			(cm.isFillChart()).should.eql(true); //pie charts are fill charts, should equal true
 		});
 	});
 
 	describe('isStrokeChart', function() {
 		var cm = new ChartistHtml.ChartManager();
-		cm.data = { type: "pie" };
+		cm.type = "pie";
 
 		it('detects chart type', function() {
-			(cm.isStrokeChart(cm.data)).should.eql(false); //doesn't pass when type: 'line' or 'bar' and should.eql(true)
+			(cm.isStrokeChart()).should.eql(false); //doesn't pass when type: 'line' or 'bar' and should.eql(true)
 		});
 	});
 
 	describe('isHorizontalChart', function() {
 		var cm = new ChartistHtml.ChartManager();
-		cm.data = { subtypes: [ "circle", "horizontal" ] };
+		cm.data = { subtypes: [ "stacked" ] };
 
 		it('detects chart subtype', function() {
-			(cm.isHorizontalChart(cm.data)).should.eql(true);
+			(cm.isHorizontalChart()).should.eql(false);
 		});
 	});
 
 	describe('isSeriesOnX', function() {
 		var cm = new ChartistHtml.ChartManager();
-		cm.data = { type: "line" };
+		cm.type = "line";
 
 		it('detects chart type', function() {
-			(cm.isSeriesOnX(cm.data)).should.eql(!isHorizontalChart()); //failing
+			(cm.isSeriesOnX()).should.eql(!cm.isHorizontalChart());
 		});
 	});
 
@@ -76,8 +76,8 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.data = { title: "Hello" };
 
-		it('detects chart title', function() {
-			(cm._appendTitle(cm.data).find($titleContainer)).should.eql('<div>"Hello"</div>'); //failing
+		it('detects title container', function() {
+			(find($titleContainer)).should.equal('<div>"Hello"</div>'); //failing
 		});
 	});
 
@@ -86,7 +86,7 @@ describe('ChartistHtml.ChartManager', function() {
 		cm.data = { seriesFormat: "percent" };
 
 		it('detects data series format', function() {
-			(cm._formatSeriesValue(cm.data)).should.eql("[object Object]%"); //what's [object Object] here? 
+			(cm._formatSeriesValue(cm.data)).should.eql("[object Object]%"); //what's [object Object] here? how can this test check for numeral?
 		});
 	});
 
