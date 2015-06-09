@@ -11,7 +11,7 @@ describe('ChartistHtml.config', function() {
 		(!!ChartistHtml.config).should.equal(true);
 	});
 });
-describe('ChartistHtml', function() {
+describe('ChartistHtml html-to-json', function() {
 
 	describe('getBaseClass', function() {
 		it('detects base class', function() {
@@ -65,7 +65,7 @@ xdescribe('ChartistHtml.renderChart', function() {
 		});
 
 	it('names chart container using base class and id', function() {
-		(ChartistHtml.renderChart($el, 1).container).should.equal('div.ct-chart.ct-perfect-forth.ct-chart-1');
+		(ChartistHtml.renderChart($el, 1).container).should.eql('div.ct-chart.ct-perfect-forth.ct-chart-1');
 	});
 });
 describe('ChartistHtml.getOptions', function() {
@@ -83,7 +83,7 @@ describe('ChartistHtml.getOptions', function() {
 		(ChartistHtml.getOptions( 'bar', [ 'stacked' ], chartOptions)).should.eql({'a': "b", 'c': "d"});
 	});
 });
- describe('ChartistHtml.ChartManager', function() {
+describe('ChartistHtml.ChartManager', function() {
 
 	describe('setData', function() {
 		describe('for bar charts', function() {
@@ -95,10 +95,10 @@ describe('ChartistHtml.getOptions', function() {
 				chart.setData();
 			});
 			it('detects and separates chart labels', function() {
-				(chart.data.labels[0]).should.equal('May');
+				(chart.data.labels[0]).should.eql('May');
 			});
 			it('detects and separates chart series - array of array', function() {
-				(chart.data.series[0][0]).should.equal(1);
+				(chart.data.series[0][0]).should.eql(1);
 			});
 		});
 	});

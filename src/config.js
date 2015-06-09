@@ -1,7 +1,7 @@
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#fff',
-	longLabelLength: 35,//set character length to define long labels
+	longLabelLength: 35,//set character length to define long labels and trigger additional offset
 	labelOffsetCoefficient: 3,
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
@@ -50,7 +50,7 @@ ChartistHtml.config = {
       			}
 			},
 			responsiveOptions: [
-				['screen and (min-width: 1920px)', {
+				['screen and (min-width: 1920px)', { //keeps responsive formatting set at all screen widths
 					axisX: {
 						labelInterpolationFnc: function(value) {
 							return value;
@@ -76,7 +76,7 @@ ChartistHtml.config = {
 				}],
 			]
 		},
-		line: {
+		line: { //always vertical, with labels on x and series on y
 			options: {
 				base: {
 					showArea: false,
@@ -92,7 +92,7 @@ ChartistHtml.config = {
 				}
 			},
 			responsiveOptions: [
-				['screen and (min-width: 1920px)', {
+				['screen and (min-width: 1920px)', { //keeps responsive formatting set at all screen widths
 					axisX: {
 						labelInterpolationFnc: function(value) {
 							return value;

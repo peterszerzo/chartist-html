@@ -38,7 +38,7 @@ ChartistHtml.ChartManager.prototype = {
 
 	/*
 	 * Extracts chart content from the inner html (unordered list).
-	 * @returns {object}
+	 * @returns {object} - json data object
 	 */
 	innerHtmlToJson: function() {
 		var chartType = this.type,
@@ -83,7 +83,7 @@ ChartistHtml.ChartManager.prototype = {
 
 	/*
 	* Get chart data from html div
-	* @return {obj} - json data object
+	* @returns {obj} - chart manager object
 	*/
 	setData: function() {
 		var $el = this.$el,
@@ -110,8 +110,8 @@ ChartistHtml.ChartManager.prototype = {
 
 	/*
 	* Gets chart options based on type and subtype
-	* @return {obj} - chart options
-	* @return {array} - chart responsive options, array of arrays
+	* @returns {obj} - chart options
+	* @returns {array} - chart responsive options, array of arrays
 	*/
 	getOptions: function() {
 
@@ -213,8 +213,8 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	 * Adds title div to chart container if chart has a title
-	 * @returns {div}
+	 * Adds title div to chart container if chart title is set in html
+	 * @returns {obj} - chart manager object
 	 */
 	_appendTitle: function() {
 		var title = this.chart.data.title,
@@ -231,7 +231,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	 * Formats series on chart axes and tooltips
+	 * Formats series on chart axes and tooltips, if data-series-format is set in html
 	 * @returns {string}
 	 */
 	_formatSeriesValue: function(v) {
@@ -243,7 +243,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	* Abbreviates labels on chart axes in response to screen width
+	* Abbreviates labels on chart axes in response to screen width, if data-labels-format is set in html
 	* @returns {string}
 	*/
 	_formatLabelsValue: function(v) {
@@ -256,7 +256,7 @@ ChartistHtml.ChartManager.prototype = {
 
 	/*
 	* Finds longest label in array 
-	* Used to adjust axis offset for long labels not set by formatters
+	* Adjusts axis offset for long labels not set by formatters
 	* @returns {number} - length of string
 	*/
 	_getLongestLabelLength: function (v) {
@@ -274,7 +274,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	* Applies color scale to chart series using two-color spectrum
+	* Applies color scale to chart series using two-color [ start, end ] spectrum
 	* @returns {obj} - chart manager object
 	*/
 	_addColoring: function() {
@@ -316,6 +316,11 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
+	/*
+	 * Adds tooltip to chart manager object
+	 * Uses chart type and component subclasses (like slice, point, or bar) to bind div
+	 * @returns {obj} - chart manager object
+	 */
 	_bindTooltips: function() {
 		var self = this,
 			className = ChartistHtml.config.baseClass + '__tooltip',

@@ -1,4 +1,4 @@
- describe('ChartistHtml.ChartManager', function() {
+describe('ChartistHtml.ChartManager', function() {
 
 	describe('setData', function() {
 		describe('for bar charts', function() {
@@ -10,10 +10,10 @@
 				chart.setData();
 			});
 			it('detects and separates chart labels', function() {
-				(chart.data.labels[0]).should.equal('May');
+				(chart.data.labels[0]).should.eql('May');
 			});
 			it('detects and separates chart series - array of array', function() {
-				(chart.data.series[0][0]).should.equal(1);
+				(chart.data.series[0][0]).should.eql(1);
 			});
 		});
 	});

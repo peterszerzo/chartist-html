@@ -6,6 +6,6 @@ xdescribe('ChartistHtml.renderChart', function() {
 		});
 
 	it('names chart container using base class and id', function() {
-		(ChartistHtml.renderChart($el, 1).container).should.equal('div.ct-chart.ct-perfect-forth.ct-chart-1');
+		(ChartistHtml.renderChart($el, 1).container).should.eql('div.ct-chart.ct-perfect-forth.ct-chart-1');
 	});
 });

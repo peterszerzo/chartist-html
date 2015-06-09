@@ -1,4 +1,4 @@
-describe('ChartistHtml', function() {
+describe('ChartistHtml html-to-json', function() {
 
 	describe('getBaseClass', function() {
 		it('detects base class', function() {
