@@ -585,7 +585,7 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	* Applies color scale to chart series using two-color [ start, end ] spectrum
+	* Applies color scale to chart series using two-color spectrum set in config - [ 'start hex code', 'end hex code' ] 
 	* @returns {obj} - chart manager object
 	*/
 	_addColoring: function() {
