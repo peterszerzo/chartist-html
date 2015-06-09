@@ -34,7 +34,7 @@ ChartistHtml.states = [
     { name: 'Iowa', abbreviation: 'IA'},
     { name: 'Kansas', abbreviation: 'KS'},
     { name: 'Kentucky', abbreviation: 'KY'},
-    { name: 'Lousiana', abbreviation: 'LA'},
+    { name: 'Louisiana', abbreviation: 'LA'},
     { name: 'Maine', abbreviation: 'ME'},
     { name: 'Maryland', abbreviation: 'MD'},
     { name: 'Massachusets', abbreviation: 'MA'},
