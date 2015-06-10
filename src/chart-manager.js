@@ -109,11 +109,11 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	* Gets chart options based on type and subtype
+	* Sets chart options and responsive options
 	* @returns {obj} - chart options
 	* @returns {array} - chart responsive options, array of arrays
 	*/
-	getOptions: function() {
+	setOptions: function() {
 
 		var options = ChartistHtml.getOptions(this.data.type, this.data.subtypes),
 			responsiveOptions = ChartistHtml.config.chartOptions[this.data.type].responsiveOptions,
@@ -161,7 +161,7 @@ ChartistHtml.ChartManager.prototype = {
 
 		this._setChartContainer();
 
-		var opt = this.getOptions();
+		var opt = this.setOptions();
 
 		if(!self._isRendered) {
 			chart = new Chartist[chartType]('.' + chartClass, this.data, opt.options, opt.responsiveOptions);

@@ -105,17 +105,6 @@ describe('ChartistHtml html-to-json', function() {
 		});
 	});
 });
-xdescribe('ChartistHtml.renderChart', function() {
-	var html = '<div class="cts" data-type="pie"><ul><li class="cts__series" data-name="Federal">25</li><li class="cts__series" data-name="State">50</li><li class="cts__series" data-name="Local">25</li></ul></div>',
-		    $el = $(html);
-		beforeEach(function() {
-			ChartistHtml.config.baseClass = 'cts';
-		});
-
-	it('names chart container using base class and id', function() {
-		(ChartistHtml.renderChart($el, 1).container).should.eql('div.ct-chart.ct-perfect-forth.ct-chart-1');
-	});
-});
 describe('ChartistHtml.getOptions', function() {
 	var chartOptions = {
 		bar: {
@@ -127,6 +116,10 @@ describe('ChartistHtml.getOptions', function() {
 		}
 	};
 
+	it('has a getOptions object', function() {
+		(!!ChartistHtml.getOptions).should.equal(true);
+	});
+
 	it('builds up the base options object based on specific chart subtypes', function() {
 		(ChartistHtml.getOptions( 'bar', [ 'stacked' ], chartOptions)).should.eql({'a': "b", 'c': "d"});
 	});
@@ -134,6 +127,10 @@ describe('ChartistHtml.getOptions', function() {
 describe('ChartistHtml.ChartManager', function() {
 	it('has a chart manager object', function() {
 		(!!ChartistHtml.ChartManager).should.equal(true);
+	});
+
+	it('has a chart manager prototype object', function() {
+		(!!ChartistHtml.ChartManager.prototype).should.equal(true);
 	});
 
 	describe('isFillChart', function() {
@@ -265,5 +262,9 @@ describe('ChartistHtml.ChartManager', function() {
 describe('ChartistHtml.ChartCollectionManager', function () {
 	it('has a chart collection manager object', function() {
 		(!!ChartistHtml.ChartCollectionManager).should.equal(true);
+	});
+
+	it('has a chart collection manager prototype object', function() {
+		(!!ChartistHtml.ChartCollectionManager.prototype).should.equal(true);
 	});
 });

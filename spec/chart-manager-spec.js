@@ -3,6 +3,10 @@ describe('ChartistHtml.ChartManager', function() {
 		(!!ChartistHtml.ChartManager).should.equal(true);
 	});
 
+	it('has a chart manager prototype object', function() {
+		(!!ChartistHtml.ChartManager.prototype).should.equal(true);
+	});
+
 	describe('isFillChart', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.type = "pie";

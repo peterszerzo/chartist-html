@@ -70,12 +70,12 @@ ChartistHtml.data = {
     ]
 };
 /*
-* Protects for existence
-* @param {obj} - object, and if object exists, then keys
-* @returns {a}
+* Protects for existence, checks nested objects recursively
+* @param {obj} - object
+* @param {obj} - optional keys if object is defined
+* @returns {obj}
 */
 ChartistHtml.exists = function(obj, key) {
-	// return (typeof obj !== "undefined" && obj !== null);
 	if (typeof obj === "undefined" || obj === null) { return false; }
 	if (typeof key === "undefined" || key === null || key === "") { return true; }
 
@@ -427,11 +427,11 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	* Gets chart options based on type and subtype
+	* Sets chart options and responsive options
 	* @returns {obj} - chart options
 	* @returns {array} - chart responsive options, array of arrays
 	*/
-	getOptions: function() {
+	setOptions: function() {
 
 		var options = ChartistHtml.getOptions(this.data.type, this.data.subtypes),
 			responsiveOptions = ChartistHtml.config.chartOptions[this.data.type].responsiveOptions,
@@ -479,7 +479,7 @@ ChartistHtml.ChartManager.prototype = {
 
 		this._setChartContainer();
 
-		var opt = this.getOptions();
+		var opt = this.setOptions();
 
 		if(!self._isRendered) {
 			chart = new Chartist[chartType]('.' + chartClass, this.data, opt.options, opt.responsiveOptions);

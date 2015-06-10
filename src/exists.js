@@ -1,10 +1,10 @@
 /*
-* Protects for existence
-* @param {obj} - object, and if object exists, then keys
-* @returns {a}
+* Protects for existence, checks nested objects recursively
+* @param {obj} - object
+* @param {obj} - optional keys if object is defined
+* @returns {obj}
 */
 ChartistHtml.exists = function(obj, key) {
-	// return (typeof obj !== "undefined" && obj !== null);
 	if (typeof obj === "undefined" || obj === null) { return false; }
 	if (typeof key === "undefined" || key === null || key === "") { return true; }
 
