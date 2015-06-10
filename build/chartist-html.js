@@ -78,9 +78,11 @@ ChartistHtml.exists = function(obj, key) {
 	// return (typeof obj !== "undefined" && obj !== null);
 	if (typeof obj === "undefined" || obj === null) { return false; }
 	if (typeof key === "undefined" || key === null || key === "") { return true; }
+
 	var keys = key.split('.'),
 		keysExceptFirst = keys.slice(1).join('.'),
 		newObj = obj[keys[0]];
+
 	if (typeof newObj === "undefined" || newObj === null) { return false; }
 	return ChartistHtml.exists(newObj, keysExceptFirst);
 };
@@ -127,7 +129,7 @@ ChartistHtml.formatters = {
 ChartistHtml.config = {
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#fff',
-	longLabelLength: 35,//set character length to define long labels and trigger additional offset
+	longLabelLength: 35, //set character length to define long labels and trigger additional offset
 	labelOffsetCoefficient: 3,
 	baseClass: 'ct-html',
 	elementClassFragment: '__',
@@ -283,9 +285,6 @@ ChartistHtml.toSentenceCase = function(str) {
       });
 };
 
-ChartistHtml.renderAll = function() {
-	new ChartistHtml.ChartCollectionManager($('.' + ChartistHtml.config.baseClass)).render();
-};
 /*
  * Merges the elements in two objects to create a new object with all chart options
  * @param {string} string - type of chart
@@ -662,7 +661,7 @@ ChartistHtml.ChartManager.prototype = {
 				index,
 				label;
 
-			index = ChartistHtml.alphabet.indexOf(series[series.length - 1]);
+			index = ChartistHtml.data.alphabet.indexOf(series[series.length - 1]);
 
 			if (chartType === 'pie') {
 				label = self.chart.data.labels[index];

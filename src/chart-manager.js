@@ -343,7 +343,7 @@ ChartistHtml.ChartManager.prototype = {
 				index,
 				label;
 
-			index = ChartistHtml.alphabet.indexOf(series[series.length - 1]);
+			index = ChartistHtml.data.alphabet.indexOf(series[series.length - 1]);
 
 			if (chartType === 'pie') {
 				label = self.chart.data.labels[index];

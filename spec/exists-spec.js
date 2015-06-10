@@ -2,7 +2,7 @@ describe('ChartistHtml.exists', function () {
 	it('has an exists object', function() {
 		(!!ChartistHtml.exists).should.equal(true);
 	});
-	
+
 	it('tests false for undefined', function() {
 		ChartistHtml.exists(undefined).should.equal(false);
 	});
@@ -11,7 +11,7 @@ describe('ChartistHtml.exists', function () {
 		ChartistHtml.exists(null).should.equal(false);
 	});
 
-	it('tests true for emopty string', function() {
+	it('tests true for empty string', function() {
 		ChartistHtml.exists("").should.equal(true);
 	});
 

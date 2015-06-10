@@ -24,7 +24,7 @@ describe('ChartistHtml.exists', function () {
 	it('has an exists object', function() {
 		(!!ChartistHtml.exists).should.equal(true);
 	});
-	
+
 	it('tests false for undefined', function() {
 		ChartistHtml.exists(undefined).should.equal(false);
 	});
@@ -33,7 +33,7 @@ describe('ChartistHtml.exists', function () {
 		ChartistHtml.exists(null).should.equal(false);
 	});
 
-	it('tests true for emopty string', function() {
+	it('tests true for empty string', function() {
 		ChartistHtml.exists("").should.equal(true);
 	});
 
@@ -53,6 +53,10 @@ describe('ChartistHtml.formatters', function() {
 describe('ChartistHtml.config', function() {
 	it('has a config object', function() {
 		(!!ChartistHtml.config).should.equal(true);
+	});
+
+	it('has a chart options key', function() {
+		(!!ChartistHtml.config.chartOptions).should.equal(true);
 	});
 });
 describe('ChartistHtml html-to-json', function() {
@@ -128,12 +132,15 @@ describe('ChartistHtml.getOptions', function() {
 	});
 });
 describe('ChartistHtml.ChartManager', function() {
+	it('has a chart manager object', function() {
+		(!!ChartistHtml.ChartManager).should.equal(true);
+	});
 
 	describe('isFillChart', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.type = "pie";
 
-		it('sets fill chart based on chart type - pie', function() {
+		it('tests true for pie chart', function() {
 			(cm.isFillChart()).should.eql(true);
 		});
 	});
@@ -142,7 +149,7 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.type = "line";
 
-		it('sets stroke chart based on chart type - line and bar', function() {
+		it('tests true for line and bar charts', function() {
 			(cm.isStrokeChart()).should.eql(true);
 		});
 	});
@@ -151,7 +158,7 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.data = { subtypes: [ "stacked" ] };
 
-		it('sets horizontal chart based on chart subtypes', function() {
+		it('tests false if horizontal is not in subtypes', function() {
 			(cm.isHorizontalChart()).should.eql(false);
 		});
 	});
@@ -160,7 +167,7 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.type = "line";
 
-		it('sets series axis based on chart type', function() {
+		it('tests not-horizontal for line chart', function() {
 			(cm.isSeriesOnX()).should.eql(!cm.isHorizontalChart());
 		});
 	});
@@ -188,13 +195,12 @@ describe('ChartistHtml.ChartManager', function() {
 		cm.id = 2;
 
 		it('sets chart id to value provided', function() {
-			(cm._getChartClass()).should.eql('ct-chart-2'); //doesn't pass when id: 2 and should.eql('ct-chart-2')
+			(cm._getChartClass()).should.eql('ct-chart-2');
 		});
 	});
 
-	describe('_getChartClass', function() {
+	describe('_getChartClass', function() { //can this be combined with above?
 		var cm = new ChartistHtml.ChartManager();
-		cm.id;
 
 		it('sets chart id to 1 if it is not defined', function() {
 			(cm._getChartClass()).should.eql('ct-chart-1');
@@ -214,8 +220,8 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.data = { seriesFormat: "percent" };
 
-		it('detects data series format', function() {
-			(cm._formatSeriesValue(cm.data)).should.eql("[object Object]%"); //what's [object Object] here? how can this test check for numeral?
+		it('detects data series format and formats value', function() {
+			(cm._formatSeriesValue(50)).should.eql("50%");
 		});
 	});
 
@@ -223,8 +229,8 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.data = { labelsFormat: "month" };
 
-		it('detects data labels format', function() {
-			(cm._formatLabelsValue(cm.data)).should.eql({ labelsFormat: "month" }); //why does this pass?
+		it('detects data labels format and formats label', function() {
+			(cm._formatLabelsValue("January")).should.eql("Jan");
 		});
 	});
 
@@ -241,7 +247,7 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.data = { series: [1, 2, 3, 4, null, 5]};
 
-		it('detects and sets seriesCount', function() {
+		it('counts series length to later set color spectrum length', function() {
 			(cm.data.series.length).should.eql(6);
 		});
 	});
