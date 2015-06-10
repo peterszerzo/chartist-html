@@ -1,17 +1,23 @@
 /*
-* Protects for existence, checks nested objects recursively
-* @param {obj} - object
-* @param {obj} - optional keys if object is defined
-* @returns {obj}
+* Checks existence (is not null or undefined), traversing arbitrarily deeply nested objects recursively.
+* @param {obj} obj - Object checked.
+* @param {string} key - Dot-separated deep nesting key, e.g. "data.type.simple".
+* @returns {boolean} exists
 */
 ChartistHtml.exists = function(obj, key) {
-	if (typeof obj === "undefined" || obj === null) { return false; }
-	if (typeof key === "undefined" || key === null || key === "") { return true; }
+	var keys, keysExceptFirst, newObj,
+		isUnset = function(param) { return (typeof param === "undefined" || param === null); };
 
-	var keys = key.split('.'),
-		keysExceptFirst = keys.slice(1).join('.'),
-		newObj = obj[keys[0]];
+	// Return false if object is null or undefined.
+	if (isUnset(obj)) { return false; }
 
-	if (typeof newObj === "undefined" || newObj === null) { return false; }
+	// If no further key is specified, return true.
+	if (isUnset(key) || key === "") { return true; }
+
+	// Step down to deeper nesting level and check recursively.
+	keys = key.split('.');
+	keysExceptFirst = keys.slice(1).join('.');
+	newObj = obj[keys[0]];
+	if (isUnset(newObj)) { return false; }
 	return ChartistHtml.exists(newObj, keysExceptFirst);
 };

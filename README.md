@@ -23,9 +23,9 @@ Create your first chart and include it your html:
 
 Add the script once document is loaded:
 
-	ChartistHtml.render();
+	ChartistHtml.ChartCollectionManager.render();
 
-The unordered list tag is now hidden (in case you didn't readily styled it so), and has the fully rendered Chartist.js chart as its sibling:
+The unordered list tag is now hidden (in case you didn't readily style it so), and has the fully rendered Chartist.js chart as its sibling:
 
 	<div class="cts" data-type="bar" data-options="stacked|horizontal">
 		<ul>...</ul>

@@ -70,20 +70,26 @@ ChartistHtml.data = {
     ]
 };
 /*
-* Protects for existence, checks nested objects recursively
-* @param {obj} - object
-* @param {obj} - optional keys if object is defined
-* @returns {obj}
+* Checks existence (is not null or undefined), traversing arbitrarily deeply nested objects recursively.
+* @param {obj} obj - Object checked.
+* @param {string} key - Dot-separated deep nesting key, e.g. "data.type.simple".
+* @returns {boolean} exists
 */
 ChartistHtml.exists = function(obj, key) {
-	if (typeof obj === "undefined" || obj === null) { return false; }
-	if (typeof key === "undefined" || key === null || key === "") { return true; }
+	var keys, keysExceptFirst, newObj,
+		isUnset = function(param) { return (typeof param === "undefined" || param === null); };
 
-	var keys = key.split('.'),
-		keysExceptFirst = keys.slice(1).join('.'),
-		newObj = obj[keys[0]];
+	// Return false if object is null or undefined.
+	if (isUnset(obj)) { return false; }
 
-	if (typeof newObj === "undefined" || newObj === null) { return false; }
+	// If no further key is specified, return true.
+	if (isUnset(key) || key === "") { return true; }
+
+	// Step down to deeper nesting level and check recursively.
+	keys = key.split('.');
+	keysExceptFirst = keys.slice(1).join('.');
+	newObj = obj[keys[0]];
+	if (isUnset(newObj)) { return false; }
 	return ChartistHtml.exists(newObj, keysExceptFirst);
 };
 /*
@@ -531,16 +537,15 @@ ChartistHtml.ChartManager.prototype = {
 	},
 
 	/*
-	 * Adds title div to chart container if chart title is set in html
+	 * Adds title div to chart container, if title is set in html
 	 * @returns {obj} - chart manager object
 	 */
 	_appendTitle: function() {
-		var title = this.chart.data.title,
+		var title = this.data.title,
 			$el = $('<div>' + title + '</div>');
 
-		if (ChartistHtml.exists(this.chart.data.title)) {
+		if (ChartistHtml.exists(title)) {
 			$el.addClass(ChartistHtml.config.baseClass + '__title');
-
 			this.$el.prepend($el);
 			this.$titleContainer = $el;
 		}
@@ -598,37 +603,36 @@ ChartistHtml.ChartManager.prototype = {
 	_addColoring: function() {
 		var self = this;
 
-		if (ChartistHtml.exists(chroma)) {
+		if (ChartistHtml.exists(chroma) && ChartistHtml.exists(ChartistHtml, 'config.colorSpectrum')) {
 
-			if (ChartistHtml.exists(ChartistHtml.config.colorSpectrum)) {
+			var seriesCount = this.data.series.length;
 
-				var seriesCount = this.chart.data.series.length;
+			this.$chart.find('.ct-series').each(function(i) {
 
-				this.$chart.find('.ct-series').each(function(i) {
+				var $el = $(this),
+					chartType = self.type,
+					firstColor = ChartistHtml.config.colorSpectrum[0],
+					lastColor = ChartistHtml.config.colorSpectrum[1],
+					scale = chroma.scale([firstColor, lastColor]).domain([0, seriesCount-1]),
+					color;
 
-					var $el = $(this),
-						chartType = self.type,
-						firstColor = ChartistHtml.config.colorSpectrum[0],
-						lastColor = ChartistHtml.config.colorSpectrum[1],
-						scale = chroma.scale([firstColor, lastColor]).domain([0, seriesCount-1]),
-						color;
+				if (ChartistHtml.exists(scale(i))) {
 
-					if (ChartistHtml.exists(scale(i))) {
+					color = scale(i).css();
 
-						color = scale(i).css();
-
-						if (self.isFillChart()) {
-							$el.find('path').each(function() { 
-								$(this).css({ 'fill': color, 'stroke': ChartistHtml.config.backgroundColor, 'stroke-width': 3 }); 
-							});
-						} else {
-							$el.find('line, path').each(function() { 
-								$(this).css('stroke', color); 
-							});
-						}
+					if (self.isFillChart()) {
+						$el.find('path').each(function() { 
+							$(this).css({ 'fill': color, 'stroke': ChartistHtml.config.backgroundColor, 'stroke-width': 3 }); 
+						});
+					} else {
+						$el.find('line, path').each(function() { 
+							$(this).css('stroke', color); 
+						});
 					}
-				});
-			}
+
+				}
+
+			});
 		}
 
 		return this;
@@ -664,9 +668,9 @@ ChartistHtml.ChartManager.prototype = {
 			index = ChartistHtml.data.alphabet.indexOf(series[series.length - 1]);
 
 			if (chartType === 'pie') {
-				label = self.chart.data.labels[index];
+				label = self.data.labels[index];
 			} else {
-				label = self.chart.data.seriesLabels[index];
+				label = self.data.seriesLabels[index];
 			}
 
 			if (label && value) {

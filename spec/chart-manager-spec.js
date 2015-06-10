@@ -43,6 +43,9 @@ describe('ChartistHtml.ChartManager', function() {
 		});
 	});
 
+	// describe('innerHtmlToJson', function() {
+	// });
+
 	describe('setData', function() {
 		describe('for bar charts', function() {
 			var html = '<div class="ct-html" data-title="A Fine Chart" data-type="bar" data-options="stacked|horizontal"><ul><li class="ct-html__labels">May|June|July|August|September</li><li class="ct-html__series" data-name="Federal">1|2|3|4|5</li><li class="ct-html__series" data-name="State">1|2|3|4|5</li><li class="ct-html__series" data-name="Local">1|2|3|4|5</li></ul></div>',
@@ -61,6 +64,12 @@ describe('ChartistHtml.ChartManager', function() {
 		});
 	});
 
+	// describe('setOptions', function() {
+	// });
+
+	// describe('render', function() {
+	// });
+
 	describe('_getChartClass', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.id = 2;
@@ -78,12 +87,20 @@ describe('ChartistHtml.ChartManager', function() {
 		});
 	});
 
+	// describe('_setChartContainer', function() {
+	// });
+
+	// describe('destroy', function() {
+	// });
+
 	describe('_appendTitle', function() {
 		var cm = new ChartistHtml.ChartManager();
-		cm.title = "Hello";
+		cm.data = { title: "Hello" };
+		cm.$el = $('<div></div>');
+		cm._appendTitle();
 
-		it('detects title container', function() {
-			(find($titleContainer)).should.equal('<div>"Hello"</div>'); //failing, misusing jquery find method
+		it('detects and fills title container', function() {
+			(cm.$el.html()).should.equal('<div class="ct-html__title">Hello</div>');
 		});
 	});
 
@@ -116,20 +133,25 @@ describe('ChartistHtml.ChartManager', function() {
 
 	describe('_addColoring', function() {
 		var cm = new ChartistHtml.ChartManager();
-		cm.data = { series: [1, 2, 3, 4, null, 5]};
+		cm.data = { series: [1, 2, 3, 4, null, 5] };
 
-		it('counts series length to later set color spectrum length', function() {
+		it('counts series length, needed to set color spectrum length', function() {
 			(cm.data.series.length).should.eql(6);
 		});
 	});
 
 	// describe('_bindTooltips', function() {
 	// 	var cm = new ChartistHtml.ChartManager();
-	// 	cm.data = { labels: ['a', 'b', 'c'], series: [1, 2, 3] }
+	// 	cm.data = { labels: ['a', 'b', 'c'], series: [1, 2, 3] };
+	// 	cm.$tooltip = $('<div></div>');
+	// 	cm._bindTooltips();
 
-	// 	it('detects labels and value', function() {
-	// 		(cm._bindTooltips)
+	// 	it('detects tooltip container', function() {
+	// 		(cm.$tooltip.html()).should.equal('<div class="ct-html__tooltip"></div>');
 	// 	});
+	// });
+
+	// describe('_unbindTooltips', function() {
 	// });
 
 });
