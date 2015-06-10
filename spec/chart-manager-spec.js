@@ -4,17 +4,17 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.type = "pie";
 
-		it('detects chart type', function() {
-			(cm.isFillChart()).should.eql(true); //pie charts are fill charts, should equal true
+		it('sets fill chart based on chart type - pie', function() {
+			(cm.isFillChart()).should.eql(true);
 		});
 	});
 
 	describe('isStrokeChart', function() {
 		var cm = new ChartistHtml.ChartManager();
-		cm.type = "pie";
+		cm.type = "line";
 
-		it('detects chart type', function() {
-			(cm.isStrokeChart()).should.eql(false); //doesn't pass when type: 'line' or 'bar' and should.eql(true)
+		it('sets stroke chart based on chart type - line and bar', function() {
+			(cm.isStrokeChart()).should.eql(true);
 		});
 	});
 
@@ -22,7 +22,7 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.data = { subtypes: [ "stacked" ] };
 
-		it('detects chart subtype', function() {
+		it('sets horizontal chart based on chart subtypes', function() {
 			(cm.isHorizontalChart()).should.eql(false);
 		});
 	});
@@ -31,7 +31,7 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.type = "line";
 
-		it('detects chart type', function() {
+		it('sets series axis based on chart type', function() {
 			(cm.isSeriesOnX()).should.eql(!cm.isHorizontalChart());
 		});
 	});
@@ -45,7 +45,7 @@ describe('ChartistHtml.ChartManager', function() {
 				chart = new ChartistHtml.ChartManager($(html), 1);
 				chart.setData();
 			});
-			it('detects and separates chart labels', function() {
+			it('detects and separates chart labels - array', function() {
 				(chart.data.labels[0]).should.eql('May');
 			});
 			it('detects and separates chart series - array of array', function() {
@@ -56,28 +56,28 @@ describe('ChartistHtml.ChartManager', function() {
 
 	describe('_getChartClass', function() {
 		var cm = new ChartistHtml.ChartManager();
-		cm.data = { id: 1 };
+		cm.id = 2;
 
-		it('sets chart id when it is provided', function() {
-			(cm._getChartClass(cm.data)).should.eql('ct-chart-1'); //doesn't pass when id: 2 and should.eql('ct-chart-2')
+		it('sets chart id to value provided', function() {
+			(cm._getChartClass()).should.eql('ct-chart-2'); //doesn't pass when id: 2 and should.eql('ct-chart-2')
 		});
 	});
 
 	describe('_getChartClass', function() {
 		var cm = new ChartistHtml.ChartManager();
-		cm.data = { id: "undefined" };
+		cm.id;
 
-		it('sets chart id to 1 when it is not defined', function() {
-			(cm._getChartClass(cm.data)).should.eql('ct-chart-1');
+		it('sets chart id to 1 if it is not defined', function() {
+			(cm._getChartClass()).should.eql('ct-chart-1');
 		});
 	});
 
 	describe('_appendTitle', function() {
 		var cm = new ChartistHtml.ChartManager();
-		cm.data = { title: "Hello" };
+		cm.title = "Hello";
 
 		it('detects title container', function() {
-			(find($titleContainer)).should.equal('<div>"Hello"</div>'); //failing
+			(find($titleContainer)).should.equal('<div>"Hello"</div>'); //failing, misusing jquery find method
 		});
 	});
 
@@ -103,7 +103,7 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.data = { labels: ['apples', 'grapefruits', 'oranges'] };
 
-		it('finds length of longest label', function() {
+		it('finds length of longest label in labels array', function() {
 			(cm._getLongestLabelLength(cm.data)).should.eql(11);
 		});
 	});
@@ -112,7 +112,7 @@ describe('ChartistHtml.ChartManager', function() {
 		var cm = new ChartistHtml.ChartManager();
 		cm.data = { series: [1, 2, 3, 4, null, 5]};
 
-		it('detects seriesCount', function() {
+		it('detects and sets seriesCount', function() {
 			(cm.data.series.length).should.eql(6);
 		});
 	});

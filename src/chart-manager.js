@@ -1,4 +1,4 @@
-ChartistHtml.ChartManager = function($el, chartId) { //
+ChartistHtml.ChartManager = function($el, chartId) {
 	this.id = (ChartistHtml.exists(chartId)) ? chartId : 1;
 	this.type = undefined;
 	this.$el = $el;

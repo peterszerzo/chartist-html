@@ -20,18 +20,18 @@ ChartistHtml.formatters = {
 		return (v.length === 4) ? ("'" + v.substring(2, 4)) : v;
 	},
 	state: function(v) {
-		$.each(ChartistHtml.states, function(i) {
-			if (v === ChartistHtml.states[i].name) {
-				v = ChartistHtml.states[i].abbreviation;
+		$.each(ChartistHtml.data.states, function(i) {
+			if (v === ChartistHtml.data.states[i].name) {
+				v = ChartistHtml.data.states[i].abbreviation;
 			} 
 		});
 		
 		return v;
 	},
 	month: function(v) {
-		$.each(ChartistHtml.months, function(i) {
-			if (v === ChartistHtml.months[i].name) {
-				v = ChartistHtml.months[i].abbreviation;
+		$.each(ChartistHtml.data.months, function(i) {
+			if (v === ChartistHtml.data.months[i].name) {
+				v = ChartistHtml.data.months[i].abbreviation;
 			} 
 		});
 

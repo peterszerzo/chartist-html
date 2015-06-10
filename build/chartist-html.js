@@ -1,74 +1,74 @@
 var ChartistHtml = {};
-ChartistHtml.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
-
-ChartistHtml.months = [	
-	{ name: 'January', abbreviation: 'Jan'},
-	{ name: 'February', abbreviation: 'Feb'},
-	{ name: 'March', abbreviation: 'Mar'},
-	{ name: 'April', abbreviation: 'Apr'},
-	{ name: 'May', abbreviation: 'May'},
-	{ name: 'June', abbreviation: 'June'},
-	{ name: 'July', abbreviation: 'July'},
-	{ name: 'August', abbreviation: 'Aug'},
-	{ name: 'September', abbreviation: 'Sept'},
-	{ name: 'October', abbreviation: 'Oct'},
-	{ name: 'November', abbreviation: 'Nov'},
-	{ name: 'December', abbreviation: 'Dec'},
-];
-
-ChartistHtml.states = [
-    { name: 'Alabama', abbreviation: 'AL'},
-    { name: 'Alaska', abbreviation: 'AK'},
-    { name: 'Arizona', abbreviation: 'AZ'},
-    { name: 'Arkansas', abbreviation: 'AR'},
-    { name: 'California', abbreviation: 'CA'},
-    { name: 'Colorado', abbreviation: 'CO'},
-    { name: 'Connecticut', abbreviation: 'CT'},
-    { name: 'Delaware', abbreviation: 'DE'},
-    { name: 'District of Columbia', abbreviation: 'DC'},
-    { name: 'Florida', abbreviation: 'FL'},
-    { name: 'Georgia', abbreviation: 'GA'},
-    { name: 'Hawaii', abbreviation: 'HI'},
-    { name: 'Idaho', abbreviation: 'ID'},
-    { name: 'Illinois', abbreviation: 'IL'},
-    { name: 'Indiana', abbreviation: 'IN'},
-    { name: 'Iowa', abbreviation: 'IA'},
-    { name: 'Kansas', abbreviation: 'KS'},
-    { name: 'Kentucky', abbreviation: 'KY'},
-    { name: 'Louisiana', abbreviation: 'LA'},
-    { name: 'Maine', abbreviation: 'ME'},
-    { name: 'Maryland', abbreviation: 'MD'},
-    { name: 'Massachusets', abbreviation: 'MA'},
-    { name: 'Michigan', abbreviation: 'MI'},
-    { name: 'Minnesota', abbreviation: 'MN'},
-    { name: 'Mississippi', abbreviation: 'MS'},
-    { name: 'Missouri', abbreviation: 'MO'},
-    { name: 'Montana', abbreviation: 'MT'},
-    { name: 'Nebraska', abbreviation: 'NE'},
-    { name: 'Nevada', abbreviation: 'NV'},
-    { name: 'New Hampshire', abbreviation: 'NH'},
-    { name: 'New Jersey', abbreviation: 'NJ'},
-    { name: 'New Mexico', abbreviation: 'NM'},
-    { name: 'New York', abbreviation: 'NY'},
-    { name: 'North Carolina', abbreviation: 'NC'},
-    { name: 'North Dakota', abbreviation: 'ND'},
-    { name: 'Ohio', abbreviation: 'OH'},
-    { name: 'Oklahoma', abbreviation: 'OK'},
-    { name: 'Oregon', abbreviation: 'OR'},
-    { name: 'Pennsylvania', abbreviation: 'PA'},
-    { name: 'Rhode Island', abbreviation: 'RI'},
-    { name: 'South Carolina', abbreviation: 'SC'},
-    { name: 'South Dakota', abbreviation: 'SD'},
-    { name: 'Tennessee', abbreviation: 'TN'},
-    { name: 'Texas', abbreviation: 'TX'},
-    { name: 'Utah', abbreviation: 'UT'},
-    { name: 'Vermont', abbreviation: 'VT'},
-    { name: 'Virginia', abbreviation: 'VA'},
-    { name: 'Washington', abbreviation: 'WA'},
-    { name: 'West Virginia', abbreviation: 'WV'},
-    { name: 'Wisconsin', abbreviation: 'WI'},
-    { name: 'Wyoming', abbreviation: 'WY' }
-];
+ChartistHtml.data = {
+    alphabet: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'],
+    months: [ 
+        { name: 'January', abbreviation: 'Jan'},
+        { name: 'February', abbreviation: 'Feb'},
+        { name: 'March', abbreviation: 'Mar'},
+        { name: 'April', abbreviation: 'Apr'},
+        { name: 'May', abbreviation: 'May'},
+        { name: 'June', abbreviation: 'June'},
+        { name: 'July', abbreviation: 'July'},
+        { name: 'August', abbreviation: 'Aug'},
+        { name: 'September', abbreviation: 'Sept'},
+        { name: 'October', abbreviation: 'Oct'},
+        { name: 'November', abbreviation: 'Nov'},
+        { name: 'December', abbreviation: 'Dec'},
+    ],
+    states:[
+        { name: 'Alabama', abbreviation: 'AL'},
+        { name: 'Alaska', abbreviation: 'AK'},
+        { name: 'Arizona', abbreviation: 'AZ'},
+        { name: 'Arkansas', abbreviation: 'AR'},
+        { name: 'California', abbreviation: 'CA'},
+        { name: 'Colorado', abbreviation: 'CO'},
+        { name: 'Connecticut', abbreviation: 'CT'},
+        { name: 'Delaware', abbreviation: 'DE'},
+        { name: 'District of Columbia', abbreviation: 'DC'},
+        { name: 'Florida', abbreviation: 'FL'},
+        { name: 'Georgia', abbreviation: 'GA'},
+        { name: 'Hawaii', abbreviation: 'HI'},
+        { name: 'Idaho', abbreviation: 'ID'},
+        { name: 'Illinois', abbreviation: 'IL'},
+        { name: 'Indiana', abbreviation: 'IN'},
+        { name: 'Iowa', abbreviation: 'IA'},
+        { name: 'Kansas', abbreviation: 'KS'},
+        { name: 'Kentucky', abbreviation: 'KY'},
+        { name: 'Louisiana', abbreviation: 'LA'},
+        { name: 'Maine', abbreviation: 'ME'},
+        { name: 'Maryland', abbreviation: 'MD'},
+        { name: 'Massachusets', abbreviation: 'MA'},
+        { name: 'Michigan', abbreviation: 'MI'},
+        { name: 'Minnesota', abbreviation: 'MN'},
+        { name: 'Mississippi', abbreviation: 'MS'},
+        { name: 'Missouri', abbreviation: 'MO'},
+        { name: 'Montana', abbreviation: 'MT'},
+        { name: 'Nebraska', abbreviation: 'NE'},
+        { name: 'Nevada', abbreviation: 'NV'},
+        { name: 'New Hampshire', abbreviation: 'NH'},
+        { name: 'New Jersey', abbreviation: 'NJ'},
+        { name: 'New Mexico', abbreviation: 'NM'},
+        { name: 'New York', abbreviation: 'NY'},
+        { name: 'North Carolina', abbreviation: 'NC'},
+        { name: 'North Dakota', abbreviation: 'ND'},
+        { name: 'Ohio', abbreviation: 'OH'},
+        { name: 'Oklahoma', abbreviation: 'OK'},
+        { name: 'Oregon', abbreviation: 'OR'},
+        { name: 'Pennsylvania', abbreviation: 'PA'},
+        { name: 'Rhode Island', abbreviation: 'RI'},
+        { name: 'South Carolina', abbreviation: 'SC'},
+        { name: 'South Dakota', abbreviation: 'SD'},
+        { name: 'Tennessee', abbreviation: 'TN'},
+        { name: 'Texas', abbreviation: 'TX'},
+        { name: 'Utah', abbreviation: 'UT'},
+        { name: 'Vermont', abbreviation: 'VT'},
+        { name: 'Virginia', abbreviation: 'VA'},
+        { name: 'Washington', abbreviation: 'WA'},
+        { name: 'West Virginia', abbreviation: 'WV'},
+        { name: 'Wisconsin', abbreviation: 'WI'},
+        { name: 'Wyoming', abbreviation: 'WY' }
+    ]
+};
 /*
 * Protects for existence
 * @param {obj} - object, and if object exists, then keys
@@ -106,18 +106,18 @@ ChartistHtml.formatters = {
 		return (v.length === 4) ? ("'" + v.substring(2, 4)) : v;
 	},
 	state: function(v) {
-		$.each(ChartistHtml.states, function(i) {
-			if (v === ChartistHtml.states[i].name) {
-				v = ChartistHtml.states[i].abbreviation;
+		$.each(ChartistHtml.data.states, function(i) {
+			if (v === ChartistHtml.data.states[i].name) {
+				v = ChartistHtml.data.states[i].abbreviation;
 			} 
 		});
 		
 		return v;
 	},
 	month: function(v) {
-		$.each(ChartistHtml.months, function(i) {
-			if (v === ChartistHtml.months[i].name) {
-				v = ChartistHtml.months[i].abbreviation;
+		$.each(ChartistHtml.data.months, function(i) {
+			if (v === ChartistHtml.data.months[i].name) {
+				v = ChartistHtml.data.months[i].abbreviation;
 			} 
 		});
 
@@ -317,7 +317,7 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 
 	return allOptions;
 };
-ChartistHtml.ChartManager = function($el, chartId) { //
+ChartistHtml.ChartManager = function($el, chartId) {
 	this.id = (ChartistHtml.exists(chartId)) ? chartId : 1;
 	this.type = undefined;
 	this.$el = $el;
