@@ -11,7 +11,7 @@ ChartistHtml.ChartManager.prototype = {
 	constructor: ChartistHtml.ChartManager,
 
 	componentSubclassNames: {
-		'pie': 'slice',
+		'pie': 'slice-pie',
 		'line': 'point',
 		'bar': 'bar'
 	},
@@ -250,7 +250,6 @@ ChartistHtml.ChartManager.prototype = {
 		if (ChartistHtml.exists(ChartistHtml.formatters[this.data.labelsFormat])) {
 			return ChartistHtml.formatters[this.data.labelsFormat](v);
 		}
-
 		return v;
 	},
 
