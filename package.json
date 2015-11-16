@@ -1,8 +1,8 @@
 {
   "name": "chartist-html",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "html store and no-JavaScript input syntax for Chartist.js charts. Includes JavaScript code that brings static html snippets back to life once they are rendered.",
-  "main": "index.js",
+  "main": "build/chartist-html.js",
   "directories": {
     "example": "examples"
   },
