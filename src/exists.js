@@ -1,6 +1,6 @@
 /*
-* Protects for existence
-* @returns
+* Checks for existance.
+* @returns {boolean}
 */
 ChartistHtml.exists = function(a) {
 	// console.log("I exist!");

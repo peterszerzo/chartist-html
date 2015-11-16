@@ -1,4 +1,6 @@
+// Sensible configuration options.
 ChartistHtml.config = {
+
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#fff',
 	longLabelLength: 35,//set character length to define long labels
@@ -109,4 +111,5 @@ ChartistHtml.config = {
 			] 
 		}
 	}
+
 };

@@ -1,11 +1,23 @@
+/*
+ * Returns base class.
+ * @returns {string}
+ */
 ChartistHtml.getBaseClass = function() {
 	return this.config.baseClass;
-};//
+};
 
+/*
+ * Get class name for a chart label element.
+ * @returns {string}
+ */
 ChartistHtml.getLabelsClass = function() {
 	return this.config.baseClass + this.config.elementClassFragment + 'labels';
 };
 
+/*
+ * Get class name for a chart series element.
+ * @returns {string}
+ */
 ChartistHtml.getSeriesClass = function() {
 	return this.config.baseClass + this.config.elementClassFragment + 'series';
 };

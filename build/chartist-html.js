@@ -1,4 +1,22 @@
+// Makes library CommonJS and AMD-compatible. Wraps the entire content of the library.
+(function(root, factory) {
+
+	if (typeof module === 'object' && module.exports) {
+		var numeral;
+		try { numeral = require('numeral'); }
+		catch (e) { numeral = {}; }
+		module.exports = factory(require('chartist'), require('jquery'), numeral);
+	} else if (typeof define === "function" && define.amd) {
+		define([ 'jquery', 'chartist', 'numeral' ], factory);
+	} else {
+		root.ChartistHtml = factory(root.Chartist, root.$, root.numeral);
+	}
+	
+}(this, function(Chartist, $, numeral) {
+
 var ChartistHtml = {};
+// Standard data.
+
 ChartistHtml.alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'];
 
 ChartistHtml.months = [	
@@ -70,8 +88,8 @@ ChartistHtml.states = [
     { name: 'Wyoming', abbreviation: 'WY' }
 ];
 /*
-* Protects for existence
-* @returns
+* Checks for existance.
+* @returns {boolean}
 */
 ChartistHtml.exists = function(a) {
 	// console.log("I exist!");
@@ -83,21 +101,26 @@ ChartistHtml.exists = function(a) {
 * @returns {string} - returns formatted string
 */
 ChartistHtml.formatters = {
+
 	currency: function(v) {
 		var formatter = (v > 999) ? '($0.00a)' : '($0)';
 		return (ChartistHtml.exists(numeral)) ? numeral(v).format(formatter) : v;
 	},
+
 	number: function(v) {
 		var formatter = (v > 999) ? '(0.00a)' : '(0)';
 		return (ChartistHtml.exists(numeral)) ? numeral(v).format(formatter) : v;
 	},
+
 	percent: function(v) {
 		return (v + "%"); //eventually use numeral here to convert from decimal notation
 	},
+
 	year: function(v) {
 		if (!ChartistHtml.exists(v.substring)) { v = String(v); }
 		return (v.length === 4) ? ("'" + v.substring(2, 4)) : v;
 	},
+
 	state: function(v) {
 		$.each(ChartistHtml.states, function(i) {
 			if (v === ChartistHtml.states[i].name) {
@@ -107,6 +130,7 @@ ChartistHtml.formatters = {
 		
 		return v;
 	},
+
 	month: function(v) {
 		$.each(ChartistHtml.months, function(i) {
 			if (v === ChartistHtml.months[i].name) {
@@ -116,8 +140,11 @@ ChartistHtml.formatters = {
 
 		return v;
 	}
+	
 };
+// Sensible configuration options.
 ChartistHtml.config = {
+
 	colorSpectrum: [ '#85026A', '#019fde' ],
 	backgroundColor: '#fff',
 	longLabelLength: 35,//set character length to define long labels
@@ -228,16 +255,29 @@ ChartistHtml.config = {
 			] 
 		}
 	}
+
 };
 
+/*
+ * Returns base class.
+ * @returns {string}
+ */
 ChartistHtml.getBaseClass = function() {
 	return this.config.baseClass;
-};//
+};
 
+/*
+ * Get class name for a chart label element.
+ * @returns {string}
+ */
 ChartistHtml.getLabelsClass = function() {
 	return this.config.baseClass + this.config.elementClassFragment + 'labels';
 };
 
+/*
+ * Get class name for a chart series element.
+ * @returns {string}
+ */
 ChartistHtml.getSeriesClass = function() {
 	return this.config.baseClass + this.config.elementClassFragment + 'series';
 };
@@ -277,6 +317,10 @@ ChartistHtml.toSentenceCase = function(str) {
       });
 };
 
+/*
+ * Entry point to the library, rendering all HTML charts on the page.
+ *
+ */
 ChartistHtml.renderAll = function() {
 	new ChartistHtml.ChartCollectionManager($('.' + ChartistHtml.config.baseClass)).render();
 };
@@ -288,6 +332,7 @@ ChartistHtml.renderAll = function() {
  * @returns {object} object - new AllOptions object that merges defaults with specifics, and defaults and specifics stay the same 
  */
 ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
+
 	if (!ChartistHtml.exists(chartOptions)) {
 		chartOptions = ChartistHtml.config.chartOptions;
 	}
@@ -299,6 +344,7 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 	var allOptions = $.extend({}, defaults);
 
 	var i, max, subtype;
+	
 	if (ChartistHtml.exists(subtypes) && subtypes.length > 0) {
 		for(i = 0, max = subtypes.length; i < max; i += 1) {
 			subtype = subtypes[i];
@@ -310,6 +356,7 @@ ChartistHtml.getOptions = function(type, subtypes, chartOptions) {
 	}
 
 	return allOptions;
+
 };
 ChartistHtml.ChartManager = function($el, chartId) { //
 	this.id = (ChartistHtml.exists(chartId)) ? chartId : 1;
@@ -323,27 +370,47 @@ ChartistHtml.ChartManager.prototype = {
 
 	constructor: ChartistHtml.ChartManager,
 
+	/*
+	 * Specifies subclass names for chart components.
+	 *
+	 */
 	componentSubclassNames: {
 		'pie': 'slice-pie',
 		'line': 'point',
 		'bar': 'bar'
 	},
 
+	/*
+	 * Returns whether the chart elements are fill shapes.
+	 * @returns {boolean} isFillChart
+	 */
 	isFillChart: function() {
 		if (!ChartistHtml.exists(this.type)) { return false; }
 		return (this.type === 'pie');
 	},
 
+	/*
+	 * Returns whether the chart elements are stroke shapes.
+	 * @returns {boolean} isStrokeChart
+	 */
 	isStrokeChart: function() {
 		if (!ChartistHtml.exists(this.type)) { return false; }
 		return (['bar', 'line'].indexOf(this.type) > -1);
 	},
 
+	/*
+	 *
+	 *
+	 */
 	isHorizontalChart: function() {
 		if (!ChartistHtml.exists(this.data.subtypes)) { return false; }
 		return (this.data.subtypes.indexOf('horizontal') > -1);
 	},
 
+	/*
+	 *
+	 *
+	 */
 	isSeriesOnX: function() {
 		if (this.type === "bar") { return this.isHorizontalChart(); }
 		if (this.type === "line") { return !this.isHorizontalChart(); }
@@ -628,6 +695,10 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
+	/*
+	 * Binds tooltips to the chart.
+	 *
+	 */
 	_bindTooltips: function() {
 		var self = this,
 			className = ChartistHtml.config.baseClass + '__tooltip',
@@ -664,12 +735,14 @@ ChartistHtml.ChartManager.prototype = {
 			}
 		});
 
+		// Hides tooltip on mouse leave
 		$chart.on('mouseleave', componentSelector, function() {
 			$tooltip.css({
 				visibility: 'hidden'
 			});
 		});
 
+		// 
 		$chart.on('mousemove', function(event) {
 			var x = (event.offsetX || event.originalEvent.layerX) - $tooltip.width() / 2,
 				y = (event.offsetY || event.originalEvent.layerY) - $tooltip.height() - 15; //fixes flicker
@@ -682,6 +755,10 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
+	/*
+	 * Removes event listener from tooltip. The DOM element is removed together with the chart's container (remember, tooltip element is reused between hovers).
+	 *
+	 */
 	_unbindTooltips: function() {
 		if (this.$chart) {
 			this.$chart.off('mouseenter mouseleave mousemove');
@@ -689,6 +766,7 @@ ChartistHtml.ChartManager.prototype = {
 
 		return this;
 	}
+	
 };
 ChartistHtml.ChartCollectionManager = function($el) {
 	var self = this;
@@ -726,3 +804,8 @@ ChartistHtml.ChartCollectionManager.prototype = {
 	}
 
 };
+// End of module compatibility wrapper.
+
+	return ChartistHtml;
+
+}));

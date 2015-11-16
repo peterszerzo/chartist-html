@@ -10,27 +10,47 @@ ChartistHtml.ChartManager.prototype = {
 
 	constructor: ChartistHtml.ChartManager,
 
+	/*
+	 * Specifies subclass names for chart components.
+	 *
+	 */
 	componentSubclassNames: {
 		'pie': 'slice-pie',
 		'line': 'point',
 		'bar': 'bar'
 	},
 
+	/*
+	 * Returns whether the chart elements are fill shapes.
+	 * @returns {boolean} isFillChart
+	 */
 	isFillChart: function() {
 		if (!ChartistHtml.exists(this.type)) { return false; }
 		return (this.type === 'pie');
 	},
 
+	/*
+	 * Returns whether the chart elements are stroke shapes.
+	 * @returns {boolean} isStrokeChart
+	 */
 	isStrokeChart: function() {
 		if (!ChartistHtml.exists(this.type)) { return false; }
 		return (['bar', 'line'].indexOf(this.type) > -1);
 	},
 
+	/*
+	 *
+	 *
+	 */
 	isHorizontalChart: function() {
 		if (!ChartistHtml.exists(this.data.subtypes)) { return false; }
 		return (this.data.subtypes.indexOf('horizontal') > -1);
 	},
 
+	/*
+	 *
+	 *
+	 */
 	isSeriesOnX: function() {
 		if (this.type === "bar") { return this.isHorizontalChart(); }
 		if (this.type === "line") { return !this.isHorizontalChart(); }
@@ -315,6 +335,10 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
+	/*
+	 * Binds tooltips to the chart.
+	 *
+	 */
 	_bindTooltips: function() {
 		var self = this,
 			className = ChartistHtml.config.baseClass + '__tooltip',
@@ -351,12 +375,14 @@ ChartistHtml.ChartManager.prototype = {
 			}
 		});
 
+		// Hides tooltip on mouse leave
 		$chart.on('mouseleave', componentSelector, function() {
 			$tooltip.css({
 				visibility: 'hidden'
 			});
 		});
 
+		// 
 		$chart.on('mousemove', function(event) {
 			var x = (event.offsetX || event.originalEvent.layerX) - $tooltip.width() / 2,
 				y = (event.offsetY || event.originalEvent.layerY) - $tooltip.height() - 15; //fixes flicker
@@ -369,6 +395,10 @@ ChartistHtml.ChartManager.prototype = {
 		return this;
 	},
 
+	/*
+	 * Removes event listener from tooltip. The DOM element is removed together with the chart's container (remember, tooltip element is reused between hovers).
+	 *
+	 */
 	_unbindTooltips: function() {
 		if (this.$chart) {
 			this.$chart.off('mouseenter mouseleave mousemove');
@@ -376,4 +406,5 @@ ChartistHtml.ChartManager.prototype = {
 
 		return this;
 	}
+	
 };

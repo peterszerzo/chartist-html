@@ -5,7 +5,20 @@ var mochaPhantomJS = require('gulp-mocha-phantomjs');
 var sass = require('gulp-sass');
 
 // list of source files listed in order
-var source = [ 'src/init.js', 'src/data.js', 'src/exists.js', 'src/formatters.js', 'src/config.js', 'src/html-to-json.js', 'src/render.js', 'src/options.js', 'src/chart-manager.js', 'src/chart-collection-manager.js' ];
+var source = [
+	'src/module-wrapper-start.js',
+	'src/init.js', 
+	'src/data.js', 
+	'src/exists.js', 
+	'src/formatters.js', 
+	'src/config.js', 
+	'src/html-to-json.js', 
+	'src/render.js', 
+	'src/options.js', 
+	'src/chart-manager.js', 
+	'src/chart-collection-manager.js',
+	'src/module-wrapper-end.js'
+];
 
 // for each source file there must be a spec file present
 var spec = source.map(function(el) { return el.replace('.js', '-spec.js').replace('src', 'spec'); });
@@ -13,9 +26,9 @@ var spec = source.map(function(el) { return el.replace('.js', '-spec.js').replac
 // lint and concatenate library files
 gulp.task('build', function() {
 	return gulp.src(source)
+		.pipe(concat('chartist-html.js'))
 		.pipe(jshint())
 		.pipe(jshint.reporter('default'))
-		.pipe(concat('chartist-html.js'))
 		.pipe(gulp.dest('./build/'));
 });
 
@@ -35,7 +48,7 @@ gulp.task('run-spec', [ 'concat-spec' ], function() {
 });
 
 gulp.task('watch', function() {
-	gulp.watch('src/**/*.js', [ 'build', 'style' ]);
+	gulp.watch('src/**/*.js', [ 'build' ]);
 });
 
 gulp.task('style', function() {
